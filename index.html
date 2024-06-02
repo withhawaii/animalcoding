@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Animalbots</title>
+  <link href="https://cdn.jsdelivr.net/npm/ace-builds@1.24.1/css/ace.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.24.1/src-min-noconflict/ace.min.js"></script>
+  <script src="acorn_interpreter.js"></script>
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a href="#" class="brand">Level 01</a>
+    <nav class="nav"></nav>
+  </header>
+
+  <div class="flex-container">
+    <div class="column">
+      <div id="game-container"></div>
+    </div>  
+    <div class="column">
+      <div id="editor"></div>
+      <button id="skip" class="nes-btn">Skip</button>
+      <button id="run_code" class="nes-btn is-primary">Run Program</button>
+    </div>
+  </div>
+
+</body>
+
+</html>
