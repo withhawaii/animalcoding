@@ -37,4 +37,9 @@ body,
 #editor {
   height: 576px; 
   width: 500px;
-}  
+}
+
+.code-marker {
+   position: absolute; 
+   background: red
+}
