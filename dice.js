@@ -32,59 +32,54 @@ class Dice extends Phaser.GameObjects.Container {
   }
 
   roll(callback) {
-    var dice = this.dice;
-    var duration = this.duration;
-    var shadowFX = this.shadowFX;
-    var scene = this.scene;
-    var diceRoll;
     if (!this.diceIsRolling) {
         this.diceIsRolling = true;
-        diceRoll = Phaser.Math.Between(1, 6);
+         const diceRoll = Phaser.Math.Between(1, 6);
 
         // Shadow
         this.scene.add.tween({
-            targets: shadowFX,
+            targets: this.shadowFX,
             x: -8,
             y: 10,
-            duration: duration -250,
+            duration: this.duration - 250,
             ease: "Sine.easeInOut",
             yoyo: true,
         });
 
         this.scene.add.tween({
-            targets: dice,
+            targets: this.dice,
             from: 0,
             to: 1,
             duration: this.duration,
             onUpdate: () => {
-                dice.modelRotation.x -= .02;
-                dice.modelRotation.y -= .08;
+                this.dice.modelRotation.x -= .02;
+                this.dice.modelRotation.y -= .08;
             },
             onComplete: () => {
                 switch (diceRoll) {
                     case 1:
-                        dice.modelRotation.x = Phaser.Math.DegToRad(0);
-                        dice.modelRotation.y = Phaser.Math.DegToRad(-90);
+                        this.dice.modelRotation.x = Phaser.Math.DegToRad(0);
+                        this.dice.modelRotation.y = Phaser.Math.DegToRad(-90);
                         break;
                     case 2:
-                        dice.modelRotation.x = Phaser.Math.DegToRad(90);
-                        dice.modelRotation.y = Phaser.Math.DegToRad(0);
+                        this.dice.modelRotation.x = Phaser.Math.DegToRad(90);
+                        this.dice.modelRotation.y = Phaser.Math.DegToRad(0);
                         break;
                     case 3:
-                        dice.modelRotation.x = Phaser.Math.DegToRad(180);
-                        dice.modelRotation.y = Phaser.Math.DegToRad(0);
+                        this.dice.modelRotation.x = Phaser.Math.DegToRad(180);
+                        this.dice.modelRotation.y = Phaser.Math.DegToRad(0);
                         break;
                     case 4:
-                        dice.modelRotation.x = Phaser.Math.DegToRad(180);
-                        dice.modelRotation.y = Phaser.Math.DegToRad(180);
+                        this.dice.modelRotation.x = Phaser.Math.DegToRad(180);
+                        this.dice.modelRotation.y = Phaser.Math.DegToRad(180);
                         break;
                     case 5:
-                        dice.modelRotation.x = Phaser.Math.DegToRad(-90);
-                        dice.modelRotation.y = Phaser.Math.DegToRad(0);
+                        this.dice.modelRotation.x = Phaser.Math.DegToRad(-90);
+                        this.dice.modelRotation.y = Phaser.Math.DegToRad(0);
                         break;
                     case 6:
-                        dice.modelRotation.x = Phaser.Math.DegToRad(0);
-                        dice.modelRotation.y = Phaser.Math.DegToRad(90);
+                        this.dice.modelRotation.x = Phaser.Math.DegToRad(0);
+                        this.dice.modelRotation.y = Phaser.Math.DegToRad(90);
                         break;
                 }
             },
@@ -92,28 +87,28 @@ class Dice extends Phaser.GameObjects.Container {
         });
 
         // Intro dice
-        scene.add.tween({
-            targets: [dice],
+        this.scene.add.tween({
+            targets: [this.dice],
             scale: 1.2,
-            duration: duration - 200,
+            duration: this.duration - 200,
             yoyo: true,
             ease: Phaser.Math.Easing.Quadratic.InOut,
             onComplete: () => {
-                dice.scale = 1;
+                this.dice.scale = 1;
                 this.diceIsRolling = false;
   
                 // Show the dice value
                 this.textDiceValue.text = diceRoll;
                 this.textDiceValue.setOrigin(0.5);
-                this.textDiceValue.setPosition(scene.scale.width / 2, scene.scale.height / 2);
+                this.textDiceValue.setPosition(this.scene.scale.width / 2, this.scene.scale.height / 2);
 
-                scene.add.tween({
+                this.scene.add.tween({
                     targets: this.textDiceValue,
                     scale: 1,
                     duration: 1000,
                     ease: Phaser.Math.Easing.Bounce.Out,
                     onComplete: () => {
-                        scene.add.tween({
+                        this.scene.add.tween({
                             targets: [this.textDiceValue],
                             scale: 0,
                             delay: 1000,
@@ -130,6 +125,5 @@ class Dice extends Phaser.GameObjects.Container {
     } else {
         console.log("Is rolling");
     }
-    return diceRoll;
   }
 }  
