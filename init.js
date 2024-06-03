@@ -104,7 +104,7 @@ const config = {
       gravity: { y: 0 }
     }
   },
-  scene: [Main]
+  scene: [MainScene]
 };
 
 document.addEventListener("DOMContentLoaded", function(event) {

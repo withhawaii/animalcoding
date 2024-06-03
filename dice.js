@@ -1,10 +1,8 @@
-class Dice {
+class Dice extends Phaser.GameObjects.Container {
  
-  constructor(x, y, scene, duration = 1000) {
-    this.x = x;
-    this.y = y;
-    this.scene = scene;
-    this.duration = 1000;
+  constructor(scene, x, y, duration = 1000) {
+    super(scene, x, y);
+    this.duration = duration;
     this.diceIsRolling = false;
 
     this.dice = scene.add.mesh(x, y, "dice-albedo");
@@ -21,7 +19,19 @@ class Dice {
     this.textDiceValue.setStroke('#de77ae', 16).setScale(0);
   }
 
-  roll() {
+  isReadyToRoll() {
+    return this.dice.visible && !this.diceIsRolling;
+  }
+   
+  show() {
+    this.dice.setVisible(true);
+  }
+
+  hide() {
+    this.dice.setVisible(false);
+  }
+
+  roll(callback) {
     var dice = this.dice;
     var duration = this.duration;
     var shadowFX = this.shadowFX;
@@ -109,6 +119,9 @@ class Dice {
                             delay: 1000,
                             duration: 1000,
                             ease: Phaser.Math.Easing.Bounce.Out,
+                            onComplete: () => {
+                              callback(diceRoll);
+                            }
                         });
                     }
                 });
