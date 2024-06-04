@@ -70,18 +70,22 @@ function initInterpreter(interpreter, scope) {
 };
 
 function runCode() {
+  const animationDelay = 510;
   var stack = interpreter.getStateStack();
   var node = stack[stack.length - 1].node;
   var Range = ace.require("ace/range").Range;
   editor.selection.setRange(new Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
   if (interpreter.step()) {
     if (node.type == "CallExpression") {
-      delay = currentScene.animationDelay + 10;
+      delay = animationDelay + 10;
     }
     else {
       delay = 0;
     }
     setTimeout(runCode, delay);
+  }
+  else {
+    currentScene.changePlayer();
   }
 }
 

@@ -4,7 +4,6 @@ class MainScene extends Phaser.Scene {
   scene;
   audio;
   worldLayer;
-  animationDelay = 300;
 
   constructor() {
       super('Main');
@@ -42,39 +41,58 @@ class MainScene extends Phaser.Scene {
     this.audio["move"] = this.sound.add('audio_move');
     this.audio["turn"] = this.sound.add('audio_turn');
     this.audio["stuck"] = this.sound.add('audio_stuck');
-  
-    this.players = []
-    this.players[0] = this.physics.add.sprite(31, 27, "cat");
-    this.players[0].setFrame(2);
-    this.players[0].direction = 2;
-    this.players[1] = this.physics.add.sprite(31, 507, "chick");
-    this.players[1].setFrame(2);
-    this.players[1].direction = 2;
-    this.players[2] = this.physics.add.sprite(991, 27, "pig");
-    this.players[2].setFrame(2);
-    this.players[2].direction = 2;
-    this.players[3] = this.physics.add.sprite(991, 507, "rabbit");
-    this.players[3].setFrame(2);
-    this.players[3].direction = 2;
-    this.currentPlayer = this.players[0];
 
+    this.create_players(4);
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
 
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
-          console.log('Dice value ', diceValue);
           this.dice.hide();
+          this.currentPlayer.power = this.currentPlayer.power + diceValue
+          console.log('Dice value ', diceValue, 'New power', this.currentPlayer.power);
         });
       }
     });
 
     currentScene = this;
   }
+
+  create_players(num) {
+    this.players = []
+    const animals = [["cat", 31, 27, 2], ["chick", 31, 507, 2], ["pig", 991, 27, 2], ["rabbit", 991, 507, 2]]
+    for(let i = 0; i < num; i++) {
+      let name = animals[i][0];
+      let x = animals[i][1];
+      let y = animals[i][2];
+      let direction = animals[i][3];
+      this.players[i] = this.physics.add.sprite(x, y, name);
+      this.players[i].setFrame(direction);
+      this.players[i].direction = direction;  
+      this.players[i].power = 0;
+      this.players[i].id = i;
+    }
+    this.currentPlayer = this.players[0];
+  }
+
+  changePlayer() {
+    let new_player_id;
+    if(this.currentPlayer.id >= 3) {
+      new_player_id = 0;
+    }
+    else {
+      new_player_id = this.currentPlayer.id + 1;  
+    }
+    this.currentPlayer = this.players[new_player_id];
+    this.dice.show();
+    console.log('New Player', this.currentPlayer);
+  }
   
   turn(step) {
     var player = this.currentPlayer;
     var new_direction = player.direction + step
+    const animationDelay = 200;
+
     if (new_direction > 3) {
       new_direction = 0;
     } else if (new_direction < 0) {
@@ -85,7 +103,7 @@ class MainScene extends Phaser.Scene {
       targets: player,
       y: player.y - 10,
       ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-      duration: this.animationDelay,
+      duration: animationDelay,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
@@ -100,6 +118,7 @@ class MainScene extends Phaser.Scene {
     var player = this.currentPlayer;
     var new_x = player.x;
     var new_y = player.y;
+    const animationDelay = 500;
     
     //Moving UP
     if (player.direction == 0) {
@@ -127,7 +146,7 @@ class MainScene extends Phaser.Scene {
         x: new_x,
         y: new_y,
         ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: this.animationDelay,
+        duration: animationDelay,
         repeat: 0,
         yoyo: false,
         onComplete: function() {
@@ -142,7 +161,7 @@ class MainScene extends Phaser.Scene {
         x: new_x,
         y: new_y,
         ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: this.animationDelay,
+        duration: animationDelay,
         repeat: 0,
         yoyo: true,
         onComplete: function() {
