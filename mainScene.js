@@ -10,15 +10,18 @@ class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    // "this" === Phaser.Scene
     this.load.image("stage_tileset", "../assets/stage_tileset.png");
     this.load.tilemapTiledJSON("map", "../assets/level01.json");
-    this.load.spritesheet("cat", "../assets/cat_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet("chick", "../assets/chick_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet("pig", "../assets/pig_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet("rabbit", "../assets/rabbit_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    this.load.image("dice-albedo", "assets/dice-albedo.png");
-    this.load.obj("dice-obj", "assets/dice.obj");
+
+    this.load.atlas("textures", "assets/images/textures.png", "assets/images/textures.json")
+
+
+//    this.load.spritesheet("cat", "../assets/cat_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
+    // this.load.spritesheet("chick", "../assets/chick_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
+    // this.load.spritesheet("pig", "../assets/pig_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
+    // this.load.spritesheet("rabbit", "../assets/rabbit_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
+    this.load.image("dice-albedo", "assets/images/dice-albedo.png");
+    this.load.obj("dice-obj", "assets/images/dice.obj");
     this.load.audio("audio_move", "assets/audio/move.mp3");
     this.load.audio("audio_turn", "assets/audio/turn.mp3");
     this.load.audio("audio_stuck", "assets/audio/stuck.mp3");
@@ -41,7 +44,7 @@ class MainScene extends Phaser.Scene {
     this.audio["move"] = this.sound.add('audio_move');
     this.audio["turn"] = this.sound.add('audio_turn');
     this.audio["stuck"] = this.sound.add('audio_stuck');
-
+    
     this.create_players(4);
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
 
@@ -59,13 +62,14 @@ class MainScene extends Phaser.Scene {
   }
 
   create_players(num) {
-    this.players = []
-    const animals = [["cat", 31, 27, 2], ["chick", 31, 507, 2], ["pig", 991, 27, 2], ["rabbit", 991, 507, 2]]
-    for(let i = 0; i < num; i++) {
+    this.players = []//31,27
+    const animals = [["Cat", 31, 27, 2], ["Chick", 31, 507, 2], ["Pig", 991, 27, 2], ["Rabbit", 991, 507, 2]]
+     for(let i = 0; i < num; i++) {
       let name = animals[i][0];
       let x = animals[i][1];
       let y = animals[i][2];
       let direction = animals[i][3];
+      this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
       this.players[i] = this.physics.add.sprite(x, y, name);
       this.players[i].setFrame(direction);
       this.players[i].direction = direction;  
@@ -76,16 +80,14 @@ class MainScene extends Phaser.Scene {
   }
 
   changePlayer() {
-    let new_player_id;
-    if(this.currentPlayer.id >= 3) {
-      new_player_id = 0;
+    if(this.currentPlayer.id + 1 >= this.players.length) {
+      this.currentPlayer = this.players[0];
     }
     else {
-      new_player_id = this.currentPlayer.id + 1;  
+      this.currentPlayer = this.players[this.currentPlayer.id + 1];
     }
-    this.currentPlayer = this.players[new_player_id];
-    this.dice.show();
     console.log('New Player', this.currentPlayer);
+    this.dice.show();
   }
   
   turn(step) {

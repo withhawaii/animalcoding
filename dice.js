@@ -14,7 +14,7 @@ class Dice extends Phaser.GameObjects.Container {
     this.dice.modelRotation.x = Phaser.Math.DegToRad(0);
     this.dice.modelRotation.y = Phaser.Math.DegToRad(-90);
 
-        // Text object to show the dice value
+    // Text object to show the dice value
     this.textDiceValue = this.scene.add.text(this.scene.scale.width / 2, this.scene.scale.height / 2, '0', { fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d' });
     this.textDiceValue.setStroke('#de77ae', 16).setScale(0);
   }
@@ -95,13 +95,11 @@ class Dice extends Phaser.GameObjects.Container {
             ease: Phaser.Math.Easing.Quadratic.InOut,
             onComplete: () => {
                 this.dice.scale = 1;
-                this.diceIsRolling = false;
   
                 // Show the dice value
                 this.textDiceValue.text = diceRoll;
                 this.textDiceValue.setOrigin(0.5);
                 this.textDiceValue.setPosition(this.scene.scale.width / 2, this.scene.scale.height / 2);
-
                 this.scene.add.tween({
                     targets: this.textDiceValue,
                     scale: 1,
@@ -116,6 +114,7 @@ class Dice extends Phaser.GameObjects.Container {
                             ease: Phaser.Math.Easing.Bounce.Out,
                             onComplete: () => {
                               callback(diceRoll);
+                              this.diceIsRolling = false;
                             }
                         });
                     }
