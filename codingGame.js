@@ -71,9 +71,9 @@ function initInterpreter(interpreter, scope) {
 
 function runCode() {
   const animationDelay = 510;
-  var stack = interpreter.getStateStack();
-  var node = stack[stack.length - 1].node;
-  var Range = ace.require("ace/range").Range;
+  let stack = interpreter.getStateStack();
+  let node = stack[stack.length - 1].node;
+  let Range = ace.require("ace/range").Range;
   editor.selection.setRange(new Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
   if (interpreter.step()) {
     if (node.type == "CallExpression") {
@@ -90,11 +90,11 @@ function runCode() {
 }
 
 //Main Program Code
-var code_runner;
-var editor;
-var interpreter;
-var game;
-var currentScene;
+let code_runner;
+let editor;
+let interpreter;
+let game;
+let currentScene;
 
 const config = {
   type: Phaser.AUTO,
@@ -115,12 +115,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   editor = ace.edit("editor");
   setEditorOptions(editor);
-  editor.setValue("for (var i = 0; i < 8; i++) {\n  turn_right();\n  move_forward();\n}")
+  editor.setValue("for (i = 0; i < 8; i++) {\n  turn_right();\n  move_forward();\n}")
   game = new Phaser.Game(config);
 
   document.getElementById("run_code").addEventListener("click", function() {
-    var code = editor.getValue();
-    interpreter = new Interpreter(code, initInterpreter);
+    interpreter = new Interpreter(editor.getValue(), initInterpreter);
     runCode();
   });
 });

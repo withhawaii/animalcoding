@@ -14,24 +14,18 @@ class MainScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("map", "../assets/level01.json");
 
     this.load.atlas("textures", "assets/images/textures.png", "assets/images/textures.json")
-
-
-//    this.load.spritesheet("cat", "../assets/cat_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    // this.load.spritesheet("chick", "../assets/chick_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    // this.load.spritesheet("pig", "../assets/pig_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
-    // this.load.spritesheet("rabbit", "../assets/rabbit_spritesheet.png", { frameWidth: 64, frameHeight: 64 });
     this.load.image("dice-albedo", "assets/images/dice-albedo.png");
     this.load.obj("dice-obj", "assets/images/dice.obj");
-    this.load.audio("audio_move", "assets/audio/move.mp3");
-    this.load.audio("audio_turn", "assets/audio/turn.mp3");
-    this.load.audio("audio_stuck", "assets/audio/stuck.mp3");
+
+    this.load.audio("move", "assets/audio/move.mp3");
+    this.load.audio("turn", "assets/audio/turn.mp3");
+    this.load.audio("stuck", "assets/audio/stuck.mp3");
   }
   
   create() {
   
     const map = this.make.tilemap({ key: "map" });
-  
-  
+    
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
     const tileset = map.addTilesetImage("stage_tileset", "stage_tileset");
@@ -40,10 +34,10 @@ class MainScene extends Phaser.Scene {
     this.belowLayer = map.createLayer("Ground", tileset, 0, 0);
     this.worldLayer = map.createLayer("Fences", tileset, 0, 0);
   
-    this.audio = []
-    this.audio["move"] = this.sound.add('audio_move');
-    this.audio["turn"] = this.sound.add('audio_turn');
-    this.audio["stuck"] = this.sound.add('audio_stuck');
+    this.sound.pauseOnBlur = false;
+    this.sound.add('move');
+    this.sound.add('turn');
+    this.sound.add('stuck');
     
     this.create_players(4);
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
@@ -91,8 +85,8 @@ class MainScene extends Phaser.Scene {
   }
   
   turn(step) {
-    var player = this.currentPlayer;
-    var new_direction = player.direction + step
+    let player = this.currentPlayer;
+    let new_direction = player.direction + step
     const animationDelay = 200;
 
     if (new_direction > 3) {
@@ -100,7 +94,7 @@ class MainScene extends Phaser.Scene {
     } else if (new_direction < 0) {
       new_direction = 3;
     }
-    this.audio["turn"].play();
+    this.sound.play("turn");
     this.tweens.add({
       targets: player,
       y: player.y - 10,
@@ -117,9 +111,9 @@ class MainScene extends Phaser.Scene {
   }
   
   move() {
-    var player = this.currentPlayer;
-    var new_x = player.x;
-    var new_y = player.y;
+    let player = this.currentPlayer;
+    let new_x = player.x;
+    let new_y = player.y;
     const animationDelay = 500;
     
     //Moving UP
@@ -140,9 +134,9 @@ class MainScene extends Phaser.Scene {
       new_y = player.y;
     }
   
-    var tile = this.worldLayer.getTileAtWorldXY(new_x, new_y, true);
+    let tile = this.worldLayer.getTileAtWorldXY(new_x, new_y, true);
     if(tile && tile.index === -1) {
-      this.audio["move"].play();
+      this.sound.play("move");
       this.tweens.add({
         targets: player,
         x: new_x,
@@ -157,9 +151,9 @@ class MainScene extends Phaser.Scene {
       });
     }
     else {
-      this.audio["stuck"].play();
+      this.sound.play("stuck");
       this.tweens.add({
-        targets: this.player,
+        targets: player,
         x: new_x,
         y: new_y,
         ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'

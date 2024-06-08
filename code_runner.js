@@ -19,9 +19,9 @@ class CodeRunner {
   
   stepCode() {
     console.log(this.interpreter);
-    var stack = this.interpreter.getStateStack();
-    var node = stack[stack.length - 1].node;
-    var delay;
+    let stack = this.interpreter.getStateStack();
+    let node = stack[stack.length - 1].node;
+    let delay;
         console.log(node);
     if (this.interpreter.step()) {
       if (node.type == "CallExpression") {
