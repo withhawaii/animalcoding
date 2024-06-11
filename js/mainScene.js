@@ -10,16 +10,17 @@ class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("stage_tileset", "../assets/stage_tileset.png");
-    this.load.tilemapTiledJSON("map", "../assets/level01.json");
+    this.load.image("tileset_base", "tilemap/tileset_base.png");
+    this.load.image("tileset_top", "tilemap/tileset_top.png");
+    this.load.tilemapTiledJSON("map", "tilemap/level00.json");
 
-    this.load.atlas("textures", "assets/images/textures.png", "assets/images/textures.json")
-    this.load.image("dice-albedo", "assets/images/dice-albedo.png");
-    this.load.obj("dice-obj", "assets/images/dice.obj");
+    this.load.atlas("textures", "images/textures.png", "images/textures.json")
+    this.load.image("dice-albedo", "images/dice-albedo.png");
+    this.load.obj("dice-obj", "images/dice.obj");
 
-    this.load.audio("move", "assets/audio/move.mp3");
-    this.load.audio("turn", "assets/audio/turn.mp3");
-    this.load.audio("stuck", "assets/audio/stuck.mp3");
+    this.load.audio("move", "audio/move.mp3");
+    this.load.audio("turn", "audio/turn.mp3");
+    this.load.audio("stuck", "audio/stuck.mp3");
   }
   
   create() {
@@ -28,11 +29,12 @@ class MainScene extends Phaser.Scene {
     
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
-    const tileset = map.addTilesetImage("stage_tileset", "stage_tileset");
+    const tileset_base = map.addTilesetImage("tileset_base", "tileset_base");
+    const tileset_top = map.addTilesetImage("tileset_top", "tileset_top");
   
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    this.belowLayer = map.createLayer("Ground", tileset, 0, 0);
-    this.worldLayer = map.createLayer("Fences", tileset, 0, 0);
+    this.belowLayer = map.createLayer("base", tileset_base, 0, 0);
+    this.worldLayer = map.createLayer("top", tileset_top, 0, -32);
   
     this.sound.pauseOnBlur = false;
     this.sound.add('move');
