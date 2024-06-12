@@ -1,10 +1,5 @@
 class MainScene extends Phaser.Scene {
-  players;
-  currentPlayer;
-  scene;
-  audio;
-  worldLayer;
-
+ 
   constructor() {
       super('Main');
   }
@@ -48,9 +43,9 @@ class MainScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
+          currentPlayer.updatePower(diceValue);
+          console.log('Dice value ', diceValue, 'New power', currentPlayer.power);
           this.dice.hide();
-          this.currentPlayer.power = this.currentPlayer.power + diceValue
-          console.log('Dice value ', diceValue, 'New power', this.currentPlayer.power);
         });
       }
     });
@@ -61,117 +56,33 @@ class MainScene extends Phaser.Scene {
   create_players(num) {
     const animals = this.map.getObjectLayer("players").objects;
     this.players = []
+    this.powerValues = []
      for(let i = 0; i < num; i++) {
       let name = animals[i].name;
       let x = animals[i].x;
       let y = animals[i].y;
       let direction = 2;
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
-      this.players[i] = this.physics.add.sprite(x, y + 64 - 16, name);
+      this.players[i] = new Player(this, x, y + 64 - 16, name);
       this.players[i].setFrame(direction);
       this.players[i].direction = direction;  
       this.players[i].power = 0;
       this.players[i].id = i;
-      this.add.image(32 + i * 256, 670, "textures", name +  "_Avatar_Circle").setScale(0.5);;
+      this.players[i].avatar = this.add.image(32 + i * 256, 670, "textures", name +  "_Avatar_Circle").setScale(0.5);
+      this.players[i].powerStatus = this.add.text(52 + i * 256, 655, this.players[i].power, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
     }
-    this.currentPlayer = this.players[0];
+    currentPlayer = this.players[0];
   }
 
   changePlayer() {
-    if(this.currentPlayer.id + 1 >= this.players.length) {
-      this.currentPlayer = this.players[0];
+    if(currentPlayer.id + 1 >= this.players.length) {
+      currentPlayer = this.players[0];
     }
     else {
-      this.currentPlayer = this.players[this.currentPlayer.id + 1];
+      currentPlayer = this.players[currentPlayer.id + 1];
     }
-    console.log('New Player', this.currentPlayer);
+    console.log('New Player', currentPlayer);
     this.dice.show();
   }
   
-  turn(step) {
-    let player = this.currentPlayer;
-    let new_direction = player.direction + step
-    const animationDelay = 200;
-
-    if (new_direction > 3) {
-      new_direction = 0;
-    } else if (new_direction < 0) {
-      new_direction = 3;
-    }
-    this.sound.play("turn");
-    this.tweens.add({
-      targets: player,
-      y: player.y - 10,
-      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-      duration: animationDelay,
-      repeat: 0,
-      yoyo: true,
-      onComplete: function() {
-        player.direction = new_direction;
-        player.setFrame(player.direction);
-        console.log("Player:", player.x, player.y, player.direction);
-      }
-    });
-  }
-  
-  move() {
-    let player = this.currentPlayer;
-    let new_x = player.x;
-    let new_y = player.y;
-    const animationDelay = 500;
-    
-    //Moving UP
-    if (player.direction == 0) {
-      new_x = player.x;
-      new_y = player.y - 32;
-      //Moving RIGHT
-    } else if (player.direction == 1) {
-      new_x = player.x + 64;
-      new_y = player.y;
-      //Moving DOWN
-    } else if (player.direction == 2) {
-      new_x = player.x;
-      new_y = player.y + 32;
-      //Moving LEFT
-    } else if (player.direction == 3) {
-      new_x = player.x - 64;
-      new_y = player.y;
-    }
-  
-    let tile = this.worldLayer.getTileAtWorldXY(new_x, new_y - 32, true);
-    console.log(tile);
-    if(tile && tile.index === -1) {
-      this.sound.play("move");
-      this.tweens.add({
-        targets: player,
-        x: new_x,
-        y: new_y,
-        ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: animationDelay,
-        repeat: 0,
-        yoyo: false,
-        onComplete: function() {
-          console.log("Player:", player.x, player.y, player.direction);
-        }
-      });
-    }
-    else {
-      this.sound.play("stuck");
-      this.tweens.add({
-        targets: player,
-        x: new_x,
-        y: new_y,
-        ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: animationDelay,
-        repeat: 0,
-        yoyo: true,
-        onComplete: function() {
-          console.log("Player:", player.x, player.y, player.direction);
-        }
-      });
-    }
-  }
-
-
-
 }

@@ -57,15 +57,15 @@ function setEditorOptions(editor) {
 function initInterpreter(interpreter, scope) {
   interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
     console.log("move_forward");
-    return currentScene.move();
+    return currentPlayer.move();
   }));
   interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
     console.log("turn_left");
-    return currentScene.turn(-1);
+    return currentPlayer.turn(-1);
   }));
   interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
     console.log("turn_right");
-    return currentScene.turn(1);
+    return currentPlayer.turn(1);
   }));
 };
 
@@ -95,6 +95,7 @@ let editor;
 let interpreter;
 let game;
 let currentScene;
+let currentPlayer;
 
 const config = {
   type: Phaser.AUTO,
