@@ -15,6 +15,7 @@ class MainScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("map", "tilemap/level00.json");
 
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
+    this.load.image("background", "images/background.v1.png");
     this.load.image("dice-albedo", "images/dice-albedo.png");
     this.load.obj("dice-obj", "images/dice.obj");
 
@@ -25,16 +26,16 @@ class MainScene extends Phaser.Scene {
   
   create() {
   
+    const background = this.add.image(0, 0, "background");
+    background.setOrigin(0, 0);
     const map = this.make.tilemap({ key: "map" });
-    
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
+    this.map = map;
     const tileset_base = map.addTilesetImage("tileset_base", "tileset_base");
     const tileset_top = map.addTilesetImage("tileset_top", "tileset_top");
-  
-    // Parameters: layer name (or index) from Tiled, tileset, x, y
-    this.belowLayer = map.createLayer("base", tileset_base, 0, 0);
-    this.worldLayer = map.createLayer("top", tileset_top, 0, -32);
+    this.belowLayer = map.createLayer("base", tileset_base, 0, 64);
+    this.worldLayer = map.createLayer("top", tileset_top, 0, 64 - 32);
+//    this.belowLayer = map.createLayer("base", tileset_base, 0, 0);
+//    this.worldLayer = map.createLayer("top", tileset_top, 0, -32);
   
     this.sound.pauseOnBlur = false;
     this.sound.add('move');
@@ -58,19 +59,20 @@ class MainScene extends Phaser.Scene {
   }
 
   create_players(num) {
-    this.players = []//31,27
-    const animals = [["Cat", 31, 27, 2], ["Chick", 31, 507, 2], ["Pig", 991, 27, 2], ["Rabbit", 991, 507, 2]]
+    const animals = this.map.getObjectLayer("players").objects;
+    this.players = []
      for(let i = 0; i < num; i++) {
-      let name = animals[i][0];
-      let x = animals[i][1];
-      let y = animals[i][2];
-      let direction = animals[i][3];
+      let name = animals[i].name;
+      let x = animals[i].x;
+      let y = animals[i].y;
+      let direction = 2;
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
-      this.players[i] = this.physics.add.sprite(x, y, name);
+      this.players[i] = this.physics.add.sprite(x, y + 64 - 16, name);
       this.players[i].setFrame(direction);
       this.players[i].direction = direction;  
       this.players[i].power = 0;
       this.players[i].id = i;
+      this.add.image(32 + i * 256, 670, "textures", name +  "_Avatar_Circle").setScale(0.5);;
     }
     this.currentPlayer = this.players[0];
   }
@@ -136,7 +138,8 @@ class MainScene extends Phaser.Scene {
       new_y = player.y;
     }
   
-    let tile = this.worldLayer.getTileAtWorldXY(new_x, new_y, true);
+    let tile = this.worldLayer.getTileAtWorldXY(new_x, new_y - 32, true);
+    console.log(tile);
     if(tile && tile.index === -1) {
       this.sound.play("move");
       this.tweens.add({

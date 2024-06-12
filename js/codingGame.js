@@ -101,7 +101,7 @@ const config = {
   backgroundColor: "#222222",
   parent: 'game-container',
   width: 1024,
-  height: 576,
+  height: 704,
   physics: {
     default: "arcade",
     arcade: {
