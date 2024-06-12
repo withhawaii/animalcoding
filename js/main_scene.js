@@ -22,15 +22,14 @@ class MainScene extends Phaser.Scene {
   }
   
   create() {
-  
     const background = this.add.image(0, 0, "background");
     background.setOrigin(0, 0);
     const map = this.make.tilemap({ key: "map" });
     this.map = map;
     const tileset_base = map.addTilesetImage("tileset_base", "tileset_base");
     const tileset_top = map.addTilesetImage("tileset_top", "tileset_top");
-    this.belowLayer = map.createLayer("base", tileset_base, 0, 64);
-    this.worldLayer = map.createLayer("top", tileset_top, 0, 64 - 32);
+    this.baseLayer = map.createLayer("base", tileset_base, 0, 64);
+    this.topLayer = map.createLayer("top", tileset_top, 0, 64 - 32);
 //    this.belowLayer = map.createLayer("base", tileset_base, 0, 0);
 //    this.worldLayer = map.createLayer("top", tileset_top, 0, -32);
   
@@ -47,24 +46,21 @@ class MainScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
-          currentPlayer.updatePower(diceValue);
+          currentPlayer.changePower(diceValue);
           console.log('Dice value ', diceValue, 'New power', currentPlayer.power);
           this.dice.hide();
         });
       }
     });
-
-    currentScene = this;
   }
 
   create_players(num) {
-    const animals = this.map.getObjectLayer("players").objects;
+    const players = this.map.getObjectLayer("players").objects;
     this.players = []
-    this.powerValues = []
-     for(let i = 0; i < num; i++) {
-      let name = animals[i].name;
-      let x = animals[i].x;
-      let y = animals[i].y;
+    for(let i = 0; i < num; i++) {
+      let name = players[i].name;
+      let x = players[i].x;
+      let y = players[i].y;
       let direction = 2;
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
       this.players[i] = new Player(this, x, y + 64 - 16, name);

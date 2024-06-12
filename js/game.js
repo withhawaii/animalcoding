@@ -56,15 +56,15 @@ function setEditorOptions(editor) {
 
 function initInterpreter(interpreter, scope) {
   interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
-    console.log("move_forward");
+//    console.log("move_forward");
     return currentPlayer.move();
   }));
   interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
-    console.log("turn_left");
+//    console.log("turn_left");
     return currentPlayer.turn(-1);
   }));
   interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
-    console.log("turn_right");
+//    console.log("turn_right");
     return currentPlayer.turn(1);
   }));
 };
@@ -75,21 +75,18 @@ function runCode() {
   let node = stack[stack.length - 1].node;
   let Range = ace.require("ace/range").Range;
   editor.selection.setRange(new Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-  console.log("Status", interpreter.getStatus());
   if (interpreter.step()) {
     setTimeout(runCode, node.type == "CallExpression" ? animationDelay + 10 : 0);
   }
   else {
-    currentScene.changePlayer();
+    currentPlayer.scene.changePlayer();
   }
 }
 
 //Main Program Code
-let code_runner;
 let editor;
 let interpreter;
 let game;
-let currentScene;
 let currentPlayer;
 
 const config = {

@@ -8,7 +8,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = y;
   }
 
-  updatePower(power) {
+  changePower(power) {
     let player = this;
     let currentPower = this.power;
     let powerStatus = this.powerStatus;
@@ -28,7 +28,7 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  freeze() {
+  hangUp() {
     let player = this;
     this.scene.sound.play("freeze");
     this.scene.tweens.add({
@@ -40,7 +40,7 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.setFrame(4);        
-        console.log("Player:", player.x, player.y, player.direction);
+        console.log("hangup:", player.x, player.y, player.direction);
       }
     });
   }
@@ -51,7 +51,7 @@ class Player extends Phaser.GameObjects.Sprite {
     const animationDelay = 200;
 
     if(player.power <= 0) {
-      this.freeze();
+      this.hangUp();
       return;
     }
 
@@ -72,10 +72,10 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.direction = new_direction;
-        player.updatePower(-1);
+        player.changePower(-1);
         console.log(player.direction);
         player.setFrame(player.direction);
-        console.log("Player:", player.x, player.y, player.direction);
+        console.log("turn:", player.x, player.y, player.direction);
       }
     });
   }
@@ -87,7 +87,7 @@ class Player extends Phaser.GameObjects.Sprite {
     const animationDelay = 500;
 
     if(player.power <= 0) {
-      this.freeze();
+      this.hangUp();
       return;
     }
     
@@ -109,7 +109,7 @@ class Player extends Phaser.GameObjects.Sprite {
       new_y = player.y;
     }
   
-    let tile = this.scene.worldLayer.getTileAtWorldXY(new_x, new_y - 32, true);
+    let tile = this.scene.topLayer.getTileAtWorldXY(new_x, new_y - 32, true);
 //    console.log(tile);
     if(tile && tile.index === -1) {
       this.scene.sound.play("move");
@@ -122,8 +122,8 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: false,
         onComplete: function() {
-          player.updatePower(-1);
-          console.log("Player:", player.x, player.y, player.direction);
+          player.changePower(-1);
+          console.log("move:", player.x, player.y, player.direction);
         }
       });
     }
@@ -138,8 +138,8 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: true,
         onComplete: function() {
-          player.updatePower(-1);
-          console.log("Player:", player.x, player.y, player.direction);
+          player.changePower(-1);
+          console.log("stuck:", player.x, player.y, player.direction);
         }
       });
     }
