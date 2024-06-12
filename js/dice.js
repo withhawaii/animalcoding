@@ -5,10 +5,10 @@ class Dice extends Phaser.GameObjects.Container {
     this.duration = duration;
     this.diceIsRolling = false;
 
-    this.dice = scene.add.mesh(x, y, "dice-albedo");
+    this.dice = scene.add.mesh(x, y, "dice_albedo");
     this.shadowFX = this.dice.postFX.addShadow(0, 0, 0.006, 2, 0x111111, 10, .8);
 
-    this.dice.addVerticesFromObj("dice-obj", 0.25);
+    this.dice.addVerticesFromObj("dice_obj", 0.25);
     this.dice.panZ(6);
 
     this.dice.modelRotation.x = Phaser.Math.DegToRad(0);

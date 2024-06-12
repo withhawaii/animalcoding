@@ -30,7 +30,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   hangUp() {
     let player = this;
-    this.scene.sound.play("freeze");
+    this.scene.sound.play("hangup");
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
@@ -55,10 +55,10 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    if (new_direction > 3) {
-      new_direction = 0;
-    } else if (new_direction < 0) {
-      new_direction = 3;
+    if (new_direction > CST.LEFT) {
+      new_direction = CST.UP;
+    } else if (new_direction < CST.UP) {
+      new_direction = CST.LEFT;
     }
 
     this.scene.sound.play("turn");
@@ -91,20 +91,16 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
     
-    //Moving UP
-    if (this.direction == 0) {
+    if (this.direction == CST.UP) {
       new_x = player.x;
       new_y = player.y - 32;
-      //Moving RIGHT
-    } else if (player.direction == 1) {
+    } else if (player.direction == CST.RIGHT) {
       new_x = player.x + 64;
       new_y = player.y;
-      //Moving DOWN
-    } else if (player.direction == 2) {
+    } else if (player.direction == CST.DOWN) {
       new_x = player.x;
       new_y = player.y + 32;
-      //Moving LEFT
-    } else if (player.direction == 3) {
+    } else if (player.direction == CST.LEFT) {
       new_x = player.x - 64;
       new_y = player.y;
     }
