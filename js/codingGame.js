@@ -75,14 +75,9 @@ function runCode() {
   let node = stack[stack.length - 1].node;
   let Range = ace.require("ace/range").Range;
   editor.selection.setRange(new Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
+  console.log("Status", interpreter.getStatus());
   if (interpreter.step()) {
-    if (node.type == "CallExpression") {
-      delay = animationDelay + 10;
-    }
-    else {
-      delay = 0;
-    }
-    setTimeout(runCode, delay);
+    setTimeout(runCode, node.type == "CallExpression" ? animationDelay + 10 : 0);
   }
   else {
     currentScene.changePlayer();

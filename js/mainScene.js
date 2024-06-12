@@ -17,6 +17,8 @@ class MainScene extends Phaser.Scene {
     this.load.audio("move", "audio/move.mp3");
     this.load.audio("turn", "audio/turn.mp3");
     this.load.audio("stuck", "audio/stuck.mp3");
+    this.load.audio("powerup", "audio/powerup.mp3");
+    this.load.audio("freeze", "audio/freeze.mp3");
   }
   
   create() {
@@ -36,6 +38,8 @@ class MainScene extends Phaser.Scene {
     this.sound.add('move');
     this.sound.add('turn');
     this.sound.add('stuck');
+    this.sound.add('powerup');
+    this.sound.add('freeze');
     
     this.create_players(4);
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
@@ -75,6 +79,7 @@ class MainScene extends Phaser.Scene {
   }
 
   changePlayer() {
+    currentPlayer.setFrame(currentPlayer.direction);
     if(currentPlayer.id + 1 >= this.players.length) {
       currentPlayer = this.players[0];
     }

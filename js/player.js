@@ -13,6 +13,9 @@ class Player extends Phaser.GameObjects.Sprite {
     let currentPower = this.power;
     let powerStatus = this.powerStatus;
     player.power = player.power + power;
+    if(power > 0) {
+      this.scene.sound.play("powerup");
+    }
     this.scene.tweens.addCounter({
       from: currentPower,
       to: currentPower + power,
@@ -25,11 +28,32 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
+  freeze() {
+    let player = this;
+    this.scene.sound.play("freeze");
+    this.scene.tweens.add({
+      targets: player,
+      y: player.y - 10,
+      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+      duration: 100,
+      repeat: 0,
+      yoyo: true,
+      onComplete: function() {
+        player.setFrame(4);        
+        console.log("Player:", player.x, player.y, player.direction);
+      }
+    });
+  }
+
   turn(step) {
     let player = this;
     let new_direction = this.direction + step;
     const animationDelay = 200;
-    console.log(new_direction, this.direction, step);
+
+    if(player.power <= 0) {
+      this.freeze();
+      return;
+    }
 
     if (new_direction > 3) {
       new_direction = 0;
@@ -61,6 +85,11 @@ class Player extends Phaser.GameObjects.Sprite {
     let new_x = this.x;
     let new_y = this.y;
     const animationDelay = 500;
+
+    if(player.power <= 0) {
+      this.freeze();
+      return;
+    }
     
     //Moving UP
     if (this.direction == 0) {
@@ -81,7 +110,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   
     let tile = this.scene.worldLayer.getTileAtWorldXY(new_x, new_y - 32, true);
-    console.log(tile);
+//    console.log(tile);
     if(tile && tile.index === -1) {
       this.scene.sound.play("move");
       this.scene.tweens.add({
@@ -110,7 +139,7 @@ class Player extends Phaser.GameObjects.Sprite {
         yoyo: true,
         onComplete: function() {
           player.updatePower(-1);
-          console.log("Player:", this.x, this.y, this.direction);
+          console.log("Player:", player.x, player.y, player.direction);
         }
       });
     }
