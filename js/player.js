@@ -8,22 +8,22 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = y;
   }
 
-  changePower(power) {
+  changeEnergy(energy) {
     let player = this;
-    let currentPower = this.power;
-    let powerStatus = this.powerStatus;
-    player.power = player.power + power;
-    if(power > 0) {
-      this.scene.sound.play("powerup");
+    let currentEnergy = this.energy;
+    let energyStatus = this.energyStatus;
+    player.energy = player.energy + energy;
+    if(energy > 0) {
+      this.scene.sound.play("energyup");
     }
     this.scene.tweens.addCounter({
-      from: currentPower,
-      to: currentPower + power,
+      from: currentEnergy,
+      to: currentEnergy + energy,
       duration: 100,
       ease: 'linear',
       onUpdate: tween => {
         const value = Math.round(tween.getValue());
-        powerStatus.setText(value);
+        energyStatus.setText(value);
       }
     });
   }
@@ -50,7 +50,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let new_direction = this.direction + step;
     const animationDelay = 200;
 
-    if(player.power <= 0) {
+    if(player.energy <= 0) {
       this.hangUp();
       return;
     }
@@ -72,7 +72,7 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.direction = new_direction;
-        player.changePower(-1);
+        player.changeEnergy(-1);
         console.log(player.direction);
         player.setFrame(player.direction);
         console.log("turn:", player.x, player.y, player.direction);
@@ -86,7 +86,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let new_y = this.y;
     const animationDelay = 500;
 
-    if(player.power <= 0) {
+    if(player.energy <= 0) {
       this.hangUp();
       return;
     }
@@ -105,9 +105,10 @@ class Player extends Phaser.GameObjects.Sprite {
       new_y = player.y;
     }
   
-    let tile = this.scene.topLayer.getTileAtWorldXY(new_x, new_y - 32, true);
-//    console.log(tile);
-    if(tile && tile.index === -1) {
+    let top_tile = this.scene.topLayer.getTileAtWorldXY(new_x, new_y - 32, true);
+    let base_tile = this.scene.baseLayer.getTileAtWorldXY(new_x, new_y, true);
+    //Move only when a solid ground exists and no top tile (obstruct items) exists
+    if(base_tile && [-1, 3, 4].indexOf(base_tile.index) === -1 && top_tile && top_tile.index === -1) {
       this.scene.sound.play("move");
       this.scene.tweens.add({
         targets: player,
@@ -118,7 +119,7 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: false,
         onComplete: function() {
-          player.changePower(-1);
+          player.changeEnergy(-1);
           console.log("move:", player.x, player.y, player.direction);
         }
       });
@@ -134,7 +135,7 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: true,
         onComplete: function() {
-          player.changePower(-1);
+          player.changeEnergy(-1);
           console.log("stuck:", player.x, player.y, player.direction);
         }
       });

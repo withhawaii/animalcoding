@@ -19,15 +19,12 @@ class MainScene extends Phaser.Scene {
   }
   
   create() {
-    const background = this.add.image(0, 0, "background");
-    background.setOrigin(0, 0);
-
-    const map = this.make.tilemap({ key: "map" });
-    this.map = map;
-    const tileset_base = map.addTilesetImage("tileset_base", "tileset_base");
-    const tileset_top = map.addTilesetImage("tileset_top", "tileset_top");
-    this.baseLayer = map.createLayer("base", tileset_base, 0, 64);
-    this.topLayer = map.createLayer("top", tileset_top, 0, 64 - 32);
+    this.add.image(0, 0, "background").setOrigin(0, 0);
+    this.map = this.make.tilemap({ key: "map" });
+    const tileset_base = this.map.addTilesetImage("tileset_base", "tileset_base");
+    const tileset_top = this.map.addTilesetImage("tileset_top", "tileset_top");
+    this.baseLayer = this.map.createLayer("base", tileset_base, 0, 64);
+    this.topLayer = this.map.createLayer("top", tileset_top, 0, 64 - 32);
   
     this.sound.pauseOnBlur = false;
     for (let prop in CST.AUDIO) {
@@ -39,8 +36,8 @@ class MainScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
-          currentPlayer.changePower(diceValue);
-          console.log('Dice value ', diceValue, 'New power', currentPlayer.power);
+          currentPlayer.changeEnergy(diceValue);
+          console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
           this.dice.hide();
         });
       }
@@ -59,10 +56,10 @@ class MainScene extends Phaser.Scene {
       this.players[i] = new Player(this, x, y + 64 - 16, name);
       this.players[i].setFrame(direction);
       this.players[i].direction = direction;  
-      this.players[i].power = 0;
+      this.players[i].energy = 0;
       this.players[i].id = i;
       this.players[i].avatar = this.add.image(32 + i * 256, 670, "textures", name +  "_Avatar_Circle").setScale(0.5);
-      this.players[i].powerStatus = this.add.text(52 + i * 256, 655, this.players[i].power, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
+      this.players[i].energyStatus = this.add.text(52 + i * 256, 655, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
     }
     currentPlayer = this.players[0];
   }
