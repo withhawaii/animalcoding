@@ -14,12 +14,12 @@ class Player extends Phaser.GameObjects.Sprite {
     let energyStatus = this.energyStatus;
     player.energy = player.energy + energy;
     if(energy > 0) {
-      this.scene.sound.play("energyup");
+      this.scene.sound.play("charged");
     }
     this.scene.tweens.addCounter({
       from: currentEnergy,
       to: currentEnergy + energy,
-      duration: 100,
+      duration: 1000,
       ease: 'linear',
       onUpdate: tween => {
         const value = Math.round(tween.getValue());
@@ -47,34 +47,27 @@ class Player extends Phaser.GameObjects.Sprite {
 
   turn(step) {
     let player = this;
-    let new_direction = this.direction + step;
-    const animationDelay = 200;
+    //Modulo calculation to get a new direction
+    let new_direction = ((this.direction + step) % 4 + 4) % 4;
+    console.log("new_direction:", new_direction);
 
     if(player.energy <= 0) {
       this.hangUp();
       return;
     }
 
-    if (new_direction > CST.LEFT) {
-      new_direction = CST.UP;
-    } else if (new_direction < CST.UP) {
-      new_direction = CST.LEFT;
-    }
-
     this.scene.sound.play("turn");
-
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
       ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-      duration: animationDelay,
+      duration: 200,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
         player.direction = new_direction;
-        player.changeEnergy(-1);
-        console.log(player.direction);
         player.setFrame(player.direction);
+        player.changeEnergy(-1);
         console.log("turn:", player.x, player.y, player.direction);
       }
     });
@@ -84,7 +77,6 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     let new_x = this.x;
     let new_y = this.y;
-    const animationDelay = 500;
 
     if(player.energy <= 0) {
       this.hangUp();
@@ -115,7 +107,7 @@ class Player extends Phaser.GameObjects.Sprite {
         x: new_x,
         y: new_y,
         ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: animationDelay,
+        duration: 500,
         repeat: 0,
         yoyo: false,
         onComplete: function() {
@@ -131,7 +123,7 @@ class Player extends Phaser.GameObjects.Sprite {
         x: new_x,
         y: new_y,
         ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: animationDelay,
+        duration: 500,
         repeat: 0,
         yoyo: true,
         onComplete: function() {

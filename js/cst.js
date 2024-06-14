@@ -5,7 +5,8 @@ const CST = {
   LEFT: 3,
 
   IMAGES: {
-    background: "images/background.v1.png",
+    background: "images/background.v2.png",
+    cloud: "images/cloud.png",
     dice_albedo: "images/dice-albedo.png",
     tileset_base: "tilemap/tileset_base.png",
     tileset_top: "tilemap/tileset_top.png"
@@ -15,7 +16,7 @@ const CST = {
     move: "audio/move.mp3",
     turn: "audio/turn.mp3",
     stuck: "audio/stuck.mp3",
-    powerup: "audio/powerup.mp3",
+    charged: "audio/powerup.mp3",
     hangup: "audio/freeze.mp3"
   }
 }

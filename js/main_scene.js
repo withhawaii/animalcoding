@@ -15,7 +15,7 @@ class MainScene extends Phaser.Scene {
 
     this.load.obj("dice_obj", "images/dice.obj");
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.tilemapTiledJSON("map", "tilemap/level00.json");
+    this.load.tilemapTiledJSON("map", "tilemap/level01.json");
   }
   
   create() {
@@ -46,11 +46,14 @@ class MainScene extends Phaser.Scene {
 
   createPlayers(num) {
     const players = this.map.getObjectLayer("players").objects;
-    this.players = []
+    this.players = [];
+    const avatar_origin = [[0,0],[768,0],[768,640],[0,640]];
     for(let i = 0; i < num; i++) {
       let name = players[i].name;
       let x = players[i].x;
       let y = players[i].y;
+      let ax = avatar_origin[i][0];
+      let ay = avatar_origin[i][1];
       let direction = CST.DOWN;
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
       this.players[i] = new Player(this, x, y + 64 - 16, name);
@@ -58,8 +61,8 @@ class MainScene extends Phaser.Scene {
       this.players[i].direction = direction;  
       this.players[i].energy = 0;
       this.players[i].id = i;
-      this.players[i].avatar = this.add.image(32 + i * 256, 670, "textures", name +  "_Avatar_Circle").setScale(0.5);
-      this.players[i].energyStatus = this.add.text(52 + i * 256, 655, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
+      this.players[i].avatar = this.add.image(ax, ay, "textures", name +  "_Avatar_Rounded").setOrigin(0, 0);
+      this.players[i].energyStatus = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
     }
     currentPlayer = this.players[0];
   }
