@@ -5,7 +5,8 @@ class Dice extends Phaser.GameObjects.Container {
     this.duration = duration;
     this.diceIsRolling = false;
 
-    this.dice = scene.add.mesh(x, y, "dice_albedo");
+
+    this.dice = scene.add.mesh(x, y, "dice_albedo").setDepth(10);
     this.shadowFX = this.dice.postFX.addShadow(0, 0, 0.006, 2, 0x111111, 10, .8);
 
     this.dice.addVerticesFromObj("dice_obj", 0.25);
@@ -17,6 +18,7 @@ class Dice extends Phaser.GameObjects.Container {
     // Text object to show the dice value
     this.textDiceValue = this.scene.add.text(this.scene.scale.width / 2, this.scene.scale.height / 2, '0', { fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d' });
     this.textDiceValue.setStroke('#de77ae', 16).setScale(0);
+    this.textDiceValue.setDepth(11);
   }
 
   isReadyToRoll() {

@@ -67,6 +67,10 @@ function initInterpreter(interpreter, scope) {
 //    console.log("turn_right");
     return currentPlayer.turn(1);
   }));
+  interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
+    //    console.log("turn_right");
+        return currentPlayer.pickUp();
+  }));
 };
 
 function runCode() {

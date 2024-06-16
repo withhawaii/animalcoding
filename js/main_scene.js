@@ -15,17 +15,15 @@ class MainScene extends Phaser.Scene {
 
     this.load.obj("dice_obj", "images/dice.obj");
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.tilemapTiledJSON("map", "tilemap/level01.json");
+    this.load.tilemapTiledJSON("map", "tilemap/level00.json");
+
+    this.load.spritesheet('stage_sprite', 'tilemap/stage.png', { frameWidth: 64, frameHeight: 32 });
   }
   
   create() {
     this.add.image(0, 0, "background").setOrigin(0, 0);
-    this.map = this.make.tilemap({ key: "map" });
-    const tileset_base = this.map.addTilesetImage("tileset_base", "tileset_base");
-    const tileset_top = this.map.addTilesetImage("tileset_top", "tileset_top");
-    this.baseLayer = this.map.createLayer("base", tileset_base, 0, 64);
-    this.topLayer = this.map.createLayer("top", tileset_top, 0, 64 - 32);
-  
+    this.createMap();
+
     this.sound.pauseOnBlur = false;
     for (let prop in CST.AUDIO) {
       this.sound.add(prop);
@@ -36,12 +34,34 @@ class MainScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
+          diceValue = 6;
           currentPlayer.changeEnergy(diceValue);
           console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
           this.dice.hide();
         });
       }
     });
+  }
+
+  createMap() {
+    this.map = this.make.tilemap({ key: "map" });
+    const stage = this.map.addTilesetImage("stage", "stage");
+    this.baseLayer = this.map.createLayer("base", stage, 0, 64);
+    this.topLayer = this.map.createLayer("top", stage, 0, 64 );
+//    this.itemsLayer = this.map.createLayer("items", tileset_items, 0, 64 - 32);
+
+    //Manually render non-colliding tiles as a set of images for 3D-like effects
+    const topLayerData = this.map.getLayer("top").data;
+    for (let y = 0; y < topLayerData.length; y++) {
+      for (let x = 0; x < topLayerData[y].length; x++) {
+        let tileData = topLayerData[y][x];
+        if(tileData.index >= 0 && !tileData.properties['collide']) {
+          const tile = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'stage_sprite', tileData.index - 1)
+          tile.setOrigin(0,0);
+          tile.depth = 2; //Place in front of players
+        }
+      }
+    }
   }
 
   createPlayers(num) {
@@ -57,6 +77,7 @@ class MainScene extends Phaser.Scene {
       let direction = CST.DOWN;
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
       this.players[i] = new Player(this, x, y + 64 - 16, name);
+      this.players[i].setDepth(1);
       this.players[i].setFrame(direction);
       this.players[i].direction = direction;  
       this.players[i].energy = 0;
@@ -65,6 +86,7 @@ class MainScene extends Phaser.Scene {
       this.players[i].energyStatus = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
     }
     currentPlayer = this.players[0];
+//    currentPlayer.idle();
   }
 
   changePlayer() {
@@ -76,6 +98,7 @@ class MainScene extends Phaser.Scene {
       currentPlayer = this.players[currentPlayer.id + 1];
     }
     console.log('New Player', currentPlayer);
+//    currentPlayer.idle();
     this.dice.show();
   }
 }

@@ -8,8 +8,7 @@ const CST = {
     background: "images/background.v2.png",
     cloud: "images/cloud.png",
     dice_albedo: "images/dice-albedo.png",
-    tileset_base: "tilemap/tileset_base.png",
-    tileset_top: "tilemap/tileset_top.png"
+    stage: "tilemap/stage.png",
   },
   
   AUDIO: {
@@ -17,6 +16,7 @@ const CST = {
     turn: "audio/turn.mp3",
     stuck: "audio/stuck.mp3",
     charged: "audio/powerup.mp3",
-    hangup: "audio/freeze.mp3"
+    hangup: "audio/freeze.mp3",
+    pickup: "audio/pickup.mp3",
   }
 }

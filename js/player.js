@@ -28,6 +28,20 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
+  idle() {
+    let player = this;
+    this.idle_tween = this.scene.tweens.add({
+      targets: player,
+      y: player.y - 5,
+      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+      duration: 100,
+      repeat: -1,
+      yoyo: true,
+      onComplete: function() {
+      }
+    }).setTimeScale(0.3);
+  }
+
   hangUp() {
     let player = this;
     this.scene.sound.play("hangup");
@@ -97,10 +111,10 @@ class Player extends Phaser.GameObjects.Sprite {
       new_y = player.y;
     }
   
-    let top_tile = this.scene.topLayer.getTileAtWorldXY(new_x, new_y - 32, true);
+    let top_tile = this.scene.topLayer.getTileAtWorldXY(new_x, new_y, true);
     let base_tile = this.scene.baseLayer.getTileAtWorldXY(new_x, new_y, true);
     //Move only when a solid ground exists and no top tile (obstruct items) exists
-    if(base_tile && [-1, 3, 4].indexOf(base_tile.index) === -1 && top_tile && top_tile.index === -1) {
+    if(base_tile && base_tile.properties['move'] && top_tile && !top_tile.properties['collide']) {
       this.scene.sound.play("move");
       this.scene.tweens.add({
         targets: player,
@@ -134,4 +148,25 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
+  pickUp() {
+    let player = this;
+
+    if(this.idle_tween) {
+      this.idle_tween.complete();
+    }
+    if(player.energy <= 0) {
+      this.hangUp();
+      return;
+    }
+
+    let item_tile = this.scene.itemsLayer.getTileAtWorldXY(player.x, player.y - 32, true);
+    if(item_tile && item_tile != -1) {
+      console.log("Got item:", item_tile);
+      item_tile.setVisible(false); 
+      this.scene.sound.play("pickup");
+    }
+    else {
+      this.hangUp();      
+    }
+  }
 } 
