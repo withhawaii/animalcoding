@@ -39,6 +39,12 @@ body,
   width: 320px;
 }
 
+#control {
+  padding: 5px;
+  text-align: center;
+}
+
+
 .code-marker {
    position: absolute; 
    background: red

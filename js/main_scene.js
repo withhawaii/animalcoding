@@ -34,10 +34,13 @@ class MainScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
-          diceValue = 6;
+          if(debug) {
+            diceValue = 6;
+          }
           currentPlayer.changeEnergy(diceValue);
           console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
           this.dice.hide();
+          enableButton("run_code");
         });
       }
     });
@@ -50,7 +53,7 @@ class MainScene extends Phaser.Scene {
     this.topLayer = this.map.createLayer("top", stage, 0, 64 );
 //    this.itemsLayer = this.map.createLayer("items", tileset_items, 0, 64 - 32);
 
-    //Manually render non-colliding tiles as a set of images for 3D-like effects
+    //Manually render non-collidable tiles as images for 3D-like effects
     const topLayerData = this.map.getLayer("top").data;
     for (let y = 0; y < topLayerData.length; y++) {
       for (let x = 0; x < topLayerData[y].length; x++) {
@@ -91,7 +94,7 @@ class MainScene extends Phaser.Scene {
 
   changePlayer() {
     currentPlayer.setFrame(currentPlayer.direction);
-    if(currentPlayer.id + 1 >= this.players.length) {
+    if(currentPlayer.id + 1 >= this.players.length || debug) {
       currentPlayer = this.players[0];
     }
     else {

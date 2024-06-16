@@ -7,13 +7,11 @@ class Dice extends Phaser.GameObjects.Container {
 
 
     this.dice = scene.add.mesh(x, y, "dice_albedo").setDepth(10);
-    this.shadowFX = this.dice.postFX.addShadow(0, 0, 0.006, 2, 0x111111, 10, .8);
-
     this.dice.addVerticesFromObj("dice_obj", 0.25);
     this.dice.panZ(6);
-
     this.dice.modelRotation.x = Phaser.Math.DegToRad(0);
     this.dice.modelRotation.y = Phaser.Math.DegToRad(-90);
+    this.shadowFX = this.dice.postFX.addShadow(0, 0, 0.006, 2, 0x111111, 10, .8);
 
     // Text object to show the dice value
     this.textDiceValue = this.scene.add.text(this.scene.scale.width / 2, this.scene.scale.height / 2, '0', { fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d' });

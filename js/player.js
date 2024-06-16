@@ -131,6 +131,20 @@ class Player extends Phaser.GameObjects.Sprite {
       });
     }
     else {
+      if (this.direction == CST.UP) {
+        new_x = player.x;
+        new_y = player.y - 32/4;
+      } else if (player.direction == CST.RIGHT) {
+        new_x = player.x + 64/4;
+        new_y = player.y;
+      } else if (player.direction == CST.DOWN) {
+        new_x = player.x;
+        new_y = player.y + 32/4;
+      } else if (player.direction == CST.LEFT) {
+        new_x = player.x - 64/4;
+        new_y = player.y;
+      }
+
       this.scene.sound.play("stuck");
       this.scene.tweens.add({
         targets: this,

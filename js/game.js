@@ -73,6 +73,18 @@ function initInterpreter(interpreter, scope) {
   }));
 };
 
+function enableButton(id) {
+  const btn = document.getElementById(id)
+  btn.disabled = false; 
+  btn.classList.remove("is-disabled");
+} 
+
+function disableButton(id) {
+  const btn = document.getElementById(id)
+  btn.disabled = true; 
+  btn.classList.add("is-disabled");
+}  
+
 function runCode() {
   const animationDelay = 510;
   let stack = interpreter.getStateStack();
@@ -92,6 +104,7 @@ let editor;
 let interpreter;
 let game;
 let currentPlayer;
+let debug = true;
 
 const config = {
   type: Phaser.AUTO,
@@ -112,11 +125,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   editor = ace.edit("editor");
   setEditorOptions(editor);
-  editor.setValue("for (i = 0; i < 8; i++) {\n  turn_right();\n  move_forward();\n}")
+  editor.setValue("/*\n-Available commands:\nturn_right();\nmove_forward();\n*/\n")
   game = new Phaser.Game(config);
+  disableButton("run_code");
+  if(debug) {
+    console.log("DEBUG mode enabled!");
+  }
 
   document.getElementById("run_code").addEventListener("click", function() {
     interpreter = new Interpreter(editor.getValue(), initInterpreter);
+
+    console.log(debug);
     runCode();
+    disableButton("run_code");
   });
 });

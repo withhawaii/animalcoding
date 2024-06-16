@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Animal Coding</title>
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/ace-builds@1.24.1/css/ace.min.css" rel="stylesheet">
   <link href="style.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
@@ -24,9 +25,12 @@
       <div id="game-container"></div>
     </div>  
     <div class="column">
-      <div id="editor"></div>
-      <button id="skip" class="nes-btn">Skip</button>
-      <button id="run_code" class="nes-btn is-primary">Run Program</button>
+      <div id="editor">
+      </div>
+      <div id="control">
+        <button id="skip" class="nes-btn">Skip</button>
+        <button id="run_code" class="nes-btn is-primary">Run Code</button>
+      </div>
     </div>
   </div>
 
