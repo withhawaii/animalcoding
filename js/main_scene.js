@@ -15,9 +15,9 @@ class MainScene extends Phaser.Scene {
 
     this.load.obj("dice_obj", "images/dice.obj");
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.tilemapTiledJSON("map", "tilemap/level00.json");
+    this.load.tilemapTiledJSON("map", "tilemap/level02.json");
 
-    this.load.spritesheet('stage_sprite', 'tilemap/stage.png', { frameWidth: 64, frameHeight: 32 });
+    this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
   }
   
   create() {
@@ -49,19 +49,32 @@ class MainScene extends Phaser.Scene {
   createMap() {
     this.map = this.make.tilemap({ key: "map" });
     const stage = this.map.addTilesetImage("stage", "stage");
-    this.baseLayer = this.map.createLayer("base", stage, 0, 64);
-    this.topLayer = this.map.createLayer("top", stage, 0, 64 );
-//    this.itemsLayer = this.map.createLayer("items", tileset_items, 0, 64 - 32);
+    this.ground = this.map.createLayer("ground", stage, 0, 64);
 
-    //Manually render non-collidable tiles as images for 3D-like effects
-    const topLayerData = this.map.getLayer("top").data;
-    for (let y = 0; y < topLayerData.length; y++) {
-      for (let x = 0; x < topLayerData[y].length; x++) {
-        let tileData = topLayerData[y][x];
-        if(tileData.index >= 0 && !tileData.properties['collide']) {
-          const tile = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'stage_sprite', tileData.index - 1)
-          tile.setOrigin(0,0);
-          tile.depth = 2; //Place in front of players
+    //Manually render obstacles as images
+    this.obstacles = [];
+    this.obstacles = this.map.getLayer("obstacles").data;
+    for (let y = 0; y < this.obstacles.length; y++) {
+      for (let x = 0; x < this.obstacles[y].length; x++) {
+        let tileData = this.obstacles[y][x];
+        if(tileData.index >= 0) {
+          this.obstacles[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - 1 -64)
+          this.obstacles[y][x].obj.setOrigin(0, 0.5);
+          this.obstacles[y][x].obj.depth = y - 1;
+        }
+      }
+    }
+
+    //Manually render items as images
+    this.items = this.map.getLayer("items").data;
+    for (let y = 0; y < this.items.length; y++) {
+      for (let x = 0; x < this.items[y].length; x++) {
+        let tileData = this.items[y][x];
+        if(tileData.index >= 0) {
+          this.items[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - 1 -64)
+          this.items[y][x].obj.setOrigin(0, 0.5);
+          this.items[y][x].obj.depth = y - 1;
+          this.items[y][x].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
         }
       }
     }
@@ -78,13 +91,16 @@ class MainScene extends Phaser.Scene {
       let ax = avatar_origin[i][0];
       let ay = avatar_origin[i][1];
       let direction = CST.DOWN;
+      let starting_point = this.ground.getTileAtWorldXY(x, y + 64, true);
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
       this.players[i] = new Player(this, x, y + 64 - 16, name);
-      this.players[i].setDepth(1);
-      this.players[i].setFrame(direction);
+      this.players[i].xGrid = starting_point.x;
+      this.players[i].yGrid = starting_point.y;
       this.players[i].direction = direction;  
       this.players[i].energy = 0;
       this.players[i].id = i;
+      this.players[i].setDepth(0);
+      this.players[i].setFrame(direction);
       this.players[i].avatar = this.add.image(ax, ay, "textures", name +  "_Avatar_Rounded").setOrigin(0, 0);
       this.players[i].energyStatus = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
     }

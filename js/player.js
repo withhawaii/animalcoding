@@ -91,30 +91,41 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     let new_x = this.x;
     let new_y = this.y;
+    let new_xGrid;
+    let new_yGrid;
 
     if(player.energy <= 0) {
       this.hangUp();
       return;
     }
-    
-    if (this.direction == CST.UP) {
+
+    if (player.direction == CST.UP) {
+      new_xGrid = player.xGrid;
+      new_yGrid = player.yGrid - 1;
       new_x = player.x;
       new_y = player.y - 32;
     } else if (player.direction == CST.RIGHT) {
+      new_xGrid = player.xGrid + 1;
+      new_yGrid = player.yGrid;
       new_x = player.x + 64;
       new_y = player.y;
     } else if (player.direction == CST.DOWN) {
+      new_xGrid = player.xGrid;
+      new_yGrid = player.yGrid + 1;
       new_x = player.x;
       new_y = player.y + 32;
     } else if (player.direction == CST.LEFT) {
+      new_xGrid = player.xGrid - 1;
+      new_yGrid = player.yGrid;
       new_x = player.x - 64;
       new_y = player.y;
     }
-  
-    let top_tile = this.scene.topLayer.getTileAtWorldXY(new_x, new_y, true);
-    let base_tile = this.scene.baseLayer.getTileAtWorldXY(new_x, new_y, true);
+
+    let ground = this.scene.ground.getTileAt(new_xGrid, new_yGrid, true);
+    let obstacle = this.scene.obstacles[new_yGrid][new_xGrid].obj;
     //Move only when a solid ground exists and no top tile (obstruct items) exists
-    if(base_tile && base_tile.properties['move'] && top_tile && !top_tile.properties['collide']) {
+    console.log(obstacle);
+    if(ground && ground.properties['move'] && !obstacle) {
       this.scene.sound.play("move");
       this.scene.tweens.add({
         targets: player,
@@ -125,41 +136,52 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: false,
         onComplete: function() {
+          player.xGrid = new_xGrid;
+          player.yGrid = new_yGrid;
+          player.setDepth(player.yGrid);
           player.changeEnergy(-1);
-          console.log("move:", player.x, player.y, player.direction);
+          console.log("move:", player.xGrid, player.yGrid, player.direction, player.depth);
         }
       });
     }
     else {
-      if (this.direction == CST.UP) {
-        new_x = player.x;
-        new_y = player.y - 32/4;
-      } else if (player.direction == CST.RIGHT) {
-        new_x = player.x + 64/4;
-        new_y = player.y;
-      } else if (player.direction == CST.DOWN) {
-        new_x = player.x;
-        new_y = player.y + 32/4;
-      } else if (player.direction == CST.LEFT) {
-        new_x = player.x - 64/4;
-        new_y = player.y;
-      }
-
-      this.scene.sound.play("stuck");
-      this.scene.tweens.add({
-        targets: this,
-        x: new_x,
-        y: new_y,
-        ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: 500,
-        repeat: 0,
-        yoyo: true,
-        onComplete: function() {
-          player.changeEnergy(-1);
-          console.log("stuck:", player.x, player.y, player.direction);
-        }
-      });
+      this.stuck();
     }
+  }
+
+  stuck() {
+    let player = this;
+    let new_x = this.x;
+    let new_y = this.y;
+
+    if (player.direction == CST.UP) {
+      new_x = player.x;
+      new_y = player.y - 32/4;
+    } else if (player.direction == CST.RIGHT) {
+      new_x = player.x + 64/4;
+      new_y = player.y;
+    } else if (player.direction == CST.DOWN) {
+      new_x = player.x;
+      new_y = player.y + 32/4;
+    } else if (player.direction == CST.LEFT) {
+      new_x = player.x - 64/4;
+      new_y = player.y;
+    }
+
+    this.scene.sound.play("stuck");
+    this.scene.tweens.add({
+      targets: this,
+      x: new_x,
+      y: new_y,
+      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+      duration: 500,
+      repeat: 0,
+      yoyo: true,
+      onComplete: function() {
+        player.changeEnergy(-1);
+        console.log("stuck:", player.x, player.y, player.direction);
+      }
+    });
   }
 
   pickUp() {
@@ -173,10 +195,10 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    let item_tile = this.scene.itemsLayer.getTileAtWorldXY(player.x, player.y - 32, true);
-    if(item_tile && item_tile != -1) {
-      console.log("Got item:", item_tile);
-      item_tile.setVisible(false); 
+    let item = this.scene.items[player.yGrid][player.xGrid].obj;
+    if(item) {
+      console.log("Got item:", item);
+      item.setVisible(false); 
       this.scene.sound.play("pickup");
     }
     else {
