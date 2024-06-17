@@ -37,7 +37,7 @@ class MainScene extends Phaser.Scene {
           if(debug) {
             diceValue = 6;
           }
-          currentPlayer.changeEnergy(diceValue);
+          currentPlayer.setEnergy(currentPlayer.energy + diceValue);
           console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
           this.dice.hide();
           enableButton("run_code");
@@ -60,7 +60,7 @@ class MainScene extends Phaser.Scene {
         if(tileData.index >= 0) {
           this.obstacles[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - 1 -64)
           this.obstacles[y][x].obj.setOrigin(0, 0.5);
-          this.obstacles[y][x].obj.depth = y - 1;
+          this.obstacles[y][x].obj.depth = y;
         }
       }
     }
@@ -73,7 +73,7 @@ class MainScene extends Phaser.Scene {
         if(tileData.index >= 0) {
           this.items[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - 1 -64)
           this.items[y][x].obj.setOrigin(0, 0.5);
-          this.items[y][x].obj.depth = y - 1;
+          this.items[y][x].obj.depth = y;
           this.items[y][x].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
         }
       }
@@ -97,12 +97,14 @@ class MainScene extends Phaser.Scene {
       this.players[i].xGrid = starting_point.x;
       this.players[i].yGrid = starting_point.y;
       this.players[i].direction = direction;  
-      this.players[i].energy = 0;
       this.players[i].id = i;
       this.players[i].setDepth(0);
       this.players[i].setFrame(direction);
       this.players[i].avatar = this.add.image(ax, ay, "textures", name +  "_Avatar_Rounded").setOrigin(0, 0);
-      this.players[i].energyStatus = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
+      this.players[i].energy = 0;
+      this.players[i].energyText = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
+      this.players[i].score = 0;
+      this.players[i].scoreText = this.add.text(ax + 120, ay + 36, `Score: ${this.players[i].score}`, {fontSize: '18px',  color: '#ffffff', fill: '#000'});
     }
     currentPlayer = this.players[0];
 //    currentPlayer.idle();

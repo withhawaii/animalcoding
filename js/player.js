@@ -8,22 +8,42 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = y;
   }
 
-  changeEnergy(energy) {
+  setEnergy(newEnergy) {
     let player = this;
     let currentEnergy = this.energy;
-    let energyStatus = this.energyStatus;
-    player.energy = player.energy + energy;
-    if(energy > 0) {
+    let energyText = this.energyText;
+
+    if(newEnergy > currentEnergy) {
       this.scene.sound.play("charged");
     }
+
+    player.energy = newEnergy;
     this.scene.tweens.addCounter({
       from: currentEnergy,
-      to: currentEnergy + energy,
+      to: newEnergy,
       duration: 1000,
       ease: 'linear',
       onUpdate: tween => {
         const value = Math.round(tween.getValue());
-        energyStatus.setText(value);
+        energyText.setText(value);
+      }
+    });
+  }
+
+  setScore(newScore) {
+    let player = this;
+    let currentScore = this.score;
+    let scoreText = this.scoreText;
+
+    player.score = newScore;
+    this.scene.tweens.addCounter({
+      from: currentScore,
+      to: newScore,
+      duration: 1000,
+      ease: 'linear',
+      onUpdate: tween => {
+        const value = Math.round(tween.getValue());
+        scoreText.setText(`Score: ${value}`);
       }
     });
   }
@@ -81,7 +101,7 @@ class Player extends Phaser.GameObjects.Sprite {
       onComplete: function() {
         player.direction = new_direction;
         player.setFrame(player.direction);
-        player.changeEnergy(-1);
+        player.setEnergy(player.energy - 1);
         console.log("turn:", player.x, player.y, player.direction);
       }
     });
@@ -102,35 +122,27 @@ class Player extends Phaser.GameObjects.Sprite {
     if (player.direction == CST.UP) {
       new_xGrid = player.xGrid;
       new_yGrid = player.yGrid - 1;
-      new_x = player.x;
-      new_y = player.y - 32;
     } else if (player.direction == CST.RIGHT) {
       new_xGrid = player.xGrid + 1;
       new_yGrid = player.yGrid;
-      new_x = player.x + 64;
-      new_y = player.y;
     } else if (player.direction == CST.DOWN) {
       new_xGrid = player.xGrid;
       new_yGrid = player.yGrid + 1;
-      new_x = player.x;
-      new_y = player.y + 32;
     } else if (player.direction == CST.LEFT) {
       new_xGrid = player.xGrid - 1;
       new_yGrid = player.yGrid;
-      new_x = player.x - 64;
-      new_y = player.y;
     }
 
     let ground = this.scene.ground.getTileAt(new_xGrid, new_yGrid, true);
     let obstacle = this.scene.obstacles[new_yGrid][new_xGrid].obj;
     //Move only when a solid ground exists and no top tile (obstruct items) exists
-    console.log(obstacle);
     if(ground && ground.properties['move'] && !obstacle) {
+      player.setDepth(new_yGrid);
       this.scene.sound.play("move");
       this.scene.tweens.add({
         targets: player,
-        x: new_x,
-        y: new_y,
+        x: new_xGrid * 64 + 32,
+        y: new_yGrid * 32 + 64,
         ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
         duration: 500,
         repeat: 0,
@@ -138,9 +150,8 @@ class Player extends Phaser.GameObjects.Sprite {
         onComplete: function() {
           player.xGrid = new_xGrid;
           player.yGrid = new_yGrid;
-          player.setDepth(player.yGrid);
-          player.changeEnergy(-1);
-          console.log("move:", player.xGrid, player.yGrid, player.direction, player.depth);
+          player.setEnergy(player.energy - 1);
+          console.log("move:", player.xGrid, player.yGrid, player.direction);
         }
       });
     }
@@ -151,8 +162,8 @@ class Player extends Phaser.GameObjects.Sprite {
 
   stuck() {
     let player = this;
-    let new_x = this.x;
-    let new_y = this.y;
+    let new_x;
+    let new_y;
 
     if (player.direction == CST.UP) {
       new_x = player.x;
@@ -178,7 +189,7 @@ class Player extends Phaser.GameObjects.Sprite {
       repeat: 0,
       yoyo: true,
       onComplete: function() {
-        player.changeEnergy(-1);
+        player.setEnergy(player.energy - 1);
         console.log("stuck:", player.x, player.y, player.direction);
       }
     });
@@ -200,6 +211,7 @@ class Player extends Phaser.GameObjects.Sprite {
       console.log("Got item:", item);
       item.setVisible(false); 
       this.scene.sound.play("pickup");
+      this.setScore(player.score + 10);
     }
     else {
       this.hangUp();      
