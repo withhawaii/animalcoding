@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   editor = ace.edit("editor");
   setEditorOptions(editor);
-  editor.setValue("/*\n-Available commands:\nturn_right();\nmove_forward();\n*/\n")
+  editor.setValue("/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n")
   game = new Phaser.Game(config);
   disableButton("run_code");
   if(debug) {
@@ -134,8 +134,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   document.getElementById("run_code").addEventListener("click", function() {
     interpreter = new Interpreter(editor.getValue(), initInterpreter);
-
-    console.log(debug);
     runCode();
     disableButton("run_code");
   });

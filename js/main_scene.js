@@ -15,7 +15,7 @@ class MainScene extends Phaser.Scene {
 
     this.load.obj("dice_obj", "images/dice.obj");
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.tilemapTiledJSON("map", "tilemap/level02.json");
+    this.load.tilemapTiledJSON("map", "tilemap/level00.json");
 
     this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
   }
@@ -48,17 +48,17 @@ class MainScene extends Phaser.Scene {
 
   createMap() {
     this.map = this.make.tilemap({ key: "map" });
-    const stage = this.map.addTilesetImage("stage", "stage");
-    this.ground = this.map.createLayer("ground", stage, 0, 64);
+    const groundTileset = this.map.addTilesetImage("ground", "ground");
+    this.ground = this.map.createLayer("ground", groundTileset, 0, 64);
 
+    const objectsTileset = this.map.getTileset("objects");
     //Manually render obstacles as images
-    this.obstacles = [];
     this.obstacles = this.map.getLayer("obstacles").data;
     for (let y = 0; y < this.obstacles.length; y++) {
       for (let x = 0; x < this.obstacles[y].length; x++) {
         let tileData = this.obstacles[y][x];
         if(tileData.index >= 0) {
-          this.obstacles[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - 1 -64)
+          this.obstacles[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
           this.obstacles[y][x].obj.setOrigin(0, 0.5);
           this.obstacles[y][x].obj.depth = y;
         }
@@ -71,7 +71,7 @@ class MainScene extends Phaser.Scene {
       for (let x = 0; x < this.items[y].length; x++) {
         let tileData = this.items[y][x];
         if(tileData.index >= 0) {
-          this.items[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - 1 -64)
+          this.items[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
           this.items[y][x].obj.setOrigin(0, 0.5);
           this.items[y][x].obj.depth = y;
           this.items[y][x].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));

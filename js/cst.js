@@ -6,9 +6,8 @@ const CST = {
 
   IMAGES: {
     background: "images/background.v2.png",
-    cloud: "images/cloud.png",
     dice_albedo: "images/dice-albedo.png",
-    stage: "tilemap/stage.png",
+    ground: "tilemap/ground.png",
   },
   
   AUDIO: {
