@@ -5,7 +5,6 @@ const CST = {
   LEFT: 3,
 
   IMAGES: {
-    background: "images/background.v2.png",
     dice_albedo: "images/dice-albedo.png",
     ground: "tilemap/ground.png",
   },

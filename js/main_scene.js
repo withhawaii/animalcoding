@@ -98,7 +98,7 @@ class MainScene extends Phaser.Scene {
       this.players[i].scoreText = this.add.text(ax + 120, ay + 36, `Score: ${this.players[i].score}`, {fontSize: '18px',  color: '#ffffff', fill: '#000'});
     }
     currentPlayer = this.players[0];
-//    currentPlayer.idle();
+    currentPlayer.startIdle();
   }
 
   createDice() {
@@ -134,7 +134,7 @@ class MainScene extends Phaser.Scene {
       currentPlayer = this.players[currentPlayer.id + 1];
     }
     console.log('New Player', currentPlayer);
-//    currentPlayer.idle();
+    currentPlayer.startIdle();
     this.dice.show();
   }
 
