@@ -50,25 +50,20 @@ class Player extends Phaser.GameObjects.Sprite {
 
   startIdle() {
     let player = this;
-    if(!this.idle_tween) {
-      this.idle_tween = this.scene.tweens.add({
-        targets: player,
-        y: player.y - 5,
-        ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: 100,
-        repeat: -1,
-        yoyo: true,
-        onComplete: function() {
-        }
-      }).setTimeScale(0.3);
-    }
-    else {  
-      this.idle_tween.resume();
-    }
+    this.idle_tween = this.scene.tweens.add({
+      targets: player,
+      y: player.y - 5,
+      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+      duration: 100,
+      repeat: -1,
+      yoyo: true,
+      onComplete: function() {
+      }
+    }).setTimeScale(0.3);
   }
 
   stopIdle() {
-    this.idle_tween.pause();
+    this.idle_tween.destroy();
     this.y = this.yGrid * 32 + 64;
   }
 

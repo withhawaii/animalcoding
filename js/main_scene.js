@@ -28,7 +28,6 @@ class MainScene extends Phaser.Scene {
   }
 
   createBackground() {
-//    this.add.image(0, 0, "background").setOrigin(0, 0);
     this.clouds = this.physics.add.group();
     for(let i = 0; i < 4; i++) {
       this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(1, 30), 0);
