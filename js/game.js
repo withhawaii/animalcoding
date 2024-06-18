@@ -108,7 +108,7 @@ let debug = true;
 
 const config = {
   type: Phaser.AUTO,
-  backgroundColor: "#222222",
+  backgroundColor: "#7DB8EF",
   parent: 'game-container',
   width: 1024,
   height: 704,

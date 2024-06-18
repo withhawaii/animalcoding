@@ -1,7 +1,7 @@
 class MainScene extends Phaser.Scene {
  
   constructor() {
-      super('Main');
+      super("Main");
   }
 
   preload() {
@@ -16,34 +16,24 @@ class MainScene extends Phaser.Scene {
     this.load.obj("dice_obj", "images/dice.obj");
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
     this.load.tilemapTiledJSON("map", "tilemap/level00.json");
-
     this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
   }
   
   create() {
-    this.add.image(0, 0, "background").setOrigin(0, 0);
+    this.createBackground();
     this.createMap();
-
-    this.sound.pauseOnBlur = false;
-    for (let prop in CST.AUDIO) {
-      this.sound.add(prop);
-    }
-    
     this.createPlayers(4);
-    this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
-    this.input.on('pointerdown', () => {
-      if(this.dice.isReadyToRoll()) {
-        this.dice.roll((diceValue) => {
-          if(debug) {
-            diceValue = 6;
-          }
-          currentPlayer.setEnergy(currentPlayer.energy + diceValue);
-          console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
-          this.dice.hide();
-          enableButton("run_code");
-        });
-      }
-    });
+    this.createDice();
+    this.createSounds();
+  }
+
+  createBackground() {
+//    this.add.image(0, 0, "background").setOrigin(0, 0);
+    this.clouds = this.physics.add.group();
+    for(let i = 0; i < 4; i++) {
+      this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(1, 30), 0);
+    }
+    this.add.image(1024/2, 48, "textures", "UI_Logo_01");
   }
 
   createMap() {
@@ -100,6 +90,7 @@ class MainScene extends Phaser.Scene {
       this.players[i].id = i;
       this.players[i].setDepth(0);
       this.players[i].setFrame(direction);
+      this.players[i].toolbar = this.add.image(ax, ay, "textures", "UI_Toolbar_Ext").setOrigin(0, 0);
       this.players[i].avatar = this.add.image(ax, ay, "textures", name +  "_Avatar_Rounded").setOrigin(0, 0);
       this.players[i].energy = 0;
       this.players[i].energyText = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
@@ -108,6 +99,30 @@ class MainScene extends Phaser.Scene {
     }
     currentPlayer = this.players[0];
 //    currentPlayer.idle();
+  }
+
+  createDice() {
+    this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
+    this.input.on('pointerdown', () => {
+      if(this.dice.isReadyToRoll()) {
+        this.dice.roll((diceValue) => {
+          if(debug) {
+            diceValue = 6;
+          }
+          currentPlayer.setEnergy(currentPlayer.energy + diceValue);
+          console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
+          this.dice.hide();
+          enableButton("run_code");
+        });
+      }
+    });
+  }
+
+  createSounds() {
+    this.sound.pauseOnBlur = false;
+    for (let prop in CST.AUDIO) {
+      this.sound.add(prop);
+    }
   }
 
   changePlayer() {
@@ -121,5 +136,15 @@ class MainScene extends Phaser.Scene {
     console.log('New Player', currentPlayer);
 //    currentPlayer.idle();
     this.dice.show();
+  }
+
+  update(time, delta) {
+    const clouds = this.clouds.getChildren();
+    for(let i = 0; i < clouds.length; i++) {
+      if(clouds[i].x >= 1024) {
+        clouds[i].setX(-200);
+        clouds[i].setY(Phaser.Math.Between(0, 704));
+      }
+    }
   }
 }
