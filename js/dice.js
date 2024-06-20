@@ -1,22 +1,28 @@
 class Dice extends Phaser.GameObjects.Container {
  
   constructor(scene, x, y, duration = 1000) {
-    super(scene, x, y);
+    super(scene);
+    this.scene = scene;
+    this.x = x;
+    this.y = y;
     this.duration = duration;
     this.diceIsRolling = false;
+    this.setDepth(20);
 
-
-    this.dice = scene.add.mesh(x, y, "dice_albedo").setDepth(20);
+    this.dice = this.scene.add.mesh(0, 0, "dice_albedo");
     this.dice.addVerticesFromObj("dice_obj", 0.25);
     this.dice.panZ(6);
     this.dice.modelRotation.x = Phaser.Math.DegToRad(0);
     this.dice.modelRotation.y = Phaser.Math.DegToRad(-90);
     this.shadowFX = this.dice.postFX.addShadow(0, 0, 0.006, 2, 0x111111, 10, .8);
 
-    // Text object to show the dice value
-    this.textDiceValue = this.scene.add.text(this.scene.scale.width / 2, this.scene.scale.height / 2, '0', { fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d' });
+    this.textDiceValue = this.scene.add.text(0, 0, '0', { fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d' });
+    this.textDiceValue.setOrigin(0.5);
     this.textDiceValue.setStroke('#de77ae', 16).setScale(0);
-    this.textDiceValue.setDepth(21);
+
+    this.add(this.dice);
+    this.add(this.textDiceValue);
+    this.scene.add.existing(this);
   }
 
   isReadyToRoll() {
@@ -98,8 +104,7 @@ class Dice extends Phaser.GameObjects.Container {
   
                 // Show the dice value
                 this.textDiceValue.text = diceRoll;
-                this.textDiceValue.setOrigin(0.5);
-                this.textDiceValue.setPosition(this.scene.scale.width / 2, this.scene.scale.height / 2);
+//                this.textDiceValue.setPosition(this.scene.scale.width / 2, this.scene.scale.height / 2);
                 this.scene.add.tween({
                     targets: this.textDiceValue,
                     scale: 1,

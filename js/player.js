@@ -1,17 +1,25 @@
 class Player extends Phaser.GameObjects.Sprite {
 
-  constructor(scene, x, y, texture) {
+  constructor(scene, x, y, texture, id, xGrid, yGrid, direction) {
     super(scene, x, y, texture);
     this.scene = scene;
-    this.scene.add.existing(this);
+    this.id = id;
     this.x = x;
     this.y = y;
+    this.xGrid = xGrid;
+    this.yGrid = yGrid;
+    this.direction = direction;  
+    this.energy = 0;
+    this.score = 0;
+    this.setFrame(this.direction);
+    this.setDepth(this.yGrid);
+    this.scene.add.existing(this);
   }
 
   setEnergy(newEnergy) {
     let player = this;
     let currentEnergy = this.energy;
-    let energyText = this.energyText;
+    let energyText = this.toolbar.energyText;
 
     if(newEnergy > currentEnergy) {
       this.scene.sound.play("charged");
@@ -33,8 +41,8 @@ class Player extends Phaser.GameObjects.Sprite {
   setScore(newScore) {
     let player = this;
     let currentScore = this.score;
-    let scoreText = this.scoreText;
-
+    let scoreText = this.toolbar.scoreText;
+    console.log(player, newScore);
     player.score = newScore;
     this.scene.tweens.addCounter({
       from: currentScore,
@@ -53,13 +61,13 @@ class Player extends Phaser.GameObjects.Sprite {
     this.idle_tween = this.scene.tweens.add({
       targets: player,
       y: player.y - 5,
-      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-      duration: 100,
+      ease: "Bounce",
+      duration: 400,
       repeat: -1,
       yoyo: true,
       onComplete: function() {
       }
-    }).setTimeScale(0.3);
+    });
   }
 
   stopIdle() {
@@ -73,7 +81,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
-      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+      ease: "Bounce",
       duration: 100,
       repeat: 0,
       yoyo: true,
@@ -99,8 +107,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
-      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
-      duration: 200,
+      ease: "Bounce",
       repeat: 0,
       yoyo: true,
       onComplete: function() {
@@ -147,7 +154,7 @@ class Player extends Phaser.GameObjects.Sprite {
         targets: player,
         x: new_xGrid * 64 + 32,
         y: new_yGrid * 32 + 64,
-        ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+        ease: "Bounce",
         duration: 500,
         repeat: 0,
         yoyo: false,
@@ -188,7 +195,7 @@ class Player extends Phaser.GameObjects.Sprite {
       targets: this,
       x: new_x,
       y: new_y,
-      ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+      ease: "Bounce",
       duration: 500,
       repeat: 0,
       yoyo: true,

@@ -82,19 +82,8 @@ class MainScene extends Phaser.Scene {
       let direction = CST.DOWN;
       let starting_point = this.ground.getTileAtWorldXY(x, y + 64, true);
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
-      this.players[i] = new Player(this, x, y + 64 - 16, name);
-      this.players[i].xGrid = starting_point.x;
-      this.players[i].yGrid = starting_point.y;
-      this.players[i].direction = direction;  
-      this.players[i].id = i;
-      this.players[i].setDepth(0);
-      this.players[i].setFrame(direction);
-      this.players[i].toolbar = this.add.image(ax, ay, "textures", "UI_Toolbar_Ext").setOrigin(0, 0);
-      this.players[i].avatar = this.add.image(ax, ay, "textures", name +  "_Avatar_Rounded").setOrigin(0, 0);
-      this.players[i].energy = 0;
-      this.players[i].energyText = this.add.text(ax + 80, ay + 16, this.players[i].energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
-      this.players[i].score = 0;
-      this.players[i].scoreText = this.add.text(ax + 120, ay + 36, `Score: ${this.players[i].score}`, {fontSize: '18px',  color: '#ffffff', fill: '#000'});
+      this.players[i] = new Player(this, x, y + 64 - 16, name, id, starting_point.x, starting_point.y, direction);
+      this.players[i].toolbar = new PlayerToolbar(this, ax, ay, name);
     }
     currentPlayer = this.players[0];
     currentPlayer.startIdle();
@@ -141,7 +130,7 @@ class MainScene extends Phaser.Scene {
     const clouds = this.clouds.getChildren();
     for(let i = 0; i < clouds.length; i++) {
       if(clouds[i].x >= 1024) {
-        clouds[i].setX(-200);
+        clouds[i].setX(clouds[i].width * -1);
         clouds[i].setY(Phaser.Math.Between(0, 704));
       }
     }
