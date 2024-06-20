@@ -82,7 +82,7 @@ class MainScene extends Phaser.Scene {
       let direction = CST.DOWN;
       let starting_point = this.ground.getTileAtWorldXY(x, y + 64, true);
       this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
-      this.players[i] = new Player(this, x, y + 64 - 16, name, id, starting_point.x, starting_point.y, direction);
+      this.players[i] = new Player(this, x, y + 64 - 16, name, i, starting_point.x, starting_point.y, direction);
       this.players[i].toolbar = new PlayerToolbar(this, ax, ay, name);
     }
     currentPlayer = this.players[0];
