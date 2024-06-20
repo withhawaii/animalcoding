@@ -97,7 +97,7 @@ class MainScene extends Phaser.Scene {
           if(debug) {
             diceValue = 6;
           }
-          currentPlayer.setEnergy(currentPlayer.energy + diceValue);
+          currentPlayer.updateEnergy(diceValue);
           console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
           this.dice.hide();
           enableButton("run_code");

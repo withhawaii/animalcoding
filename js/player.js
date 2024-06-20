@@ -16,44 +16,19 @@ class Player extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
   }
 
-  setEnergy(newEnergy) {
+  updateEnergy(value) {
     let player = this;
-    let currentEnergy = this.energy;
-    let energyText = this.toolbar.energyText;
-
-    if(newEnergy > currentEnergy) {
+    if(value > 0) {
       this.scene.sound.play("charged");
     }
-
-    player.energy = newEnergy;
-    this.scene.tweens.addCounter({
-      from: currentEnergy,
-      to: newEnergy,
-      duration: 1000,
-      ease: 'linear',
-      onUpdate: tween => {
-        const value = Math.round(tween.getValue());
-        energyText.setText(value);
-      }
-    });
+    player.energy = player.energy + value;
+    player.toolbar.setEnergy(player.energy);
   }
 
-  setScore(newScore) {
+  updateScore(value) {
     let player = this;
-    let currentScore = this.score;
-    let scoreText = this.toolbar.scoreText;
-    console.log(player, newScore);
-    player.score = newScore;
-    this.scene.tweens.addCounter({
-      from: currentScore,
-      to: newScore,
-      duration: 1000,
-      ease: 'linear',
-      onUpdate: tween => {
-        const value = Math.round(tween.getValue());
-        scoreText.setText(`Score: ${value}`);
-      }
-    });
+    player.score = player.score + value;
+    player.toolbar.setScore(player.score);
   }
 
   startIdle() {
@@ -113,7 +88,7 @@ class Player extends Phaser.GameObjects.Sprite {
       onComplete: function() {
         player.direction = new_direction;
         player.setFrame(player.direction);
-        player.setEnergy(player.energy - 1);
+        player.updateEnergy(- 1);
         console.log("turn:", player.x, player.y, player.direction);
       }
     });
@@ -161,7 +136,7 @@ class Player extends Phaser.GameObjects.Sprite {
         onComplete: function() {
           player.xGrid = new_xGrid;
           player.yGrid = new_yGrid;
-          player.setEnergy(player.energy - 1);
+          player.updateEnergy(-1);
           console.log("move:", player.xGrid, player.yGrid, player.direction);
         }
       });
@@ -200,7 +175,7 @@ class Player extends Phaser.GameObjects.Sprite {
       repeat: 0,
       yoyo: true,
       onComplete: function() {
-        player.setEnergy(player.energy - 1);
+        player.updateEnergy(- 1);
         console.log("stuck:", player.x, player.y, player.direction);
       }
     });
@@ -219,7 +194,8 @@ class Player extends Phaser.GameObjects.Sprite {
       console.log("Got item:", item);
       item.setVisible(false); 
       this.scene.sound.play("pickup");
-      this.setScore(player.score + 10);
+      player.updateEnergy(- 1);
+      player.updateScore(10);
     }
     else {
       this.hangUp();      
