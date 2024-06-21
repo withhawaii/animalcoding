@@ -104,7 +104,7 @@ let editor;
 let interpreter;
 let game;
 let currentPlayer;
-let debug = false;
+let debug = true;
 
 const config = {
   type: Phaser.AUTO,
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   document.getElementById("run_code").addEventListener("click", function() {
     interpreter = new Interpreter(editor.getValue(), initInterpreter);
-    currentPlayer.stopIdle()
+    currentPlayer.stopIdle();
     setTimeout(runCode, 110);
     disableButton("run_code");
   });

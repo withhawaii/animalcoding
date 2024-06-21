@@ -83,6 +83,7 @@ class Player extends Phaser.GameObjects.Sprite {
       targets: player,
       y: player.y - 10,
       ease: "Bounce",
+      duration: 200,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
