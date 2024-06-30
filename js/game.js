@@ -83,7 +83,12 @@ function disableButton(id) {
   const btn = document.getElementById(id)
   btn.disabled = true; 
   btn.classList.add("is-disabled");
-}  
+}
+
+function showError(message) {
+  document.getElementById('error-message').innerHTML = message;
+  document.getElementById('dialog-default').showModal();
+}
 
 function runCode() {
   const animationDelay = 510;
@@ -91,12 +96,21 @@ function runCode() {
   let node = stack[stack.length - 1].node;
   let Range = ace.require("ace/range").Range;
   editor.selection.setRange(new Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-  if (interpreter.step()) {
-    setTimeout(runCode, node.type == "CallExpression" ? animationDelay + 10 : 0);
-  }
-  else {
+  console.log(interpreter.getStatus(), node.type);
+  if (interpreter.getStatus() == Interpreter.Status.DONE) {
     currentPlayer.scene.changePlayer();
   }
+  else {
+    try {
+      interpreter.step();
+      setTimeout(runCode, node.type == "CallExpression" ? animationDelay + 10 : 0);
+    }
+    catch(e) {
+      showError(e.message);
+      currentPlayer.error();
+      setTimeout(runCode, 600);
+    }
+  } 
 }
 
 //Main Program Code
@@ -104,7 +118,7 @@ let editor;
 let interpreter;
 let game;
 let currentPlayer;
-let debug = true;
+let debug = false;
 
 const config = {
   type: Phaser.AUTO,

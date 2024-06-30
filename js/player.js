@@ -50,14 +50,14 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = this.yGrid * 32 + 64;
   }
 
-  hangUp() {
+  hangUp(duration = 100) {
     let player = this;
     this.scene.sound.play("hangup");
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
       ease: "Bounce",
-      duration: 100,
+      duration: duration,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
@@ -65,6 +65,11 @@ class Player extends Phaser.GameObjects.Sprite {
         console.log("hangup:", player.x, player.y, player.direction);
       }
     });
+  }
+
+  error() {
+    currentPlayer.hangUp(100);
+    currentPlayer.updateEnergy(-1 * currentPlayer.energy);  
   }
 
   turn(step) {
