@@ -102,8 +102,6 @@ class Player extends Phaser.GameObjects.Sprite {
   
   move() {
     let player = this;
-    let new_x = this.x;
-    let new_y = this.y;
     let new_xGrid;
     let new_yGrid;
 

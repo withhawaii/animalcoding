@@ -142,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   editor.setValue("/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n")
   game = new Phaser.Game(config);
   disableButton("run_code");
+  disableButton("skip");
   if(debug) {
     console.log("DEBUG mode enabled!");
   }
@@ -151,5 +152,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     currentPlayer.stopIdle();
     setTimeout(runCode, 110);
     disableButton("run_code");
+    disableButton("skip");
   });
+
+  document.getElementById("skip").addEventListener("click", function() {
+    interpreter = new Interpreter("", initInterpreter);
+    currentPlayer.stopIdle();
+    setTimeout(runCode, 110);
+    disableButton("run_code");
+    disableButton("skip");
+  });
+
 });

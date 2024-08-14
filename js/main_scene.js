@@ -43,27 +43,27 @@ class MainScene extends Phaser.Scene {
     const objectsTileset = this.map.getTileset("objects");
     //Manually render obstacles as images
     this.obstacles = this.map.getLayer("obstacles").data;
-    for (let y = 0; y < this.obstacles.length; y++) {
-      for (let x = 0; x < this.obstacles[y].length; x++) {
-        let tileData = this.obstacles[y][x];
+    for (let i = 0; i < this.obstacles.length; i++) {
+      for (let j = 0; j < this.obstacles[i].length; j++) {
+        let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
-          this.obstacles[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
-          this.obstacles[y][x].obj.setOrigin(0, 0.5);
-          this.obstacles[y][x].obj.depth = y;
+          this.obstacles[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
+          this.obstacles[i][j].obj.setOrigin(0, 0.5);
+          this.obstacles[i][j].obj.depth = i;
         }
       }
     }
 
     //Manually render items as images
     this.items = this.map.getLayer("items").data;
-    for (let y = 0; y < this.items.length; y++) {
-      for (let x = 0; x < this.items[y].length; x++) {
-        let tileData = this.items[y][x];
+    for (let i = 0; i < this.items.length; i++) {
+      for (let j = 0; j < this.items[i].length; j++) {
+        let tileData = this.items[i][j];
         if(tileData.index >= 0) {
-          this.items[y][x].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
-          this.items[y][x].obj.setOrigin(0, 0.5);
-          this.items[y][x].obj.depth = y;
-          this.items[y][x].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
+          this.items[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
+          this.items[i][j].obj.setOrigin(0, 0.5);
+          this.items[i][j].obj.depth = i;
+          this.items[i][j].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
         }
       }
     }
@@ -101,6 +101,7 @@ class MainScene extends Phaser.Scene {
           console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
           this.dice.hide();
           enableButton("run_code");
+          enableButton("skip");
         });
       }
     });
