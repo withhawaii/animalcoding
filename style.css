@@ -50,3 +50,9 @@ body,
    background: red
 }
 
+/* Fix strange the border of NES buttons */
+@media (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+  .nes-btn {
+    border-image-repeat: stretch;
+  }
+}

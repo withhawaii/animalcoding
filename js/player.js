@@ -68,8 +68,8 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   error() {
-    currentPlayer.hangUp(100);
-    currentPlayer.updateEnergy(-1 * currentPlayer.energy);  
+    this.hangUp(100);
+    this.updateEnergy(-1 * currentPlayer.energy);  
   }
 
   turn(step) {
