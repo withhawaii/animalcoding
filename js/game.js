@@ -118,7 +118,6 @@ let editor;
 let interpreter;
 let game;
 let currentPlayer;
-let debug = false;
 
 const config = {
   type: Phaser.AUTO,
@@ -141,14 +140,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
   setEditorOptions(editor);
   editor.setValue("/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n")
   game = new Phaser.Game(config);
+//  game.config.debug = true;
   disableButton("run_code");
   disableButton("skip");
-  if(debug) {
-    console.log("DEBUG mode enabled!");
-  }
 
   document.getElementById("run_code").addEventListener("click", function() {
     interpreter = new Interpreter(editor.getValue(), initInterpreter);
+    currentPlayer = game.scene.getScene("Main").currentPlayer;
     currentPlayer.stopIdle();
     setTimeout(runCode, 110);
     disableButton("run_code");
@@ -157,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   document.getElementById("skip").addEventListener("click", function() {
     interpreter = new Interpreter("", initInterpreter);
-    currentPlayer.stopIdle();
+    game.scene.currentPlayer.stopIdle();
     setTimeout(runCode, 110);
     disableButton("run_code");
     disableButton("skip");

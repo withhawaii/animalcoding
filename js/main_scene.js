@@ -1,10 +1,14 @@
 class MainScene extends Phaser.Scene {
  
   constructor() {
-      super("Main");
+    super("Main");
   }
 
   preload() {
+    if(this.game.config.debug) {
+      console.log("Debug mode enabled.");
+    }
+
     for (let prop in CST.IMAGES) {
       this.load.image(prop, CST.IMAGES[prop]);
     }
@@ -85,8 +89,8 @@ class MainScene extends Phaser.Scene {
       this.players[i] = new Player(this, x, y + 64 - 16, name, i, starting_point.x, starting_point.y, direction);
       this.players[i].toolbar = new PlayerToolbar(this, ax, ay, name);
     }
-    currentPlayer = this.players[0];
-    currentPlayer.startIdle();
+    this.currentPlayer = this.players[0];
+    this.currentPlayer.startIdle();
   }
 
   createDice() {
@@ -94,11 +98,11 @@ class MainScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
-          if(debug) {
+          if(this.game.config.debug) {
             diceValue = 6;
           }
-          currentPlayer.updateEnergy(diceValue);
-          console.log('Dice value ', diceValue, 'New energy', currentPlayer.energy);
+          this.currentPlayer.updateEnergy(diceValue);
+          console.log('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
           this.dice.hide();
           enableButton("run_code");
           enableButton("skip");
@@ -115,15 +119,15 @@ class MainScene extends Phaser.Scene {
   }
 
   changePlayer() {
-    currentPlayer.setFrame(currentPlayer.direction);
-    if(currentPlayer.id + 1 >= this.players.length || debug) {
-      currentPlayer = this.players[0];
+    this.currentPlayer.setFrame(this.currentPlayer.direction);
+    if(this.currentPlayer.id + 1 >= this.players.length || this.game.config.debug) {
+      this.currentPlayer = this.players[0];
     }
     else {
-      currentPlayer = this.players[currentPlayer.id + 1];
+      this.currentPlayer = this.players[this.currentPlayer.id + 1];
     }
-    console.log('New Player', currentPlayer);
-    currentPlayer.startIdle();
+    console.log('New Player', this.currentPlayer);
+    this.currentPlayer.startIdle();
     this.dice.show();
   }
 
