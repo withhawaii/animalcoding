@@ -69,7 +69,7 @@ function initInterpreter(interpreter, scope) {
   }));
   interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
     //    console.log("turn_right");
-        return currentPlayer.pickUp();
+    return currentPlayer.pickUp();
   }));
 };
 
@@ -91,26 +91,38 @@ function showError(message) {
 }
 
 function runCode() {
-  const animationDelay = 510;
+  currentPlayer = game.scene.getScene("Main").currentPlayer;
+  currentPlayer.stopIdle();
+  try {
+    interpreter = new Interpreter(editor.getValue(), initInterpreter);
+    setTimeout(runStep, 110);
+  }
+  catch(e) {
+    showError(e.message);
+    currentPlayer.error();
+  }
+}
+
+function runStep() {
+  const animationDelay = 520;
   let stack = interpreter.getStateStack();
   let node = stack[stack.length - 1].node;
-  let Range = ace.require("ace/range").Range;
-  editor.selection.setRange(new Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
+  editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
   console.log(interpreter.getStatus(), node.type);
   if (interpreter.getStatus() == Interpreter.Status.DONE) {
-    currentPlayer.scene.changePlayer();
+    currentPlayer.scene.changePlayer();  
   }
-  else {
-    try {
-      interpreter.step();
-      setTimeout(runCode, node.type == "CallExpression" ? animationDelay + 10 : 0);
-    }
-    catch(e) {
-      showError(e.message);
-      currentPlayer.error();
-      setTimeout(runCode, 600);
-    }
+  else {  
+    interpreter.step();
+    setTimeout(runStep, node.type == "CallExpression" ? animationDelay : 0);
   } 
+}
+
+function skipTurn() {
+  currentPlayer = game.scene.getScene("Main").currentPlayer;
+  currentPlayer.stopIdle();
+  interpreter = new Interpreter("", initInterpreter);
+  setTimeout(runCode, 110);
 }
 
 //Main Program Code
@@ -145,20 +157,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
   disableButton("skip");
 
   document.getElementById("run_code").addEventListener("click", function() {
-    interpreter = new Interpreter(editor.getValue(), initInterpreter);
-    currentPlayer = game.scene.getScene("Main").currentPlayer;
-    currentPlayer.stopIdle();
-    setTimeout(runCode, 110);
     disableButton("run_code");
     disableButton("skip");
+    runCode();
   });
 
-  document.getElementById("skip").addEventListener("click", function() {
-    interpreter = new Interpreter("", initInterpreter);
-    game.scene.currentPlayer.stopIdle();
-    setTimeout(runCode, 110);
+  document.getElementById("skip").addEventListener("click", function() {    
     disableButton("run_code");
     disableButton("skip");
+    skipTurn();
   });
 
 });
