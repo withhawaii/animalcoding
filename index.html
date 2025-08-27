@@ -15,6 +15,7 @@
   <script src="js/dice.js"></script>
   <script src="js/player.js"></script>
   <script src="js/player_toolbar.js"></script>
+  <script src="js/title_scene.js"></script>
   <script src="js/main_scene.js"></script>
   <script src="js/game.js"></script>
 </head>
@@ -44,6 +45,46 @@
       </form>
     </dialog>
 
+    <dialog class="nes-dialog" id="dialog-config">
+      <form method="dialog">
+        <h3 class="title">Game Options</h3>
+        <br/>
+        <p>Players</p>
+        <div class="nes-field is-inline">
+          <label for="name_1"><img src="images/icon_cat.png"></label>
+          <input type="text" id="config_name_1" value="Cat" class="nes-input">
+        </div>
+        <div class="nes-field is-inline">
+          <label for="name_2"><img src="images/icon_rabbit.png"></label>
+          <input type="text" id="config_name_2" value="Rabbit" class="nes-input">
+        </div>
+        <div class="nes-field is-inline">  
+          <label for="name_3"><img src="images/icon_chick.png"></label>
+          <input type="text" id="config_name_3" value="Chick" class="nes-input">
+        </div>
+        <div class="nes-field is-inline">  
+          <label for="name_4"><img src="images/icon_pig.png"></label>
+          <input type="text" id="config_name_4" value="Pig" class="nes-input">
+        </div>
+        <br/>
+
+        <label for="default_select">Stage</label>
+        <div class="nes-select">
+          <select required id="config_stage">
+            <option value="level1">Stage 1</option>
+            <option value="level2">Stage 2</option>
+            <option value="level3">Stage 3</option>
+            <option value="level4">Stage 4</option>
+            <option value="level5">Stage 5</option>
+            <option value="demo">Demo</option>
+          </select>
+        </div>
+
+        <menu class="dialog-menu" style="text-align: right">
+          <button class="nes-btn is-primary" id="start">Start</button>
+        </menu>
+      </form>
+    </dialog>
 
   </div>
 

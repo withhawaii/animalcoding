@@ -16,5 +16,7 @@ const CST = {
     charged: "audio/powerup.mp3",
     hangup: "audio/freeze.mp3",
     pickup: "audio/pickup.mp3",
+    intro: "audio/jingle_01.mp3",
+    bgm_01: "audio/bgm_01.mp3",
   }
 }

@@ -143,7 +143,7 @@ const config = {
       gravity: { y: 0 }
     }
   },
-  scene: [MainScene]
+  scene: [TitleScene, MainScene]
 };
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -167,5 +167,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
     disableButton("skip");
     skipTurn();
   });
+
+  document.getElementById("start").addEventListener("click", function() { 
+    let players = []
+    const name1 = document.getElementById('config_name_1').value.trim();
+    if(name1.length > 0) {
+      players.push({sprite: "Cat", name: name1})
+    }
+    const name2 = document.getElementById('config_name_2').value.trim();
+    if(name2.length > 0) {
+      players.push({sprite: "Rabbit", name: name2})
+    }
+    const name3 = document.getElementById('config_name_3').value.trim();
+    if(name3.length > 0) {
+      players.push({sprite: "Chick", name: name3})
+    }
+    const name4 = document.getElementById('config_name_4').value.trim();
+    if(name4.length > 0) {
+      players.push({sprite: "Pig", name: name4})
+    }
+    localStorage.setItem('players', JSON.stringify(players));
+
+    let config = {}
+    config['stage'] = document.getElementById('config_stage').value;
+    localStorage.setItem('config', JSON.stringify(config));
+
+    console.log("Saved:", players, config);    
+    game.scene.start('Main');
+  });
+
+  document.getElementById('dialog-config').showModal();
 
 });

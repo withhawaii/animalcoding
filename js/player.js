@@ -150,6 +150,30 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
+  path_ahead() {
+    let player = this;
+    let new_xGrid;
+    let new_yGrid;
+
+    if (player.direction == CST.UP) {
+      new_xGrid = player.xGrid;
+      new_yGrid = player.yGrid - 1;
+    } else if (player.direction == CST.RIGHT) {
+      new_xGrid = player.xGrid + 1;
+      new_yGrid = player.yGrid;
+    } else if (player.direction == CST.DOWN) {
+      new_xGrid = player.xGrid;
+      new_yGrid = player.yGrid + 1;
+    } else if (player.direction == CST.LEFT) {
+      new_xGrid = player.xGrid - 1;
+      new_yGrid = player.yGrid;
+    }
+
+    //Move only when a solid ground exists and no obstruct on the way
+    let ground = this.scene.ground.getTileAt(new_xGrid, new_yGrid, true);
+    return (ground && ground.properties['move'] && !this.scene.obstacles[new_yGrid][new_xGrid].obj) 
+  }
+
   stuck() {
     let player = this;
     let new_x;

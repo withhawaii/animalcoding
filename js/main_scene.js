@@ -5,6 +5,7 @@ class MainScene extends Phaser.Scene {
   }
 
   preload() {
+    this.config = JSON.parse(localStorage.getItem('config'));
     if(this.game.config.debug) {
       console.log("Debug mode enabled.");
     }
@@ -19,16 +20,25 @@ class MainScene extends Phaser.Scene {
 
     this.load.obj("dice_obj", "images/dice.obj");
     this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.tilemapTiledJSON("map", "tilemap/level00.json");
+    console.log(this.config['stage']);
+    this.load.tilemapTiledJSON("map", "tilemap/" + this.config['stage'] + ".json");
     this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
   }
   
   create() {
     this.createBackground();
     this.createMap();
-    this.createPlayers(4);
+    this.createPlayers();
     this.createDice();
     this.createSounds();
+
+    const intro = this.sound.get("intro");
+    intro.on('complete', () => {
+      this.sound.play("bgm_01", {loop: true});
+      this.currentPlayer.startIdle();
+      this.dice.show();
+    });
+    intro.play();
   }
 
   createBackground() {
@@ -73,28 +83,26 @@ class MainScene extends Phaser.Scene {
     }
   }
 
-  createPlayers(num) {
-    const players = this.map.getObjectLayer("players").objects;
+  createPlayers() {
+    let players = JSON.parse(localStorage.getItem('players'));
+    players = players.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+    const player_coordinates = this.map.getObjectLayer("players").objects;
+    const toolbar_coordinates = [[0,0],[768,0],[768,640],[0,640]];
     this.players = [];
-    const avatar_origin = [[0,0],[768,0],[768,640],[0,640]];
-    for(let i = 0; i < num; i++) {
+    for(let i = 0; i < players.length; i++) {
       let name = players[i].name;
-      let x = players[i].x;
-      let y = players[i].y;
-      let ax = avatar_origin[i][0];
-      let ay = avatar_origin[i][1];
-      let direction = CST.DOWN;
-      let starting_point = this.ground.getTileAtWorldXY(x, y + 64, true);
-      this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: name + "_Spritesheet" })
-      this.players[i] = new Player(this, x, y + 64 - 16, name, i, starting_point.x, starting_point.y, direction);
-      this.players[i].toolbar = new PlayerToolbar(this, ax, ay, name);
+      let sprite = players[i].sprite;
+      let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
+      this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: sprite + "_Spritesheet" })
+      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, name, i, starting_point.x, starting_point.y, CST.DOWN);
+      this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite);
     }
     this.currentPlayer = this.players[0];
-    this.currentPlayer.startIdle();
   }
 
   createDice() {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
+    this.dice.hide();
     this.input.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
