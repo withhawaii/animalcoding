@@ -24,7 +24,7 @@ class Player extends Phaser.GameObjects.Sprite {
   updateEnergy(value) {
     let player = this;
     if(value > 0) {
-      this.scene.sound.play("charged");
+      this.scene.sound.play('charged');
     }
     player.energy = player.energy + value;
     player.toolbar.setEnergy(player.energy);
@@ -41,7 +41,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.idle_tween = this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
-      ease: "Bounce",
+      ease: 'Bounce',
       duration: 500,
       repeat: -1,
       yoyo: true,
@@ -57,17 +57,17 @@ class Player extends Phaser.GameObjects.Sprite {
 
   hangUp(duration = 100) {
     let player = this;
-    this.scene.sound.play("hangup");
+    this.scene.sound.play('hangup');
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
-      ease: "Bounce",
+      ease: 'Bounce',
       duration: duration,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
         player.setFrame(4);        
-        console.log("hangup:", player.x, player.y, player.direction);
+        console.log('hangup:', player.x, player.y, player.direction);
       }
     });
   }
@@ -81,18 +81,18 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     //Modulo calculation to get a new direction
     let new_direction = ((this.direction + step) % 4 + 4) % 4;
-    console.log("new_direction:", new_direction);
+    console.log('new_direction:', new_direction);
 
     if(player.energy <= 0) {
       this.hangUp();
       return;
     }
 
-    this.scene.sound.play("turn");
+    this.scene.sound.play('turn');
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
-      ease: "Bounce",
+      ease: 'Bounce',
       duration: 200,
       repeat: 0,
       yoyo: true,
@@ -100,7 +100,7 @@ class Player extends Phaser.GameObjects.Sprite {
         player.direction = new_direction;
         player.setFrame(player.direction);
         player.updateEnergy(- 1);
-        console.log("turn:", player.x, player.y, player.direction);
+        console.log('turn:', player.x, player.y, player.direction);
       }
     });
   }
@@ -133,12 +133,12 @@ class Player extends Phaser.GameObjects.Sprite {
     let ground = this.scene.ground.getTileAt(new_xGrid, new_yGrid, true);
     if(ground && ground.properties['move'] && !this.scene.obstacles[new_yGrid][new_xGrid].obj) {
       player.setDepth(new_yGrid);
-      this.scene.sound.play("move");
+      this.scene.sound.play('move');
       this.scene.tweens.add({
         targets: player,
         x: new_xGrid * 64 + 32,
         y: new_yGrid * 32 + 64,
-        ease: "Bounce",
+        ease: 'Bounce',
         duration: 500,
         repeat: 0,
         yoyo: false,
@@ -146,7 +146,7 @@ class Player extends Phaser.GameObjects.Sprite {
           player.xGrid = new_xGrid;
           player.yGrid = new_yGrid;
           player.updateEnergy(-1);
-          console.log("move:", player.xGrid, player.yGrid, player.direction);
+          console.log('move:', player.xGrid, player.yGrid, player.direction);
         }
       });
     }
@@ -198,18 +198,18 @@ class Player extends Phaser.GameObjects.Sprite {
       new_y = player.y;
     }
 
-    this.scene.sound.play("stuck");
+    this.scene.sound.play('stuck');
     this.scene.tweens.add({
       targets: this,
       x: new_x,
       y: new_y,
-      ease: "Bounce",
+      ease: 'Bounce',
       duration: 500,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
         player.updateEnergy(- 1);
-        console.log("stuck:", player.x, player.y, player.direction);
+        console.log('stuck:', player.x, player.y, player.direction);
       }
     });
   }
@@ -224,9 +224,9 @@ class Player extends Phaser.GameObjects.Sprite {
 
     let item = this.scene.items[player.yGrid][player.xGrid].obj;
     if(item) {
-      console.log("Got item:", item);
+      console.log('Got item:', item);
       item.setVisible(false); 
-      this.scene.sound.play("pickup");
+      this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
       player.updateScore(10);
     }

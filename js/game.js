@@ -1,11 +1,11 @@
 function setEditorOptions(editor) {
   editor.setOptions({
-    selectionStyle: 'line',// "line"|"text"
+    selectionStyle: 'line',// 'line'|'text'
     highlightActiveLine: true, // boolean
     highlightSelectedWord: true, // boolean
     readOnly: false, // boolean: true if read only
-    cursorStyle: 'ace', // "ace"|"slim"|"smooth"|"wide"
-    mergeUndoDeltas: true, // false|true|"always"
+    cursorStyle: 'ace', // 'ace'|'slim'|'smooth'|'wide'
+    mergeUndoDeltas: true, // false|true|'always'
     behavioursEnabled: true, // boolean: true if enable custom behaviours
     wrapBehavioursEnabled: true, // boolean
     autoScrollEditorIntoView: undefined, // boolean: this is needed if editor is inside scrollable page
@@ -42,7 +42,7 @@ function setEditorOptions(editor) {
     // session options
     firstLineNumber: 1, // number: the line number in first line
     overwrite: false, // boolean
-    newLineMode: 'auto', // "auto" | "unix" | "windows"
+    newLineMode: 'auto', // 'auto' | 'unix' | 'windows'
     useWorker: true, // boolean: true if use web worker for loading scripts
     useSoftTabs: true, // boolean: true if we want to use spaces than tabs
     tabSize: 2, // number
@@ -56,19 +56,19 @@ function setEditorOptions(editor) {
 
 function initInterpreter(interpreter, scope) {
   interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
-//    console.log("move_forward");
+//    console.log('move_forward');
     return currentPlayer.move();
   }));
   interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
-//    console.log("turn_left");
+//    console.log('turn_left');
     return currentPlayer.turn(-1);
   }));
   interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
-//    console.log("turn_right");
+//    console.log('turn_right');
     return currentPlayer.turn(1);
   }));
   interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
-    //    console.log("turn_right");
+    //    console.log('turn_right');
     return currentPlayer.pickUp();
   }));
 };
@@ -76,13 +76,13 @@ function initInterpreter(interpreter, scope) {
 function enableButton(id) {
   const btn = document.getElementById(id)
   btn.disabled = false; 
-  btn.classList.remove("is-disabled");
+  btn.classList.remove('is-disabled');
 } 
 
 function disableButton(id) {
   const btn = document.getElementById(id)
   btn.disabled = true; 
-  btn.classList.add("is-disabled");
+  btn.classList.add('is-disabled');
 }
 
 function showModal(id) {
@@ -99,7 +99,7 @@ function showError(message) {
 }
 
 function runCode() {
-  currentPlayer = game.scene.getScene("Main").currentPlayer;
+  currentPlayer = game.scene.getScene('Main').currentPlayer;
   currentPlayer.stopIdle();
   try {
     interpreter = new Interpreter(editor.getValue(), initInterpreter);
@@ -122,14 +122,14 @@ function runStep() {
   }
   else {  
     interpreter.step();
-    setTimeout(runStep, node.type == "CallExpression" ? animationDelay : 0);
+    setTimeout(runStep, node.type == 'CallExpression' ? animationDelay : 0);
   } 
 }
 
 function skipTurn() {
-  currentPlayer = game.scene.getScene("Main").currentPlayer;
+  currentPlayer = game.scene.getScene('Main').currentPlayer;
   currentPlayer.stopIdle();
-  interpreter = new Interpreter("", initInterpreter);
+  interpreter = new Interpreter('', initInterpreter);
   setTimeout(runCode, 110);
 }
 
@@ -141,12 +141,12 @@ let currentPlayer;
 
 const config = {
   type: Phaser.AUTO,
-  backgroundColor: "#7DB8EF",
+  backgroundColor: '#7DB8EF',
   parent: 'game-container',
   width: 1024,
   height: 704,
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { y: 0 }
     }
@@ -154,28 +154,28 @@ const config = {
   scene: [BootScene, TitleScene, MainScene, ResultScene]
 };
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', function(event) {
 
-  editor = ace.edit("editor");
+  editor = ace.edit('editor');
   setEditorOptions(editor);
-  editor.setValue("/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n")
+  editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
   game = new Phaser.Game(config);
-  disableButton("run_code");
-  disableButton("skip");
+  disableButton('run_code');
+  disableButton('skip');
 
-  document.getElementById("run_code").addEventListener("click", function() {
-    disableButton("run_code");
-    disableButton("skip");
+  document.getElementById('run_code').addEventListener('click', function() {
+    disableButton('run_code');
+    disableButton('skip');
     runCode();
   });
 
-  document.getElementById("skip").addEventListener("click", function() {    
-    disableButton("run_code");
-    disableButton("skip");
+  document.getElementById('skip').addEventListener('click', function() {    
+    disableButton('run_code');
+    disableButton('skip');
     skipTurn();
   });
 
-  document.getElementById("config-ok").addEventListener("click", function() { 
+  document.getElementById('config-ok').addEventListener('click', function() { 
     let config = {}
     config['stage'] = document.getElementById('config_stage').value;
     localStorage.setItem('config', JSON.stringify(config));
@@ -183,37 +183,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let players = {}
     const name1 = document.getElementById('config_name_1').value.trim();
     if(name1.length > 0) {
-      players['Cat'] = {sprite: "Cat", name: name1};
+      players['Cat'] = {sprite: 'Cat', name: name1};
     }
     const name2 = document.getElementById('config_name_2').value.trim();
     if(name2.length > 0) {
-      players['Rabbit'] = {sprite: "Rabbit", name: name2}
+      players['Rabbit'] = {sprite: 'Rabbit', name: name2}
     }
     const name3 = document.getElementById('config_name_3').value.trim();
     if(name3.length > 0) {
-      players['Chick'] = {sprite: "Chick", name: name3}
+      players['Chick'] = {sprite: 'Chick', name: name3}
     }
     const name4 = document.getElementById('config_name_4').value.trim();
     if(name4.length > 0) {
-      players['Pig'] = {sprite: "Pig", name: name4}
+      players['Pig'] = {sprite: 'Pig', name: name4}
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    console.log("Config Saved:", players, config);
+    console.log('Config Saved:', players, config);
   });
 
-  document.getElementById("btn_back").addEventListener("click", function() {
+  document.getElementById('btn_back').addEventListener('click', function() {
     game.scene.stop('Main');
     game.scene.start('Title');
   });
 
-  document.getElementById("btn_end").addEventListener("click", function() {    
+  document.getElementById('btn_end').addEventListener('click', function() {    
     game.scene.stop('Main');
     game.scene.start('Result');
   });
 
-  window.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a" && game.scene.isActive('Main')) {
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && game.scene.isActive('Main')) {
       e.preventDefault();
       document.getElementById('dialog-config2').showModal();
     }

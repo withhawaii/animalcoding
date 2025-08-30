@@ -1,7 +1,7 @@
 class TitleScene extends Phaser.Scene {
  
   constructor() {
-    super("Title");
+    super('Title');
   }
   
   create() {
@@ -13,9 +13,9 @@ class TitleScene extends Phaser.Scene {
     for(let i = 0; i < 4; i++) {
       this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(5, 30), 0);
     }
-    this.add.image(1024/2, 255, "textures", "Title_Logo");
-    let btn_config = this.add.image(1024/4, 600, "textures", "Btn_Config");
-    let btn_start = this.add.image(1024/4 * 3, 600, "textures", "Btn_Start");
+    this.add.image(1024/2, 255, 'textures', 'Title_Logo');
+    let btn_config = this.add.image(1024/4, 600, 'textures', 'Btn_Config');
+    let btn_start = this.add.image(1024/4 * 3, 600, 'textures', 'Btn_Start');
 
     btn_config.setInteractive();
     btn_config.on('pointerdown', () => {

@@ -1,13 +1,13 @@
 class MainScene extends Phaser.Scene {
  
   constructor() {
-    super("Main");
+    super('Main');
   }
 
   preload() {
     this.config = JSON.parse(localStorage.getItem('config'));
     if(this.game.config.debug) {
-      console.log("Debug mode enabled.");
+      console.log('Debug mode enabled.');
     }
   }
   
@@ -19,9 +19,9 @@ class MainScene extends Phaser.Scene {
     this.createSounds();
     this.events.on('shutdown', this.shutdown, this);
 
-    const intro = this.sound.get("intro");
+    const intro = this.sound.get('intro');
     intro.on('complete', () => {
-      this.sound.play("bgm_01", {loop: true});
+      this.sound.play('bgm_01', {loop: true});
       this.currentPlayer.startIdle();
       this.dice.show();
     });
@@ -33,17 +33,17 @@ class MainScene extends Phaser.Scene {
     for(let i = 0; i < 4; i++) {
       this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(5, 30), 0);
     }
-    this.add.image(1024/2, 48, "textures", "UI_Logo_01");
+    this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
   }
 
   createMap() {
-    this.map = this.make.tilemap({ key: "map" });
-    const groundTileset = this.map.addTilesetImage("ground", "ground");
-    this.ground = this.map.createLayer("ground", groundTileset, 0, 64);
+    this.map = this.make.tilemap({ key: 'map' });
+    const groundTileset = this.map.addTilesetImage('ground', 'ground');
+    this.ground = this.map.createLayer('ground', groundTileset, 0, 64);
 
-    const objectsTileset = this.map.getTileset("objects");
+    const objectsTileset = this.map.getTileset('objects');
     //Manually render obstacles as images
-    this.obstacles = this.map.getLayer("obstacles").data;
+    this.obstacles = this.map.getLayer('obstacles').data;
     for (let i = 0; i < this.obstacles.length; i++) {
       for (let j = 0; j < this.obstacles[i].length; j++) {
         let tileData = this.obstacles[i][j];
@@ -56,7 +56,7 @@ class MainScene extends Phaser.Scene {
     }
 
     //Manually render items as images
-    this.items = this.map.getLayer("items").data;
+    this.items = this.map.getLayer('items').data;
     for (let i = 0; i < this.items.length; i++) {
       for (let j = 0; j < this.items[i].length; j++) {
         let tileData = this.items[i][j];
@@ -73,7 +73,7 @@ class MainScene extends Phaser.Scene {
   createPlayers() {
     let players = JSON.parse(localStorage.getItem('players'));
     let players_shuffled = Object.values(players).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
-    const player_coordinates = this.map.getObjectLayer("players").objects;
+    const player_coordinates = this.map.getObjectLayer('players').objects;
     const toolbar_coordinates = [[0,0],[768,0],[768,640],[0,640]];
     this.players = [];
     for(let i = 0; i < players_shuffled.length; i++) {
@@ -97,8 +97,8 @@ class MainScene extends Phaser.Scene {
           this.currentPlayer.updateEnergy(diceValue);
           console.log('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
           this.dice.hide();
-          enableButton("run_code");
-          enableButton("skip");
+          enableButton('run_code');
+          enableButton('skip');
         });
       }
     });
@@ -130,7 +130,7 @@ class MainScene extends Phaser.Scene {
       players[this.players[i].animal][this.config['stage']] = {energy: this.players[i].energy, score: this.players[i].score, error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
     }
     localStorage.setItem('players', JSON.stringify(players));
-    console.log("Saved:", players);   
+    console.log('Saved:', players);   
   }
 
   update(time, delta) {

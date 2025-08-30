@@ -11,8 +11,8 @@ class Dice extends Phaser.GameObjects.Container {
     this.setSize(150, 150);
     this.setInteractive();
 
-    this.dice = this.scene.add.mesh(0, 0, "dice_albedo");
-    this.dice.addVerticesFromObj("dice_obj", 0.25);
+    this.dice = this.scene.add.mesh(0, 0, 'dice_albedo');
+    this.dice.addVerticesFromObj('dice_obj', 0.25);
     this.dice.panZ(6);
     this.dice.modelRotation.x = Phaser.Math.DegToRad(0);
     this.dice.modelRotation.y = Phaser.Math.DegToRad(-90);
@@ -58,7 +58,7 @@ class Dice extends Phaser.GameObjects.Container {
             x: -8,
             y: 10,
             duration: this.duration - 250,
-            ease: "Sine.easeInOut",
+            ease: 'Sine.easeInOut',
             yoyo: true,
         });
 
@@ -99,7 +99,7 @@ class Dice extends Phaser.GameObjects.Container {
                         break;
                 }
             },
-            ease: "Sine.easeInOut",
+            ease: 'Sine.easeInOut',
         });
 
         // Intro dice
@@ -137,7 +137,7 @@ class Dice extends Phaser.GameObjects.Container {
             }
         });
     } else {
-        console.log("Is rolling");
+        console.log('Is rolling');
     }
   }
 }  

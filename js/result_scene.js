@@ -1,13 +1,13 @@
 class ResultScene extends Phaser.Scene {
  
   constructor() {
-    super("Result");
+    super('Result');
   }
 
   preload() {
     this.config = JSON.parse(localStorage.getItem('config'));
     if(this.config.debug) {
-      console.log("Debug mode enabled.");
+      console.log('Debug mode enabled.');
     }
 
     this.fontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff', fill: '#ffffff'}
@@ -17,21 +17,21 @@ class ResultScene extends Phaser.Scene {
     this.createBackground();
     this.createPlayers();
     this.createSounds();
-    this.sound.play("result");
+    this.sound.play('result');
   }
 
   createBackground() {
     this.add.rectangle(1024/2, 704/2 , 1024, 704, 0x000080).setOrigin(0.5, 0.5);
-    this.add.image(1024/2, 48, "textures", "UI_Logo_01");
-    this.add.image(1024/2, 250, "textures", "Podium");
-    let coin = this.add.image(250, 348, "textures", "Coin").setOrigin(0.5, 0.5);
-    let ruby = this.add.image(250, 396, "textures", "Ruby").setOrigin(0.5, 0.5);
-    let crystal = this.add.image(250, 454, "textures", "Crystal").setOrigin(0.5, 0.5);
+    this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
+    this.add.image(1024/2, 250, 'textures', 'Podium');
+    let coin = this.add.image(250, 348, 'textures', 'Coin').setOrigin(0.5, 0.5);
+    let ruby = this.add.image(250, 396, 'textures', 'Ruby').setOrigin(0.5, 0.5);
+    let crystal = this.add.image(250, 454, 'textures', 'Crystal').setOrigin(0.5, 0.5);
     ruby.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     crystal.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
-    this.add.text(300, 500, "Errors:", this.fontStyle).setOrigin(1, 0.5);
-    this.add.text(300, 550, "Scores:", this.fontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 500, 'Errors:', this.fontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 550, 'Scores:', this.fontStyle).setOrigin(1, 0.5);
   }
 
   createPlayers() {
