@@ -85,6 +85,14 @@ function disableButton(id) {
   btn.classList.add("is-disabled");
 }
 
+function showModal(id) {
+  document.getElementById(id).showModal();
+}
+
+function isModalActive(id) {
+  return(document.getElementById(id).hasAttribute('open'))
+}
+
 function showError(message) {
   document.getElementById('error-message').innerHTML = message;
   document.getElementById('dialog-default').showModal();
@@ -177,26 +185,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const name1 = document.getElementById('config_name_1').value.trim();
     if(name1.length > 0) {
       players['Cat'] = {sprite: "Cat", name: name1};
-      players['Cat'][config['stage']] = {};    
     }
     const name2 = document.getElementById('config_name_2').value.trim();
     if(name2.length > 0) {
       players['Rabbit'] = {sprite: "Rabbit", name: name2}
-      players['Rabbit'][config['stage']] = {};    
     }
     const name3 = document.getElementById('config_name_3').value.trim();
     if(name3.length > 0) {
       players['Chick'] = {sprite: "Chick", name: name3}
-      players['Chick'][config['stage']] = {};    
     }
     const name4 = document.getElementById('config_name_4').value.trim();
     if(name4.length > 0) {
       players['Pig'] = {sprite: "Pig", name: name4}
-      players['Pig'][config['stage']] = {};    
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    console.log("Saved:", players, config);
+    console.log("Config Saved:", players, config);
   });
 
   document.getElementById("btn_back").addEventListener("click", function() {
@@ -210,11 +214,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   window.addEventListener("keydown", (e) => {
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a" && game.scene.isActive('Main')) {
-    e.preventDefault(); // prevent default browser action
-    console.log("Ctrl+S detected! Do your save action here.");
-    document.getElementById('dialog-config2').showModal();
-  }
-});
-
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a" && game.scene.isActive('Main')) {
+      e.preventDefault(); // prevent default browser action
+      console.log("Ctrl+S detected! Do your save action here.");
+      document.getElementById('dialog-config2').showModal();
+    }
+  });
 });

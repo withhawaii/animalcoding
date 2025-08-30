@@ -19,12 +19,16 @@ class TitleScene extends Phaser.Scene {
 
     btn_config.setInteractive();
     btn_config.on('pointerdown', () => {
-      document.getElementById('dialog-config').showModal();
+      if(!isModalActive('dialog-config')) {
+        showModal('dialog-config');
+      }
     });
 
     btn_start.setInteractive();
     btn_start.on('pointerdown', () => {
-      this.scene.start('Main');
+      if(!isModalActive('dialog-config')) {
+        this.scene.start('Main');
+      }
     });
   }
   
