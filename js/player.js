@@ -4,6 +4,7 @@ class Player extends Phaser.GameObjects.Sprite {
     super(scene, x, y, texture);
     this.scene = scene;
     this.id = id;
+    this.animal = texture;
     this.x = x;
     this.y = y;
     this.xGrid = xGrid;
@@ -35,7 +36,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     this.idle_tween = this.scene.tweens.add({
       targets: player,
-      y: player.y - 5,
+      y: player.y - 10,
       ease: "Bounce",
       duration: 400,
       repeat: -1,

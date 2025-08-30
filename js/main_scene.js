@@ -85,16 +85,15 @@ class MainScene extends Phaser.Scene {
 
   createPlayers() {
     let players = JSON.parse(localStorage.getItem('players'));
-    players = players.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+    let players_shuffled = Object.values(players).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
     const player_coordinates = this.map.getObjectLayer("players").objects;
     const toolbar_coordinates = [[0,0],[768,0],[768,640],[0,640]];
     this.players = [];
-    for(let i = 0; i < players.length; i++) {
-      let name = players[i].name;
-      let sprite = players[i].sprite;
+    for(let i = 0; i < players_shuffled.length; i++) {
+      let sprite = players_shuffled[i].sprite;
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
-      this.textures.addSpriteSheetFromAtlas(name, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: sprite + "_Spritesheet" })
-      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, name, i, starting_point.x, starting_point.y, CST.DOWN);
+      this.textures.addSpriteSheetFromAtlas(sprite, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: sprite + "_Spritesheet" })
+      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite);
     }
     this.currentPlayer = this.players[0];
@@ -130,6 +129,7 @@ class MainScene extends Phaser.Scene {
     this.currentPlayer.setFrame(this.currentPlayer.direction);
     if(this.currentPlayer.id + 1 >= this.players.length || this.game.config.debug) {
       this.currentPlayer = this.players[0];
+      this.saveRecords();
     }
     else {
       this.currentPlayer = this.players[this.currentPlayer.id + 1];
@@ -137,6 +137,15 @@ class MainScene extends Phaser.Scene {
     console.log('New Player', this.currentPlayer);
     this.currentPlayer.startIdle();
     this.dice.show();
+  }
+
+  saveRecords() {
+    let players = JSON.parse(localStorage.getItem('players'));
+    for(let i = 0; i < this.players.length; i++) {
+      players[this.players[i].animal][this.config['stage']] = {energy: this.players[i].energy, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
+    }
+    localStorage.setItem('players', JSON.stringify(players));
+    console.log("Saved:", players);   
   }
 
   update(time, delta) {

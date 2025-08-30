@@ -17,6 +17,7 @@
   <script src="js/player_toolbar.js"></script>
   <script src="js/title_scene.js"></script>
   <script src="js/main_scene.js"></script>
+  <script src="js/result_scene.js"></script>
   <script src="js/game.js"></script>
 </head>
 
@@ -47,7 +48,7 @@
 
     <dialog class="nes-dialog" id="dialog-config">
       <form method="dialog">
-        <h3 class="title">Game Options</h3>
+        <h3 class="title">Game Configurations</h3>
         <br/>
         <p>Players</p>
         <div class="nes-field is-inline">
@@ -68,7 +69,7 @@
         </div>
         <br/>
 
-        <label for="default_select">Stage</label>
+        <label for="config_stage">Stage</label>
         <div class="nes-select">
           <select required id="config_stage">
             <option value="level1">Stage 1</option>
@@ -82,6 +83,37 @@
 
         <menu class="dialog-menu" style="text-align: right">
           <button class="nes-btn is-primary" id="start">Start</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <dialog class="nes-dialog" id="dialog-config2">
+      <form method="dialog">
+        <h3 class="title">Play Options</h3>
+        <br/>
+
+        <label>
+          <input type="checkbox" class="nes-checkbox" checked />
+          <span>BGM</span>
+        </label>
+
+        <label>
+          <input type="checkbox" class="nes-checkbox" checked />
+          <span>Debug Mode</span>
+        </label>
+
+        <label for="config_sound">BGM Sound</label>
+        <div class="nes-select">
+          <select required id="config_sound">
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </div>
+ 
+        <menu class="dialog-menu" style="text-align: right">
+          <button class="nes-btn is-primary" id="back">Back to Title</button>
+          <button class="nes-btn is-primary" id="resume">Resume</button>
+          <button class="nes-btn is-primary" id="end">End</button>
         </menu>
       </form>
     </dialog>
