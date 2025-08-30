@@ -11,6 +11,10 @@ class Player extends Phaser.GameObjects.Sprite {
     this.yGrid = yGrid;
     this.direction = direction;  
     this.energy = 0;
+    this.coin = 0;
+    this.ruby = 0;
+    this.crystal = 0;
+    this.error = 0;
     this.score = 0;
     this.setFrame(this.direction);
     this.setDepth(this.yGrid);
@@ -38,7 +42,7 @@ class Player extends Phaser.GameObjects.Sprite {
       targets: player,
       y: player.y - 10,
       ease: "Bounce",
-      duration: 400,
+      duration: 500,
       repeat: -1,
       yoyo: true,
       onComplete: function() {

@@ -3,23 +3,6 @@ class TitleScene extends Phaser.Scene {
   constructor() {
     super("Title");
   }
-
-  preload() {
-    if(this.game.config.debug) {
-      console.log("Debug mode enabled.");
-    }
-
-    for (let prop in CST.IMAGES) {
-      this.load.image(prop, CST.IMAGES[prop]);
-    }
-  
-    for (let prop in CST.AUDIO) {
-      this.load.audio(prop, CST.AUDIO[prop]);
-    }
-
-    this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
-  }
   
   create() {
     this.createBackground();
@@ -30,7 +13,19 @@ class TitleScene extends Phaser.Scene {
     for(let i = 0; i < 4; i++) {
       this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(5, 30), 0);
     }
-    this.add.image(1024/2, 48, "textures", "UI_Logo_01");
+    this.add.image(1024/2, 255, "textures", "Title_Logo");
+    let btn_config = this.add.image(1024/4, 600, "textures", "Btn_Config");
+    let btn_start = this.add.image(1024/4 * 3, 600, "textures", "Btn_Start");
+
+    btn_config.setInteractive();
+    btn_config.on('pointerdown', () => {
+      document.getElementById('dialog-config').showModal();
+    });
+
+    btn_start.setInteractive();
+    btn_start.on('pointerdown', () => {
+      this.scene.start('Main');
+    });
   }
   
   update(time, delta) {

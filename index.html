@@ -15,6 +15,7 @@
   <script src="js/dice.js"></script>
   <script src="js/player.js"></script>
   <script src="js/player_toolbar.js"></script>
+  <script src="js/boot_scene.js"></script>
   <script src="js/title_scene.js"></script>
   <script src="js/main_scene.js"></script>
   <script src="js/result_scene.js"></script>
@@ -82,7 +83,7 @@
         </div>
 
         <menu class="dialog-menu" style="text-align: right">
-          <button class="nes-btn is-primary" id="start">Start</button>
+          <button class="nes-btn is-primary" id="config-ok">OK</button>
         </menu>
       </form>
     </dialog>
@@ -101,19 +102,11 @@
           <input type="checkbox" class="nes-checkbox" checked />
           <span>Debug Mode</span>
         </label>
-
-        <label for="config_sound">BGM Sound</label>
-        <div class="nes-select">
-          <select required id="config_sound">
-            <option value="Y">Yes</option>
-            <option value="N">No</option>
-          </select>
-        </div>
  
         <menu class="dialog-menu" style="text-align: right">
-          <button class="nes-btn is-primary" id="back">Back to Title</button>
-          <button class="nes-btn is-primary" id="resume">Resume</button>
-          <button class="nes-btn is-primary" id="end">End</button>
+          <button class="nes-btn" id="btn_back">Back to title</button>
+          <button class="nes-btn" id="btn_end">End this stage</button>
+          <button class="nes-btn is-primary" id="btn_resume">Resume</button>
         </menu>
       </form>
     </dialog>

@@ -10,16 +10,6 @@ class ResultScene extends Phaser.Scene {
       console.log("Debug mode enabled.");
     }
 
-    for (let prop in CST.IMAGES) {
-      this.load.image(prop, CST.IMAGES[prop]);
-    }
-  
-    for (let prop in CST.AUDIO) {
-      this.load.audio(prop, CST.AUDIO[prop]);
-    }
-
-    this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
     this.fontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff', fill: '#ffffff'}
   }
   
@@ -49,7 +39,6 @@ class ResultScene extends Phaser.Scene {
     this.players = [];
     for(let i = 0; i < players_sorted.length; i++) {
       let sprite = players_sorted[i].sprite;
-      this.textures.addSpriteSheetFromAtlas(sprite, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: sprite + "_Spritesheet" })
       this.players[i] = new Player(this, 362 + 100 * i, 175 + 20 * i, sprite, i, 0, 0, CST.DOWN);
       if(i == 0) {
         this.players[i].startIdle();

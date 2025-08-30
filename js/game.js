@@ -143,7 +143,7 @@ const config = {
       gravity: { y: 0 }
     }
   },
-  scene: [TitleScene, MainScene, ResultScene]
+  scene: [BootScene, TitleScene, MainScene, ResultScene]
 };
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     skipTurn();
   });
 
-  document.getElementById("start").addEventListener("click", function() { 
+  document.getElementById("config-ok").addEventListener("click", function() { 
     let config = {}
     config['stage'] = document.getElementById('config_stage').value;
     localStorage.setItem('config', JSON.stringify(config));
@@ -196,11 +196,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    console.log("Saved:", players, config);    
-    game.scene.start('Main');
-//    game.scene.start('Result');
+    console.log("Saved:", players, config);
   });
 
-  document.getElementById('dialog-config').showModal();
+  document.getElementById("btn_back").addEventListener("click", function() {
+    game.scene.stop('Main');
+    game.scene.start('Title');
+  });
+
+  document.getElementById("btn_end").addEventListener("click", function() {    
+    game.scene.stop('Main');
+    game.scene.start('Result');
+  });
+
+  window.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a" && game.scene.isActive('Main')) {
+    e.preventDefault(); // prevent default browser action
+    console.log("Ctrl+S detected! Do your save action here.");
+    document.getElementById('dialog-config2').showModal();
+  }
+});
 
 });

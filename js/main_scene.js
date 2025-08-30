@@ -9,20 +9,6 @@ class MainScene extends Phaser.Scene {
     if(this.game.config.debug) {
       console.log("Debug mode enabled.");
     }
-
-    for (let prop in CST.IMAGES) {
-      this.load.image(prop, CST.IMAGES[prop]);
-    }
-  
-    for (let prop in CST.AUDIO) {
-      this.load.audio(prop, CST.AUDIO[prop]);
-    }
-
-    this.load.obj("dice_obj", "images/dice.obj");
-    this.load.atlas("textures", "images/textures.png", "images/textures.json")
-    console.log(this.config['stage']);
-    this.load.tilemapTiledJSON("map", "tilemap/" + this.config['stage'] + ".json");
-    this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
   }
   
   create() {
@@ -31,6 +17,7 @@ class MainScene extends Phaser.Scene {
     this.createPlayers();
     this.createDice();
     this.createSounds();
+    this.events.on('shutdown', this.shutdown, this);
 
     const intro = this.sound.get("intro");
     intro.on('complete', () => {
@@ -92,7 +79,6 @@ class MainScene extends Phaser.Scene {
     for(let i = 0; i < players_shuffled.length; i++) {
       let sprite = players_shuffled[i].sprite;
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
-      this.textures.addSpriteSheetFromAtlas(sprite, { frameHeight: 64, frameWidth: 64, atlas: "textures", frame: sprite + "_Spritesheet" })
       this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite);
     }
@@ -129,7 +115,6 @@ class MainScene extends Phaser.Scene {
     this.currentPlayer.setFrame(this.currentPlayer.direction);
     if(this.currentPlayer.id + 1 >= this.players.length || this.game.config.debug) {
       this.currentPlayer = this.players[0];
-      this.saveRecords();
     }
     else {
       this.currentPlayer = this.players[this.currentPlayer.id + 1];
@@ -142,7 +127,7 @@ class MainScene extends Phaser.Scene {
   saveRecords() {
     let players = JSON.parse(localStorage.getItem('players'));
     for(let i = 0; i < this.players.length; i++) {
-      players[this.players[i].animal][this.config['stage']] = {energy: this.players[i].energy, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
+      players[this.players[i].animal][this.config['stage']] = {energy: this.players[i].energy, score: this.players[i].score, error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
     }
     localStorage.setItem('players', JSON.stringify(players));
     console.log("Saved:", players);   
@@ -156,5 +141,11 @@ class MainScene extends Phaser.Scene {
         clouds[i].setY(Phaser.Math.Between(0, 704));
       }
     }
+  }
+
+  shutdown() {
+    this.saveRecords();
+    this.sound.stopAll();
+    this.tweens.killAll();
   }
 }
