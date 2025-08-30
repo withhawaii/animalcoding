@@ -8,6 +8,8 @@ class Dice extends Phaser.GameObjects.Container {
     this.duration = duration;
     this.diceIsRolling = false;
     this.setDepth(20);
+    this.setSize(150, 150);
+    this.setInteractive();
 
     this.dice = this.scene.add.mesh(0, 0, "dice_albedo");
     this.dice.addVerticesFromObj("dice_obj", 0.25);

@@ -160,7 +160,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   setEditorOptions(editor);
   editor.setValue("/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n")
   game = new Phaser.Game(config);
-//  game.config.debug = true;
   disableButton("run_code");
   disableButton("skip");
 
@@ -215,9 +214,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   window.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a" && game.scene.isActive('Main')) {
-      e.preventDefault(); // prevent default browser action
-      console.log("Ctrl+S detected! Do your save action here.");
+      e.preventDefault();
       document.getElementById('dialog-config2').showModal();
     }
   });
+
 });

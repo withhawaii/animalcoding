@@ -88,7 +88,7 @@ class MainScene extends Phaser.Scene {
   createDice() {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
     this.dice.hide();
-    this.input.on('pointerdown', () => {
+    this.dice.on('pointerdown', () => {
       if(this.dice.isReadyToRoll()) {
         this.dice.roll((diceValue) => {
           if(this.game.config.debug) {
