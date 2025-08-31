@@ -28,7 +28,6 @@ class ResultScene extends Phaser.Scene {
     ctx.fillStyle = '#111111';
     ctx.fillRect(0, 0, 1024, 768);
     ctx.fillStyle = '#ffffff';
-
     let i = 1024;
     while (i-- > 0) {
       ctx.globalAlpha = Phaser.Math.FloatBetween(0, 1);
@@ -96,7 +95,6 @@ class ResultScene extends Phaser.Scene {
         this.updateEmitter(emitter3);
       }
     });
-
   }
 
   createPlayers() {
