@@ -89,9 +89,15 @@ function showModal(id) {
   document.getElementById(id).showModal();
 }
 
-function isModalActive(id) {
-  return(document.getElementById(id).hasAttribute('open'))
-}
+function isAnyModalActive() {
+  const dialogs = document.getElementsByTagName('dialog');
+  for (let i = 0; i < dialogs.length; i++) {
+    if (dialogs[i].hasAttribute('open')) {
+      return true;
+    }
+  }
+  return false;
+}  
 
 function showError(message) {
   document.getElementById('error-message').innerHTML = message;
@@ -107,11 +113,13 @@ function runCode() {
   }
   catch(e) {
     showError(e.message);
-    currentPlayer.error();
+    currentPlayer.chonbo();
+    currentPlayer.scene.changePlayer();  
   }
 }
 
 function runStep() {
+  currentPlayer = game.scene.getScene('Main').currentPlayer;
   const animationDelay = 520;
   let stack = interpreter.getStateStack();
   let node = stack[stack.length - 1].node;
@@ -121,8 +129,16 @@ function runStep() {
     currentPlayer.scene.changePlayer();  
   }
   else {  
-    interpreter.step();
-    setTimeout(runStep, node.type == 'CallExpression' ? animationDelay : 0);
+    try {
+      interpreter.step();
+      setTimeout(runStep, node.type == 'CallExpression' ? animationDelay : 0);
+    }
+    catch(e) {
+      showError(e.message);
+      console.log(currentPlayer);
+      currentPlayer.chonbo();
+      currentPlayer.scene.changePlayer();  
+    }
   } 
 }
 

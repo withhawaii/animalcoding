@@ -89,7 +89,7 @@ class MainScene extends Phaser.Scene {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
     this.dice.hide();
     this.dice.on('pointerdown', () => {
-      if(this.dice.isReadyToRoll()) {
+      if(this.dice.isReadyToRoll() && !isAnyModalActive()) {
         this.dice.roll((diceValue) => {
           if(this.game.config.debug) {
             diceValue = 6;
@@ -112,7 +112,6 @@ class MainScene extends Phaser.Scene {
   }
 
   changePlayer() {
-    this.currentPlayer.setFrame(this.currentPlayer.direction);
     if(this.currentPlayer.id + 1 >= this.players.length || this.game.config.debug) {
       this.currentPlayer = this.players[0];
     }

@@ -68,11 +68,14 @@ class Player extends Phaser.GameObjects.Sprite {
       onComplete: function() {
         player.setFrame(4);        
         console.log('hangup:', player.x, player.y, player.direction);
+        player.scene.time.delayedCall(1000, () => {
+           player.setFrame(player.direction);
+        });
       }
     });
   }
 
-  error() {
+  chonbo() {
     this.hangUp(100);
     this.updateEnergy(-1 * this.energy);  
   }
