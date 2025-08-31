@@ -19,5 +19,18 @@ const CST = {
     intro: 'audio/jingle_01.mp3',
     result: 'audio/jingle_02.mp3',
     bgm_01: 'audio/bgm_01.wav',
-  }
+  },
+
+  TINTS: [
+    0xff4136,
+    0xff851b,
+    0xffdc00,
+    0x01ff70,
+    0x2ecc40,
+    0x7fdbff,
+    0x0074d9,
+    0xf012be,
+    0xb10dc9
+  ],
 }
+   
