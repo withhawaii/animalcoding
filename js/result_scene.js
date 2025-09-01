@@ -117,14 +117,15 @@ class ResultScene extends Phaser.Scene {
       if(i == 0) {
         this.players[i].startIdle();
       }
-
-      let player_info = players_sorted[i][this.config.stage]
+      else if(i == players_sorted.length - 1) {
+        this.players[i].setFrame(4);
+      }
+      let player_info = players_sorted[i][this.config.stage];
       this.add.text(362 + 100 * i, 350, player_info.coin, this.fontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 400, player_info.ruby, this.fontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 450, player_info.crystal, this.fontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 500, player_info.error, this.fontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 550, player_info.score, this.fontStyle).setOrigin(0.5, 0.5);
-
     }
     this.currentPlayer = this.players[0];
   }

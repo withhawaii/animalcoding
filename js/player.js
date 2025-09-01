@@ -36,11 +36,11 @@ class Player extends Phaser.GameObjects.Sprite {
     player.toolbar.setScore(player.score);
   }
 
-  startIdle() {
+  startIdle(height = 10, duration = 500) {
     let player = this;
     this.idle_tween = this.scene.tweens.add({
       targets: player,
-      y: player.y - 10,
+      y: player.y - height,
       ease: 'Bounce',
       duration: 500,
       repeat: -1,
@@ -75,7 +75,7 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  chonbo() {
+  fail() {
     this.hangUp(100);
     this.updateEnergy(-1 * this.energy);  
   }
