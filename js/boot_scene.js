@@ -5,11 +5,6 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.config = JSON.parse(localStorage.getItem('config'));
-    if(this.game.config.debug) {
-      console.log('Debug mode enabled.');
-    }
-
     for (let prop in CST.IMAGES) {
       this.load.image(prop, CST.IMAGES[prop]);
     }
@@ -20,9 +15,9 @@ class BootScene extends Phaser.Scene {
 
     this.load.obj('dice_obj', 'images/dice.obj');
     this.load.atlas('textures', 'images/textures.png', 'images/textures.json')
-    console.log(this.config['stage']);
-    this.load.tilemapTiledJSON('map', 'tilemap/' + this.config['stage'] + '.json');
     this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
+    this.load.tilemapTiledJSON('stage1', 'tilemap/' + 'stage1.json');
+    this.load.tilemapTiledJSON('demo', 'tilemap/' + 'demo.json');
   }
   
   create() {

@@ -97,7 +97,7 @@
                 {
                  "height":0,
                  "id":1,
-                 "name":"Cat",
+                 "name":"One",
                  "point":true,
                  "properties":[
                         {
@@ -111,6 +111,60 @@
                  "width":0,
                  "x":416,
                  "y":272
+                }, 
+                {
+                 "height":0,
+                 "id":7,
+                 "name":"Two",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":736,
+                 "y":272
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"Three",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":736,
+                 "y":176
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"Four",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":736,
+                 "y":400
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -119,7 +173,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":7,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.10.2",

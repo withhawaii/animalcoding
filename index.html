@@ -72,19 +72,28 @@
         <br/>
 
         <label for="config_stage">Stage</label>
-        <div class="nes-select">
+        <div class="nes-select is-inline">
           <select required id="config_stage">
-            <option value="level1">Stage 1</option>
-            <option value="level2">Stage 2</option>
-            <option value="level3">Stage 3</option>
-            <option value="level4">Stage 4</option>
-            <option value="level5">Stage 5</option>
+            <option value="stage1">Stage 1</option>
+            <option value="stage2">Stage 2</option>
+            <option value="stage3">Stage 3</option>
+            <option value="stage4">Stage 4</option>
+            <option value="stage5">Stage 5</option>
             <option value="demo">Demo</option>
+          </select>
+        </div>
+        <br/>
+
+        <label for="config_debug">Debug Mode</label>
+        <div class="nes-select">
+          <select required id="config_debug">
+            <option value="Y">Enable</option>
+            <option value="N">Disable</option>
           </select>
         </div>
 
         <menu class="dialog-menu" style="text-align: right">
-          <button class="nes-btn is-primary" id="config-ok">OK</button>
+          <button class="nes-btn is-primary" id="config-ok" value="Y">OK</button>
         </menu>
       </form>
     </dialog>
@@ -94,15 +103,31 @@
         <h3 class="title">Play Options</h3>
         <br/>
 
-        <label>
-          <input type="checkbox" class="nes-checkbox" checked />
-          <span>BGM</span>
-        </label>
+        <label for="config_master_volume">Master Volume</label>
+        <div class="nes-select">
+          <select required id="config_master_volume">
+            <option value="1">100%</option>
+            <option value="0.8">80%</option>
+            <option value="0.6">60%</option>
+            <option value="0.4">40%</option>
+            <option value="0.2">20%</option>
+            <option value="0">0%</option>
+          </select>
+        </div>
+        <br/>
 
-        <label>
-          <input type="checkbox" class="nes-checkbox" checked />
-          <span>Debug Mode</span>
-        </label>
+        <label for="config_bgm_volume">BGM Volume</label>
+        <div class="nes-select">
+          <select required id="config_bgm_volume">
+            <option value="1">100%</option>
+            <option value="0.8">80%</option>
+            <option value="0.6">60%</option>
+            <option value="0.4">40%</option>
+            <option value="0.2">20%</option>
+            <option value="0">0%</option>
+          </select>
+        </div>
+        <br/>
  
         <menu class="dialog-menu" style="text-align: right">
           <button class="nes-btn" id="btn_back">Back to title</button>

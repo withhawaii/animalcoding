@@ -3,26 +3,25 @@ class ResultScene extends Phaser.Scene {
   constructor() {
     super('Result');
   }
-
-  preload() {
-    this.config = JSON.parse(localStorage.getItem('config'));
-    if(this.config.debug) {
-      console.log('Debug mode enabled.');
-    }
-
-    this.fontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff', fill: '#ffffff'}
-  }
   
   create() {
     this.createBackground();
     this.createFireWorks();
     this.createPlayers();
     this.createSounds();
+    this.events.once('shutdown', this.shutdown, this);
+    this.input.on('pointerdown', () => {
+      game.scene.stop('Result');
+      game.scene.start('Main');
+    });
     this.sound.play('result');
   }
 
   createBackground() {
-    const stars = this.textures.createCanvas("stars", 1024, 768);
+    if (this.textures.exists('stars')) {
+      this.textures.remove('stars');
+    }
+    const stars = this.textures.createCanvas('stars', 1024, 768);
     const ctx = stars.getContext();
 
     ctx.fillStyle = '#111111';
@@ -36,13 +35,16 @@ class ResultScene extends Phaser.Scene {
 
     stars.refresh();
 
-    this.textures.generate("rocket", {
-      data: ["0123..."],
+    if (this.textures.exists('rocket')) {
+      this.textures.remove('rocket');
+    }
+    this.textures.generate('rocket', {
+      data: ['0123...'],
       palette: {
-        0: "#fff2",
-        1: "#fff4",
-        2: "#fff8",
-        3: "#ffff"
+        0: '#fff2',
+        1: '#fff4',
+        2: '#fff8',
+        3: '#ffff'
       },
       pixelWidth: 4
     });
@@ -52,10 +54,10 @@ class ResultScene extends Phaser.Scene {
 
   createFireWorks() {
     const emitterConfig = {
-      alpha: { start: 1, end: 0, ease: "Cubic.easeIn" },
+      alpha: { start: 1, end: 0, ease: 'Cubic.easeIn' },
       angle: { start: 0, end: 360, steps: 100 },
       rotate: { onEmit: this.updateParticleRotation, onUpdate: this.updateParticleRotation },
-      blendMode: "ADD",
+      blendMode: 'ADD',
       gravityY: 128,
       lifespan: 3000,
       quantity: 500,
@@ -98,6 +100,7 @@ class ResultScene extends Phaser.Scene {
   }
 
   createPlayers() {
+    const defaultFontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff', fill: '#ffffff'}
     this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
     this.add.image(1024/2, 250, 'textures', 'Podium');
     let coin = this.add.image(250, 348, 'textures', 'Coin').setOrigin(0.5, 0.5);
@@ -106,8 +109,8 @@ class ResultScene extends Phaser.Scene {
     ruby.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     crystal.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
-    this.add.text(300, 500, 'Errors:', this.fontStyle).setOrigin(1, 0.5);
-    this.add.text(300, 550, 'Scores:', this.fontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 500, 'Errors:', defaultFontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 550, 'Scores:', defaultFontStyle).setOrigin(1, 0.5);
 
     let players_sorted = Object.values(JSON.parse(localStorage.getItem('players'))) 
     this.players = [];
@@ -120,12 +123,12 @@ class ResultScene extends Phaser.Scene {
       else if(i == players_sorted.length - 1) {
         this.players[i].setFrame(4);
       }
-      let player_info = players_sorted[i][this.config.stage];
-      this.add.text(362 + 100 * i, 350, player_info.coin, this.fontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 400, player_info.ruby, this.fontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 450, player_info.crystal, this.fontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 500, player_info.error, this.fontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 550, player_info.score, this.fontStyle).setOrigin(0.5, 0.5);
+      let player_info = players_sorted[i][this.game.config.stage];
+      this.add.text(362 + 100 * i, 350, player_info.coin, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 400, player_info.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 450, player_info.crystal, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 500, player_info.error, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 550, player_info.score, defaultFontStyle).setOrigin(0.5, 0.5);
     }
     this.currentPlayer = this.players[0];
   }
@@ -135,6 +138,7 @@ class ResultScene extends Phaser.Scene {
     for (let prop in CST.AUDIO) {
       this.sound.add(prop);
     }
+    this.sound.volume = this.game.config.master_volume;
   }
 
   updateEmitter(emitter) {
@@ -147,5 +151,10 @@ class ResultScene extends Phaser.Scene {
   }
   
   update(time, delta) {
+  }
+
+  shutdown() {
+    this.sound.stopAll();
+    this.tweens.killAll();
   }
 }

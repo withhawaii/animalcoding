@@ -41,7 +41,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.idle_tween = this.scene.tweens.add({
       targets: player,
       y: player.y - height,
-      ease: 'Bounce',
+      ease: 'Quad.easeOut',
       duration: 500,
       repeat: -1,
       yoyo: true,

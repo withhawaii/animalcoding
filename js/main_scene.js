@@ -3,13 +3,6 @@ class MainScene extends Phaser.Scene {
   constructor() {
     super('Main');
   }
-
-  preload() {
-    this.config = JSON.parse(localStorage.getItem('config'));
-    if(this.game.config.debug) {
-      console.log('Debug mode enabled.');
-    }
-  }
   
   create() {
     this.createBackground();
@@ -17,11 +10,12 @@ class MainScene extends Phaser.Scene {
     this.createPlayers();
     this.createDice();
     this.createSounds();
-    this.events.on('shutdown', this.shutdown, this);
+    this.events.once('shutdown', this.shutdown, this);
 
     const intro = this.sound.get('intro');
+    this.bgm = this.sound.get('bgm_01');
     intro.on('complete', () => {
-      this.sound.play('bgm_01', {loop: true});
+      this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
       this.currentPlayer.startIdle();
       this.dice.show();
     });
@@ -37,7 +31,7 @@ class MainScene extends Phaser.Scene {
   }
 
   createMap() {
-    this.map = this.make.tilemap({ key: 'map' });
+    this.map = this.make.tilemap({ key: this.game.config.stage });
     const groundTileset = this.map.addTilesetImage('ground', 'ground');
     this.ground = this.map.createLayer('ground', groundTileset, 0, 64);
 
@@ -109,7 +103,8 @@ class MainScene extends Phaser.Scene {
     for (let prop in CST.AUDIO) {
       this.sound.add(prop);
     }
-  }
+    this.sound.volume = this.game.config.master_volume;
+  }  
 
   changePlayer() {
     if(this.currentPlayer.id + 1 >= this.players.length || this.game.config.debug) {
@@ -124,12 +119,17 @@ class MainScene extends Phaser.Scene {
   }
 
   saveRecords() {
+    let config = JSON.parse(localStorage.getItem('config')) || {};
+    config.master_volume = this.game.config.master_volume;
+    config.bgm_volume = this.game.config.bgm_volume;
+    localStorage.setItem('config', JSON.stringify(config));
+
     let players = JSON.parse(localStorage.getItem('players'));
     for(let i = 0; i < this.players.length; i++) {
-      players[this.players[i].animal][this.config['stage']] = {energy: this.players[i].energy, score: this.players[i].score, error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
+      players[this.players[i].animal][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score, error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
     }
     localStorage.setItem('players', JSON.stringify(players));
-    console.log('Saved:', players);   
+    console.log('Saved:', config, players);
   }
 
   update(time, delta) {

@@ -189,9 +189,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
     skipTurn();
   });
 
-  document.getElementById('config-ok').addEventListener('click', function() { 
-    let config = {}
-    config['stage'] = document.getElementById('config_stage').value;
+  document.getElementById('config-ok').addEventListener('click', function() {
+    let config = JSON.parse(localStorage.getItem('config')) || {};
+    config.stage = document.getElementById('config_stage').value;
+    config.debug = document.getElementById('config_debug').value;
     localStorage.setItem('config', JSON.stringify(config));
 
     let players = {}
@@ -224,6 +225,18 @@ document.addEventListener('DOMContentLoaded', function(event) {
   document.getElementById('btn_end').addEventListener('click', function() {    
     game.scene.stop('Main');
     game.scene.start('Result');
+  });
+
+  document.getElementById('config_master_volume').addEventListener('change', (event) => {
+    const newVolume = parseFloat(event.target.value);
+    game.config.master_volume = newVolume;
+    game.scene.getScene('Main').sound.volume = newVolume; 
+  });
+
+  document.getElementById('config_bgm_volume').addEventListener('change', (event) => {
+    const newVolume = parseFloat(event.target.value);
+    game.config.bgm_volume = newVolume;
+    game.scene.getScene('Main').bgm.setVolume(newVolume); 
   });
 
   window.addEventListener('keydown', (e) => {
