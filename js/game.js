@@ -56,19 +56,19 @@ function setEditorOptions(editor) {
 
 function initInterpreter(interpreter, scope) {
   interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
-//    console.log('move_forward');
+    debugLog('move_forward');
     return currentPlayer.move();
   }));
   interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
-//    console.log('turn_left');
+    debugLog('turn_left');
     return currentPlayer.turn(-1);
   }));
   interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
-//    console.log('turn_right');
+    debugLog('turn_right');
     return currentPlayer.turn(1);
   }));
   interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
-    //    console.log('turn_right');
+    debugLog('turn_right');
     return currentPlayer.pickUp();
   }));
 };
@@ -117,7 +117,7 @@ function runStep() {
   let stack = interpreter.getStateStack();
   let node = stack[stack.length - 1].node;
   editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-  console.log(interpreter.getStatus(), node.type);
+  debugLog(interpreter.getStatus(), node.type);
   if (interpreter.getStatus() == Interpreter.Status.DONE) {
     currentPlayer.scene.changePlayer();  
   }
@@ -142,9 +142,22 @@ function skipTurn() {
 function handleError(error) {
   document.getElementById('error-message').innerHTML = error.message;
   document.getElementById('dialog-default').showModal();
-  console.log(currentPlayer, error);
+  debugLog(currentPlayer, error);
   currentPlayer.fail();
   currentPlayer.scene.changePlayer();  
+}
+
+function loadConfig() {
+  const config = JSON.parse(localStorage.getItem('config'));
+  for (const key in config) {
+    game.config[key] = config[key];
+  }
+  game.config.debug = config['debug'] == 'Y' ? true : false;
+  debugLog('config loaded:',  game.config);
+}
+
+function debugLog(...args) {
+  game.config.debug && console.log(...args);
 }
 
 //Main Program Code
@@ -214,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    console.log('Config Saved:', players, config);
+    debugLog('Config Saved:', players, config);
   });
 
   document.getElementById('btn_back').addEventListener('click', function() {

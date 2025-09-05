@@ -14,7 +14,7 @@ class ResultScene extends Phaser.Scene {
       game.scene.stop('Result');
       game.scene.start('Main');
     });
-    this.sound.play('result');
+    this.sound.play('result', {volume: this.game.config.bgm_volume});
   }
 
   createBackground() {

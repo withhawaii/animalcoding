@@ -30,10 +30,20 @@ class Player extends Phaser.GameObjects.Sprite {
     player.toolbar.setEnergy(player.energy);
   }
 
-  updateScore(value) {
+  updateItem(key, value) {
     let player = this;
-    player.score = player.score + value;
-    player.toolbar.setScore(player.score);
+    if(key == 'coin') {
+      player.coin = player.coin + value;
+      player.toolbar.coinText.setText(player.coin);
+    }
+    else if(key == 'ruby') {
+      player.ruby = player.ruby + value;
+      player.toolbar.coinText.setText(player.ruby);
+    }
+    else if(key == 'crystal') {
+      player.crystal = player.crystal + value;
+      player.toolbar.crystalText.setText(player.crystal);
+    }
   }
 
   startIdle(height = 10, duration = 500) {
@@ -67,7 +77,7 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.setFrame(4);        
-        console.log('hangup:', player.x, player.y, player.direction);
+        debugLog('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
            player.setFrame(player.direction);
         });
@@ -84,7 +94,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     //Modulo calculation to get a new direction
     let new_direction = ((this.direction + step) % 4 + 4) % 4;
-    console.log('new_direction:', new_direction);
+    debugLog('new_direction:', new_direction);
 
     if(player.energy <= 0) {
       this.hangUp();
@@ -103,7 +113,7 @@ class Player extends Phaser.GameObjects.Sprite {
         player.direction = new_direction;
         player.setFrame(player.direction);
         player.updateEnergy(- 1);
-        console.log('turn:', player.x, player.y, player.direction);
+        debugLog('turn:', player.x, player.y, player.direction);
       }
     });
   }
@@ -149,7 +159,7 @@ class Player extends Phaser.GameObjects.Sprite {
           player.xGrid = new_xGrid;
           player.yGrid = new_yGrid;
           player.updateEnergy(-1);
-          console.log('move:', player.xGrid, player.yGrid, player.direction);
+          debugLog('move:', player.xGrid, player.yGrid, player.direction);
         }
       });
     }
@@ -212,7 +222,7 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.updateEnergy(- 1);
-        console.log('stuck:', player.x, player.y, player.direction);
+        debugLog('stuck:', player.x, player.y, player.direction);
       }
     });
   }
@@ -227,11 +237,11 @@ class Player extends Phaser.GameObjects.Sprite {
 
     let item = this.scene.items[player.yGrid][player.xGrid].obj;
     if(item) {
-      console.log('Got item:', item);
+      debugLog('Got item:', item);
       item.setVisible(false); 
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
-      player.updateScore(10);
+      player.updateItem('coin', 1);
     }
     else {
       this.hangUp();      

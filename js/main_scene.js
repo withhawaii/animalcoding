@@ -19,7 +19,7 @@ class MainScene extends Phaser.Scene {
       this.currentPlayer.startIdle();
       this.dice.show();
     });
-    intro.play();
+    intro.play({volume: this.game.config.bgm_volume});
   }
 
   createBackground() {
@@ -27,7 +27,7 @@ class MainScene extends Phaser.Scene {
     for(let i = 0; i < 4; i++) {
       this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(5, 30), 0);
     }
-    this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
+//    this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
   }
 
   createMap() {
@@ -68,13 +68,14 @@ class MainScene extends Phaser.Scene {
     let players = JSON.parse(localStorage.getItem('players'));
     let players_shuffled = Object.values(players).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
     const player_coordinates = this.map.getObjectLayer('players').objects;
-    const toolbar_coordinates = [[0,0],[768,0],[768,640],[0,640]];
+    const toolbar_coordinates = [[0,0],[756,0],[756,640],[0,640]];
     this.players = [];
     for(let i = 0; i < players_shuffled.length; i++) {
       let sprite = players_shuffled[i].sprite;
+      let name = players_shuffled[i].name;      
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
       this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
-      this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite);
+      this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
     }
     this.currentPlayer = this.players[0];
   }
@@ -89,7 +90,7 @@ class MainScene extends Phaser.Scene {
             diceValue = 6;
           }
           this.currentPlayer.updateEnergy(diceValue);
-          console.log('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
+          debugLog('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
           this.dice.hide();
           enableButton('run_code');
           enableButton('skip');
@@ -107,13 +108,13 @@ class MainScene extends Phaser.Scene {
   }  
 
   changePlayer() {
-    if(this.currentPlayer.id + 1 >= this.players.length || this.game.config.debug) {
+    if(this.currentPlayer.id + 1 >= this.players.length) {
       this.currentPlayer = this.players[0];
     }
     else {
       this.currentPlayer = this.players[this.currentPlayer.id + 1];
     }
-    console.log('New Player', this.currentPlayer);
+    debugLog('New Player', this.currentPlayer);
     this.currentPlayer.startIdle();
     this.dice.show();
   }
@@ -129,7 +130,7 @@ class MainScene extends Phaser.Scene {
       players[this.players[i].animal][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score, error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
     }
     localStorage.setItem('players', JSON.stringify(players));
-    console.log('Saved:', config, players);
+    debugLog('Saved:', config, players);
   }
 
   update(time, delta) {
