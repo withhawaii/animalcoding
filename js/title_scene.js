@@ -27,7 +27,12 @@ class TitleScene extends Phaser.Scene {
     btn_start.setInteractive();
     btn_start.on('pointerdown', () => {
       if(!ui.isAnyModalActive()) {
-        ui.loadConfig();
+        const config = JSON.parse(localStorage.getItem('config'));
+        for (const key in config) {
+          this.game.config[key] = config[key];
+        }
+        this.game.config.debug = config['debug'] == 'Y' ? true : false;
+        ui.log('config loaded:',  ui.game.config);
         this.scene.start('Main');
       }
     });

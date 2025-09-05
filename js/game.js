@@ -75,19 +75,19 @@ const ui = {
 
   initInterpreter(interpreter, scope) {
     interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
-      ui.debugLog('move_forward');
+      ui.log('move_forward');
       return ui.currentPlayer.move();
     }));
     interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
-      ui.debugLog('turn_left');
+      ui.log('turn_left');
       return ui.currentPlayer.turn(-1);
     }));
     interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
-      ui.debugLog('turn_right');
+      ui.log('turn_right');
       return ui.currentPlayer.turn(1);
     }));
     interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
-      ui.debugLog('turn_right');
+      ui.log('turn_right');
       return ui.currentPlayer.pickUp();
     }));
   },
@@ -112,7 +112,7 @@ const ui = {
     let stack = ui.interpreter.getStateStack();
     let node = stack[stack.length - 1].node;
     ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-    ui.debugLog(ui.interpreter.getStatus(), node.type);
+    ui.log(ui.interpreter.getStatus(), node.type);
     if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
       ui.currentPlayer.scene.changePlayer();  
     }
@@ -139,22 +139,9 @@ const ui = {
   handleError(error) {
     document.getElementById('error-message').innerHTML = error.message;
     document.getElementById('dialog-default').showModal();
-    ui.debugLog(ui.currentPlayer, error);
+    ui.log(ui.currentPlayer, error);
     ui.currentPlayer.fail();
     ui.currentPlayer.scene.changePlayer();  
-  },
-
-  loadConfig() {
-    const config = JSON.parse(localStorage.getItem('config'));
-    for (const key in config) {
-      ui.game.config[key] = config[key];
-    }
-    ui.game.config.debug = config['debug'] == 'Y' ? true : false;
-    ui.debugLog('config loaded:',  ui.game.config);
-  },
-
-  debugLog(...args) {
-    ui.game.config.debug && console.log(...args);
   },
 
   enableButton(id) {
@@ -208,7 +195,7 @@ const ui = {
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    ui.debugLog('Config Saved:', players, config);    
+    ui.log('Config Saved:', players, config);    
   },
 
   changeMasterVolume(event) {
@@ -231,6 +218,10 @@ const ui = {
   switchToResult() {
     ui.game.scene.stop('Main');
     ui.game.scene.start('Result');
+  },
+
+  log(...args) {
+    ui.game.config.debug && console.log(...args);
   },
 
   init() {
@@ -258,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
   document.getElementById('btn_back').addEventListener('click', ui.switchToTitle);
   document.getElementById('btn_end').addEventListener('click', ui.switchToResult);
 
-  //Ctrl + shift + a to show a play option modal
+  //Ctrl + shift + a to show a play options modal
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
       e.preventDefault();
