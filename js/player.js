@@ -77,7 +77,7 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.setFrame(4);        
-        debugLog('hangup:', player.x, player.y, player.direction);
+        ui.debugLog('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
            player.setFrame(player.direction);
         });
@@ -94,7 +94,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     //Modulo calculation to get a new direction
     let new_direction = ((this.direction + step) % 4 + 4) % 4;
-    debugLog('new_direction:', new_direction);
+    ui.debugLog('new_direction:', new_direction);
 
     if(player.energy <= 0) {
       this.hangUp();
@@ -113,7 +113,7 @@ class Player extends Phaser.GameObjects.Sprite {
         player.direction = new_direction;
         player.setFrame(player.direction);
         player.updateEnergy(- 1);
-        debugLog('turn:', player.x, player.y, player.direction);
+        ui.debugLog('turn:', player.x, player.y, player.direction);
       }
     });
   }
@@ -159,7 +159,7 @@ class Player extends Phaser.GameObjects.Sprite {
           player.xGrid = new_xGrid;
           player.yGrid = new_yGrid;
           player.updateEnergy(-1);
-          debugLog('move:', player.xGrid, player.yGrid, player.direction);
+          ui.debugLog('move:', player.xGrid, player.yGrid, player.direction);
         }
       });
     }
@@ -222,7 +222,7 @@ class Player extends Phaser.GameObjects.Sprite {
       yoyo: true,
       onComplete: function() {
         player.updateEnergy(- 1);
-        debugLog('stuck:', player.x, player.y, player.direction);
+        ui.debugLog('stuck:', player.x, player.y, player.direction);
       }
     });
   }
@@ -237,7 +237,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     let item = this.scene.items[player.yGrid][player.xGrid].obj;
     if(item) {
-      debugLog('Got item:', item);
+      ui.debugLog('Got item:', item);
       item.setVisible(false); 
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);

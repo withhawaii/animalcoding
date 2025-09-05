@@ -84,16 +84,16 @@ class MainScene extends Phaser.Scene {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
     this.dice.hide();
     this.dice.on('pointerdown', () => {
-      if(this.dice.isReadyToRoll() && !isAnyModalActive()) {
+      if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
         this.dice.roll((diceValue) => {
           if(this.game.config.debug) {
             diceValue = 6;
           }
           this.currentPlayer.updateEnergy(diceValue);
-          debugLog('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
+          ui.debugLog('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
           this.dice.hide();
-          enableButton('run_code');
-          enableButton('skip');
+          ui.enableButton('run_code');
+          ui.enableButton('skip');
         });
       }
     });
@@ -114,7 +114,7 @@ class MainScene extends Phaser.Scene {
     else {
       this.currentPlayer = this.players[this.currentPlayer.id + 1];
     }
-    debugLog('New Player', this.currentPlayer);
+    ui.debugLog('New Player', this.currentPlayer);
     this.currentPlayer.startIdle();
     this.dice.show();
   }
@@ -130,7 +130,7 @@ class MainScene extends Phaser.Scene {
       players[this.players[i].animal][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score, error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
     }
     localStorage.setItem('players', JSON.stringify(players));
-    debugLog('Saved:', config, players);
+    ui.debugLog('Saved:', config, players);
   }
 
   update(time, delta) {

@@ -70,130 +70,120 @@ const game_config = {
 const ui = {
   editor: null,
   interpreter: null,
-  game: null
-}
+  game: null,
+  currentPlayer: null,
 
-function initInterpreter(interpreter, scope) {
-  interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
-    debugLog('move_forward');
-    return currentPlayer.move();
-  }));
-  interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
-    debugLog('turn_left');
-    return currentPlayer.turn(-1);
-  }));
-  interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
-    debugLog('turn_right');
-    return currentPlayer.turn(1);
-  }));
-  interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
-    debugLog('turn_right');
-    return currentPlayer.pickUp();
-  }));
-};
+  initInterpreter(interpreter, scope) {
+    interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
+      ui.debugLog('move_forward');
+      return ui.currentPlayer.move();
+    }));
+    interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
+      ui.debugLog('turn_left');
+      return ui.currentPlayer.turn(-1);
+    }));
+    interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
+      ui.debugLog('turn_right');
+      return ui.currentPlayer.turn(1);
+    }));
+    interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
+      ui.debugLog('turn_right');
+      return ui.currentPlayer.pickUp();
+    }));
+  },
 
-function enableButton(id) {
-  const btn = document.getElementById(id)
-  btn.disabled = false; 
-  btn.classList.remove('is-disabled');
-} 
-
-function disableButton(id) {
-  const btn = document.getElementById(id)
-  btn.disabled = true; 
-  btn.classList.add('is-disabled');
-}
-
-function showModal(id) {
-  document.getElementById(id).showModal();
-}
-
-function isAnyModalActive() {
-  const dialogs = document.getElementsByTagName('dialog');
-  for (let i = 0; i < dialogs.length; i++) {
-    if (dialogs[i].hasAttribute('open')) {
-      return true;
-    }
-  }
-  return false;
-}  
-
-function runCode() {
-  currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
-  currentPlayer.stopIdle();
-  try {
-    ui.interpreter = new Interpreter(ui.editor.getValue(), initInterpreter);
-    setTimeout(runStep, 110);
-  }
-  catch(e) {
-    handleError(e);
-  }
-}
-
-function runStep() {
-  currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
-  const animationDelay = 520;
-  let stack = ui.interpreter.getStateStack();
-  let node = stack[stack.length - 1].node;
-  ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-  debugLog(ui.interpreter.getStatus(), node.type);
-  if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
-    currentPlayer.scene.changePlayer();  
-  }
-  else {  
+  runCode() {
+    ui.disableButton('run_code');
+    ui.disableButton('skip');
+    ui.currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
+    ui.currentPlayer.stopIdle();
     try {
-      ui.interpreter.step();
-      setTimeout(runStep, node.type == 'CallExpression' ? animationDelay : 0);
+      ui.interpreter = new Interpreter(ui.editor.getValue(), ui.initInterpreter);
+      setTimeout(ui.runStep, 110);
     }
     catch(e) {
-      handleError(e);
+      ui.handleError(e);
     }
-  } 
-}
+  },
 
-function skipTurn() {
-  currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
-  currentPlayer.stopIdle();
-  ui.interpreter = new Interpreter('', initInterpreter);
-  setTimeout(runCode, 110);
-}
+  runStep() {
+    ui.currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
+    const animationDelay = 520;
+    let stack = ui.interpreter.getStateStack();
+    let node = stack[stack.length - 1].node;
+    ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
+    ui.debugLog(ui.interpreter.getStatus(), node.type);
+    if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
+      ui.currentPlayer.scene.changePlayer();  
+    }
+    else {  
+      try {
+        ui.interpreter.step();
+        setTimeout(ui.runStep, node.type == 'CallExpression' ? animationDelay : 0);
+      }
+      catch(e) {
+        ui.handleError(e);
+      }
+    } 
+  },
 
-function handleError(error) {
-  document.getElementById('error-message').innerHTML = error.message;
-  document.getElementById('dialog-default').showModal();
-  debugLog(currentPlayer, error);
-  currentPlayer.fail();
-  currentPlayer.scene.changePlayer();  
-}
+  skipTurn() {
+    ui.disableButton('run_code');
+    ui.disableButton('skip');
+    ui.currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
+    ui.currentPlayer.stopIdle();
+    ui.interpreter = new Interpreter('', ui.initInterpreter);
+    setTimeout(runCode, 110);
+  },
 
-function loadConfig() {
-  const config = JSON.parse(localStorage.getItem('config'));
-  for (const key in config) {
-    ui.game.config[key] = config[key];
-  }
-  ui.game.config.debug = config['debug'] == 'Y' ? true : false;
-  debugLog('config loaded:',  ui.game.config);
-}
+  handleError(error) {
+    document.getElementById('error-message').innerHTML = error.message;
+    document.getElementById('dialog-default').showModal();
+    ui.debugLog(ui.currentPlayer, error);
+    ui.currentPlayer.fail();
+    ui.currentPlayer.scene.changePlayer();  
+  },
 
-function debugLog(...args) {
-  ui.game.config.debug && console.log(...args);
-}
+  loadConfig() {
+    const config = JSON.parse(localStorage.getItem('config'));
+    for (const key in config) {
+      ui.game.config[key] = config[key];
+    }
+    ui.game.config.debug = config['debug'] == 'Y' ? true : false;
+    ui.debugLog('config loaded:',  ui.game.config);
+  },
 
-document.addEventListener('DOMContentLoaded', function(event) {
+  debugLog(...args) {
+    ui.game.config.debug && console.log(...args);
+  },
 
-  document.getElementById('run_code').addEventListener('click', function() {
-    disableButton('run_code');
-    disableButton('skip');
-    runCode();
-  });
+  enableButton(id) {
+    const btn = document.getElementById(id)
+    btn.disabled = false; 
+    btn.classList.remove('is-disabled');
+  }, 
 
-  document.getElementById('skip').addEventListener('click', function() {    
-    disableButton('run_code');
-    disableButton('skip');
-    skipTurn();
-  });
+  disableButton(id) {
+    const btn = document.getElementById(id)
+    btn.disabled = true; 
+    btn.classList.add('is-disabled');
+  },
 
-  document.getElementById('config-ok').addEventListener('click', function() {
+  showModal(id) {
+    document.getElementById(id).showModal();
+  },
+
+  isAnyModalActive() {
+    const dialogs = document.getElementsByTagName('dialog');
+    for (let i = 0; i < dialogs.length; i++) {
+      if (dialogs[i].hasAttribute('open')) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  saveConfig() {
     let config = JSON.parse(localStorage.getItem('config')) || {};
     config.stage = document.getElementById('config_stage').value;
     config.debug = document.getElementById('config_debug').value;
@@ -218,31 +208,57 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    debugLog('Config Saved:', players, config);
-  });
+    ui.debugLog('Config Saved:', players, config);    
+  },
 
-  document.getElementById('config_master_volume').addEventListener('change', (event) => {
+  changeMasterVolume(event) {
     const newVolume = parseFloat(event.target.value);
     ui.game.config.master_volume = newVolume;
     ui.game.scene.getScene('Main').sound.volume = newVolume; 
-  });
+  },
 
-  document.getElementById('config_bgm_volume').addEventListener('change', (event) => {
+  changeBGMVolume(event) {
     const newVolume = parseFloat(event.target.value);
     ui.game.config.bgm_volume = newVolume;
     ui.game.scene.getScene('Main').bgm.setVolume(newVolume); 
-  });  
+  },
 
-  document.getElementById('btn_back').addEventListener('click', function() {
+  switchToTitle() {
     ui.game.scene.stop('Main');
     ui.game.scene.start('Title');
-  });
+  },
 
-  document.getElementById('btn_end').addEventListener('click', function() {    
+  switchToResult() {
     ui.game.scene.stop('Main');
     ui.game.scene.start('Result');
-  });
+  },
 
+  init() {
+    const config_saved = JSON.parse(localStorage.getItem('config'));
+    document.getElementById('config_stage').value = config_saved.stage || 'stage1'
+    document.getElementById('config_debug').value = config_saved.debug || 'N'
+    document.getElementById('config_master_volume').value = config_saved.master_volume || '1'
+    document.getElementById('config_bgm_volume').value = config_saved.bgm_volume || '1'
+
+    ui.editor = ace.edit('editor', editor_config);
+    ui.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
+    ui.game = new Phaser.Game(game_config);
+    ui.disableButton('run_code');
+    ui.disableButton('skip');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(event) {
+
+  document.getElementById('run_code').addEventListener('click', ui.runCode);
+  document.getElementById('skip').addEventListener('click', ui.skipTurn);
+  document.getElementById('config-ok').addEventListener('click', ui.saveConfig);
+  document.getElementById('config_master_volume').addEventListener('change', ui.changeMasterVolume);
+  document.getElementById('config_bgm_volume').addEventListener('change', ui.changeBGMVolume);  
+  document.getElementById('btn_back').addEventListener('click', ui.switchToTitle);
+  document.getElementById('btn_end').addEventListener('click', ui.switchToResult);
+
+  //Ctrl + shift + a to show a play option modal
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
       e.preventDefault();
@@ -250,15 +266,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
   });
 
-  const config_saved = JSON.parse(localStorage.getItem('config'));
-  document.getElementById('config_stage').value = config_saved.stage || 'stage1'
-  document.getElementById('config_debug').value = config_saved.debug || 'N'
-  document.getElementById('config_master_volume').value = config_saved.master_volume || '1'
-  document.getElementById('config_bgm_volume').value = config_saved.bgm_volume || '1'
+  ui.init();
 
-  ui.editor = ace.edit('editor', editor_config);
-  ui.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
-  ui.game = new Phaser.Game(game_config);
-  disableButton('run_code');
-  disableButton('skip');
 });

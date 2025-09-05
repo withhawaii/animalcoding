@@ -11,8 +11,8 @@ class ResultScene extends Phaser.Scene {
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
     this.input.on('pointerdown', () => {
-      game.scene.stop('Result');
-      game.scene.start('Main');
+      this.scene.stop('Result');
+      this.scene.start('Main');
     });
     this.sound.play('result', {volume: this.game.config.bgm_volume});
   }
