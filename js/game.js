@@ -67,7 +67,7 @@ const game_config = {
   scene: [BootScene, TitleScene, MainScene, ResultScene]
 };
 
-const ac = {
+const ui = {
   editor: null,
   interpreter: null,
   game: null
@@ -119,10 +119,10 @@ function isAnyModalActive() {
 }  
 
 function runCode() {
-  currentPlayer = ac.game.scene.getScene('Main').currentPlayer;
+  currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
   currentPlayer.stopIdle();
   try {
-    ac.interpreter = new Interpreter(ac.editor.getValue(), initInterpreter);
+    ui.interpreter = new Interpreter(ui.editor.getValue(), initInterpreter);
     setTimeout(runStep, 110);
   }
   catch(e) {
@@ -131,18 +131,18 @@ function runCode() {
 }
 
 function runStep() {
-  currentPlayer = ac.game.scene.getScene('Main').currentPlayer;
+  currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
   const animationDelay = 520;
-  let stack = ac.interpreter.getStateStack();
+  let stack = ui.interpreter.getStateStack();
   let node = stack[stack.length - 1].node;
-  ac.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-  debugLog(ac.interpreter.getStatus(), node.type);
-  if (ac.interpreter.getStatus() == Interpreter.Status.DONE) {
+  ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
+  debugLog(ui.interpreter.getStatus(), node.type);
+  if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
     currentPlayer.scene.changePlayer();  
   }
   else {  
     try {
-      ac.interpreter.step();
+      ui.interpreter.step();
       setTimeout(runStep, node.type == 'CallExpression' ? animationDelay : 0);
     }
     catch(e) {
@@ -152,9 +152,9 @@ function runStep() {
 }
 
 function skipTurn() {
-  currentPlayer = ac.game.scene.getScene('Main').currentPlayer;
+  currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
   currentPlayer.stopIdle();
-  ac.interpreter = new Interpreter('', initInterpreter);
+  ui.interpreter = new Interpreter('', initInterpreter);
   setTimeout(runCode, 110);
 }
 
@@ -169,14 +169,14 @@ function handleError(error) {
 function loadConfig() {
   const config = JSON.parse(localStorage.getItem('config'));
   for (const key in config) {
-    ac.game.config[key] = config[key];
+    ui.game.config[key] = config[key];
   }
-  ac.game.config.debug = config['debug'] == 'Y' ? true : false;
-  debugLog('config loaded:',  ac.game.config);
+  ui.game.config.debug = config['debug'] == 'Y' ? true : false;
+  debugLog('config loaded:',  ui.game.config);
 }
 
 function debugLog(...args) {
-  ac.game.config.debug && console.log(...args);
+  ui.game.config.debug && console.log(...args);
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -223,28 +223,28 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
   document.getElementById('config_master_volume').addEventListener('change', (event) => {
     const newVolume = parseFloat(event.target.value);
-    ac.game.config.master_volume = newVolume;
-    ac.game.scene.getScene('Main').sound.volume = newVolume; 
+    ui.game.config.master_volume = newVolume;
+    ui.game.scene.getScene('Main').sound.volume = newVolume; 
   });
 
   document.getElementById('config_bgm_volume').addEventListener('change', (event) => {
     const newVolume = parseFloat(event.target.value);
-    ac.game.config.bgm_volume = newVolume;
-    ac.game.scene.getScene('Main').bgm.setVolume(newVolume); 
+    ui.game.config.bgm_volume = newVolume;
+    ui.game.scene.getScene('Main').bgm.setVolume(newVolume); 
   });  
 
   document.getElementById('btn_back').addEventListener('click', function() {
-    ac.game.scene.stop('Main');
-    ac.game.scene.start('Title');
+    ui.game.scene.stop('Main');
+    ui.game.scene.start('Title');
   });
 
   document.getElementById('btn_end').addEventListener('click', function() {    
-    ac.game.scene.stop('Main');
-    ac.game.scene.start('Result');
+    ui.game.scene.stop('Main');
+    ui.game.scene.start('Result');
   });
 
   window.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ac.game.scene.isActive('Main')) {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
       e.preventDefault();
       document.getElementById('dialog-config2').showModal();
     }
@@ -256,9 +256,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
   document.getElementById('config_master_volume').value = config_saved.master_volume || '1'
   document.getElementById('config_bgm_volume').value = config_saved.bgm_volume || '1'
 
-  ac.editor = ace.edit('editor', editor_config);
-  ac.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
-  ac.game = new Phaser.Game(game_config);
+  ui.editor = ace.edit('editor', editor_config);
+  ui.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
+  ui.game = new Phaser.Game(game_config);
   disableButton('run_code');
   disableButton('skip');
 });
