@@ -16,7 +16,7 @@ class MainScene extends Phaser.Scene {
     this.bgm = this.sound.get('bgm_01');
     intro.on('complete', () => {
       this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
-      this.currentPlayer.startIdle();
+      ui.currentPlayer.startIdle();
       this.dice.show();
     });
     intro.play({volume: this.game.config.bgm_volume});
@@ -77,7 +77,7 @@ class MainScene extends Phaser.Scene {
       this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
     }
-    this.currentPlayer = this.players[0];
+    ui.currentPlayer = this.players[0];
   }
 
   createDice() {
@@ -89,8 +89,8 @@ class MainScene extends Phaser.Scene {
           if(this.game.config.debug) {
             diceValue = 6;
           }
-          this.currentPlayer.updateEnergy(diceValue);
-          ui.log('Dice value ', diceValue, 'New energy', this.currentPlayer.energy);
+          ui.currentPlayer.updateEnergy(diceValue);
+          ui.log('Dice value ', diceValue, 'New energy', ui.currentPlayer.energy);
           this.dice.hide();
           ui.enableButton('run_code');
           ui.enableButton('skip');
@@ -108,14 +108,14 @@ class MainScene extends Phaser.Scene {
   }  
 
   changePlayer() {
-    if(this.currentPlayer.id + 1 >= this.players.length) {
-      this.currentPlayer = this.players[0];
+    if(ui.currentPlayer.id + 1 >= this.players.length) {
+      ui.currentPlayer = this.players[0];
     }
     else {
-      this.currentPlayer = this.players[this.currentPlayer.id + 1];
+      ui.currentPlayer = this.players[ui.currentPlayer.id + 1];
     }
-    ui.log('New Player', this.currentPlayer);
-    this.currentPlayer.startIdle();
+    ui.log('New Player', ui.currentPlayer);
+    ui.currentPlayer.startIdle();
     this.dice.show();
   }
 

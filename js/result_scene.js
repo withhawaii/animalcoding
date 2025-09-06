@@ -130,7 +130,7 @@ class ResultScene extends Phaser.Scene {
       this.add.text(362 + 100 * i, 500, player_info.error, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 550, player_info.score, defaultFontStyle).setOrigin(0.5, 0.5);
     }
-    this.currentPlayer = this.players[0];
+    ui.currentPlayer = this.players[0];
   }
 
   createSounds() {

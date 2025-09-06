@@ -95,7 +95,6 @@ const ui = {
   runCode() {
     ui.disableButton('run_code');
     ui.disableButton('skip');
-    ui.currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
     ui.currentPlayer.stopIdle();
     try {
       ui.interpreter = new Interpreter(ui.editor.getValue(), ui.initInterpreter);
@@ -107,7 +106,6 @@ const ui = {
   },
 
   runStep() {
-    ui.currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
     const animationDelay = 520;
     let stack = ui.interpreter.getStateStack();
     let node = stack[stack.length - 1].node;
@@ -130,7 +128,6 @@ const ui = {
   skipTurn() {
     ui.disableButton('run_code');
     ui.disableButton('skip');
-    ui.currentPlayer = ui.game.scene.getScene('Main').currentPlayer;
     ui.currentPlayer.stopIdle();
     ui.interpreter = new Interpreter('', ui.initInterpreter);
     setTimeout(runCode, 110);
