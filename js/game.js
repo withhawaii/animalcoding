@@ -136,7 +136,7 @@ const ui = {
   handleError(error) {
     document.getElementById('error-message').innerHTML = error.message;
     document.getElementById('dialog-default').showModal();
-    ui.log(ui.currentPlayer, error);
+    ui.log('Error:', ui.currentPlayer, error);
     ui.currentPlayer.fail();
     ui.currentPlayer.scene.changePlayer();  
   },
@@ -192,29 +192,29 @@ const ui = {
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    ui.log('Config Saved:', players, config);    
+    ui.log('Config saved:', players, config);    
   },
 
-  changeMasterVolume(event) {
+  changeVolume(event) {
     const newVolume = parseFloat(event.target.value);
-    ui.game.config.master_volume = newVolume;
-    ui.game.scene.getScene('Main').sound.volume = newVolume; 
+    if(event.target.id == 'config_master_volume') {
+      ui.game.config.master_volume = newVolume;
+      ui.game.scene.getScene('Main').sound.volume = newVolume; 
+    }
+    else {  
+      ui.game.config.bgm_volume = newVolume;
+      ui.game.scene.getScene('Main').bgm.setVolume(newVolume); 
+    }
   },
 
-  changeBGMVolume(event) {
-    const newVolume = parseFloat(event.target.value);
-    ui.game.config.bgm_volume = newVolume;
-    ui.game.scene.getScene('Main').bgm.setVolume(newVolume); 
-  },
-
-  switchToTitle() {
+  switchScene(event) {
     ui.game.scene.stop('Main');
-    ui.game.scene.start('Title');
-  },
-
-  switchToResult() {
-    ui.game.scene.stop('Main');
-    ui.game.scene.start('Result');
+    if(event.target.id == 'btn_end') {
+      ui.game.scene.start('Result');
+    }
+    else {
+      ui.game.scene.start('Title');
+    }  
   },
 
   log(...args) {
@@ -227,6 +227,21 @@ const ui = {
     document.getElementById('config_debug').value = config_saved.debug || 'N'
     document.getElementById('config_master_volume').value = config_saved.master_volume || '1'
     document.getElementById('config_bgm_volume').value = config_saved.bgm_volume || '1'
+    document.getElementById('run_code').addEventListener('click', ui.runCode);
+    document.getElementById('skip').addEventListener('click', ui.skipTurn);
+    document.getElementById('config_save').addEventListener('click', ui.saveConfig);
+    document.getElementById('config_master_volume').addEventListener('change', ui.changeVolume);
+    document.getElementById('config_bgm_volume').addEventListener('change', ui.changeVolume);  
+    document.getElementById('btn_back').addEventListener('click', ui.switchScene);
+    document.getElementById('btn_end').addEventListener('click', ui.switchScene);
+
+    //Ctrl + shift + a to show a play options modal
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
+        e.preventDefault();
+        document.getElementById('dialog-config2').showModal();
+      }
+    });
 
     ui.editor = ace.edit('editor', editor_config);
     ui.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
@@ -237,23 +252,5 @@ const ui = {
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
-
-  document.getElementById('run_code').addEventListener('click', ui.runCode);
-  document.getElementById('skip').addEventListener('click', ui.skipTurn);
-  document.getElementById('config-ok').addEventListener('click', ui.saveConfig);
-  document.getElementById('config_master_volume').addEventListener('change', ui.changeMasterVolume);
-  document.getElementById('config_bgm_volume').addEventListener('change', ui.changeBGMVolume);  
-  document.getElementById('btn_back').addEventListener('click', ui.switchToTitle);
-  document.getElementById('btn_end').addEventListener('click', ui.switchToResult);
-
-  //Ctrl + shift + a to show a play options modal
-  window.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
-      e.preventDefault();
-      document.getElementById('dialog-config2').showModal();
-    }
-  });
-
   ui.init();
-
 });

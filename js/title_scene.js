@@ -32,7 +32,7 @@ class TitleScene extends Phaser.Scene {
           this.game.config[key] = config[key];
         }
         this.game.config.debug = config['debug'] == 'Y' ? true : false;
-        ui.log('config loaded:',  ui.game.config);
+        ui.log('Config loaded:',  ui.game.config);
         this.scene.start('Main');
       }
     });

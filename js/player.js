@@ -237,7 +237,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     let item = this.scene.items[player.yGrid][player.xGrid].obj;
     if(item) {
-      ui.log('Got item:', item);
+      ui.log('pick_up:', item);
       item.setVisible(false); 
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
