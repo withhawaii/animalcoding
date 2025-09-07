@@ -141,6 +141,27 @@ const ui = {
     ui.currentPlayer.scene.changePlayer();  
   },
 
+  loadSnippets(key) {
+    const menu = document.getElementById("snippet_select");
+    while (menu.options.length > 1) {
+      menu.remove(1); // remove the second item each time
+    }
+    CST.SNIPPETS[key].forEach((value, index) => {
+      const option = document.createElement("option");
+      option.value = value[0];
+      option.textContent = value[1];
+      menu.appendChild(option);
+    });
+  },
+
+  insertCode(event) {
+    const snippet = event.target.value;
+    if (snippet) {
+      ui.editor.session.insert(ui.editor.getCursorPosition(), snippet + "\n");
+      event.target.value = "";
+    }
+  },
+
   enableButton(id) {
     const btn = document.getElementById(id)
     btn.disabled = false; 
@@ -228,6 +249,7 @@ const ui = {
     document.getElementById('config_master_volume').value = config_saved.master_volume || '1'
     document.getElementById('config_bgm_volume').value = config_saved.bgm_volume || '1'
     document.getElementById('run_code').addEventListener('click', ui.runCode);
+    document.getElementById('snippet_select').addEventListener('change', ui.insertCode);
     document.getElementById('skip').addEventListener('click', ui.skipTurn);
     document.getElementById('config_save').addEventListener('click', ui.saveConfig);
     document.getElementById('config_master_volume').addEventListener('change', ui.changeVolume);
@@ -244,7 +266,7 @@ const ui = {
     });
 
     ui.editor = ace.edit('editor', editor_config);
-    ui.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
+//    ui.editor.setValue('/*\nAvailable commands:\nturn_right();\nturn_left();\nmove_forward();\npick_up();\n*/\n')
     ui.game = new Phaser.Game(game_config);
     ui.disableButton('run_code');
     ui.disableButton('skip');

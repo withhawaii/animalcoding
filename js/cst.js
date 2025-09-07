@@ -32,5 +32,14 @@ const CST = {
     0xf012be,
     0xb10dc9
   ],
+
+  SNIPPETS: {
+    stage1: [
+      ["move_forward();", "move_forward()"], 
+      ["turn_left();", "turn_left()"],
+      ["turn_right();", "turn_right()"], 
+      ["pick_up();", "pick_up()"],
+    ]
+  }
 }
    

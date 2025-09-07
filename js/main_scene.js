@@ -11,6 +11,7 @@ class MainScene extends Phaser.Scene {
     this.createDice();
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
+    ui.loadSnippets(this.game.config.stage);
 
     const intro = this.sound.get('intro');
     this.bgm = this.sound.get('bgm_01');
@@ -27,7 +28,6 @@ class MainScene extends Phaser.Scene {
     for(let i = 0; i < 4; i++) {
       this.clouds.create(Phaser.Math.Between(0, 1024), Phaser.Math.Between(0, 704), 'textures',`Cloud_0${i + 1}`).setOrigin(0, 0).setVelocity(Phaser.Math.Between(5, 30), 0);
     }
-//    this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
   }
 
   createMap() {
@@ -116,6 +116,7 @@ class MainScene extends Phaser.Scene {
     }
     ui.log('New Player:', ui.currentPlayer);
     ui.currentPlayer.startIdle();
+    ui.editor.setValue("", -1);
     this.dice.show();
   }
 
