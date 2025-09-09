@@ -105,9 +105,26 @@ class MainScene extends Phaser.Scene {
       this.sound.add(prop);
     }
     this.sound.volume = this.game.config.master_volume;
-  }  
+  }
+
+  isAllItemsPicked() {
+    for (let i = 0; i < this.items.length; i++) {
+      for (let j = 0; j < this.items[i].length; j++) {
+        let tileData = this.items[i][j];
+        if(this.items[i][j].obj && this.items[i][j].obj.visible) {
+          ui.log('Item sill there:', this.items[i][j].obj);
+          return(false);
+        }
+      }
+    }
+    return(true);
+  }
 
   changePlayer() {
+    if(this.isAllItemsPicked()) {
+      this.scene.start('Result');
+    }
+
     if(ui.currentPlayer.id + 1 >= this.players.length) {
       ui.currentPlayer = this.players[0];
     }

@@ -34,6 +34,12 @@ const CST = {
   ],
 
   SNIPPETS: {
+    demo: [
+      ["move_forward();", "move_forward()"], 
+      ["turn_left();", "turn_left()"],
+      ["turn_right();", "turn_right()"], 
+      ["pick_up();", "pick_up()"],
+    ],
     stage1: [
       ["move_forward();", "move_forward()"], 
       ["turn_left();", "turn_left()"],

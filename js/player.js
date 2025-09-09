@@ -48,7 +48,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   startIdle(height = 10, duration = 500) {
     let player = this;
-    this.idle_tween = this.scene.tweens.add({
+    this.scene.tweens.add({
       targets: player,
       y: player.y - height,
       ease: 'Quad.easeOut',
@@ -61,7 +61,7 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   stopIdle() {
-    this.idle_tween.destroy();
+    this.scene.tweens.killTweensOf(this);
     this.y = this.yGrid * 32 + 64;
   }
 

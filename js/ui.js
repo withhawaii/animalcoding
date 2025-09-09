@@ -127,7 +127,7 @@ const ui = {
 
   handleError(error) {
     document.getElementById('error-message').innerHTML = error.message;
-    document.getElementById('dialog-default').showModal();
+    ui.showModal('dialog-default');
     ui.log('Error:', ui.currentPlayer, error);
     ui.currentPlayer.fail();
     ui.currentPlayer.scene.changePlayer();  
@@ -138,7 +138,7 @@ const ui = {
     ui.disableButton('skip');
     ui.currentPlayer.stopIdle();
     ui.interpreter = new Interpreter('', ui.initInterpreter);
-    setTimeout(runCode, 110);
+    setTimeout(ui.runCode, 110);
   },
 
   loadSnippets(key) {
@@ -261,7 +261,7 @@ const ui = {
     window.addEventListener('keydown', (e) => {
       if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
         e.preventDefault();
-        document.getElementById('dialog-config2').showModal();
+        ui.showModal('dialog-config2');
       }
     });
 
