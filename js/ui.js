@@ -3,6 +3,8 @@ const ui = {
   interpreter: null,
   game: null,
   currentPlayer: null,
+  errorCount: 0,
+  errorAllowance: 1,
 
   editorConfig: {
     selectionStyle: 'line',// 'line'|'text'
@@ -126,11 +128,21 @@ const ui = {
   },
 
   handleError(error) {
-    document.getElementById('error-message').innerHTML = error.message;
+    ui.errorCount += 1;
+    ui.currentPlayer.error += 1;
+    ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
+    ui.currentPlayer.hangUp();
+    if(ui.errorCount <= ui.errorAllowance) {
+      document.getElementById('error-message').innerHTML = `${error.message}.<br/>Debug your code and run it again!`;
+      ui.currentPlayer.bounce();
+      ui.enableButton('run_code');
+      ui.enableButton('skip');
+    }
+    else {
+      document.getElementById('error-message').innerHTML = `${error.message}.<br/>Moving onto the next player!`;
+      ui.currentPlayer.scene.changePlayer();  
+    }
     ui.showModal('dialog-default');
-    ui.log('Error:', ui.currentPlayer, error);
-    ui.currentPlayer.fail();
-    ui.currentPlayer.scene.changePlayer();  
   },
 
   skipTurn() {

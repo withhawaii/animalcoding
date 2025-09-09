@@ -85,11 +85,6 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  fail() {
-    this.hangUp(100);
-    this.updateEnergy(-1 * this.energy);  
-  }
-
   turn(step) {
     let player = this;
     //Modulo calculation to get a new direction

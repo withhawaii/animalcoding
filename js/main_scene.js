@@ -121,6 +121,8 @@ class MainScene extends Phaser.Scene {
   }
 
   changePlayer() {
+    ui.errorCount = 0;
+
     if(this.isAllItemsPicked()) {
       this.scene.start('Result');
     }
