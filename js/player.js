@@ -16,6 +16,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.crystal = 0;
     this.error = 0;
     this.score = 0;
+    this.code = "";
     this.setFrame(this.direction);
     this.setDepth(this.yGrid);
     this.scene.add.existing(this);

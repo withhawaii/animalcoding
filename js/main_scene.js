@@ -135,7 +135,7 @@ class MainScene extends Phaser.Scene {
     }
     ui.log('New Player:', ui.currentPlayer);
     ui.currentPlayer.bounce();
-    ui.editor.setValue("", -1);
+    ui.editor.setValue(ui.currentPlayer.code, -1);
     this.dice.show();
   }
 

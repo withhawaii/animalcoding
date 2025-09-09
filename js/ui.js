@@ -99,7 +99,8 @@ const ui = {
     ui.disableButton('skip');
     ui.currentPlayer.reposition();
     try {
-      ui.interpreter = new Interpreter(ui.editor.getValue(), ui.interpreterConfig);
+      ui.currentPlayer.code = ui.editor.getValue();
+      ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.interpreterConfig);
       setTimeout(ui.runStep, 110);
     }
     catch(e) {
@@ -114,7 +115,7 @@ const ui = {
     ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
     ui.log(ui.interpreter.getStatus(), node.type);
     if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
-      ui.currentPlayer.scene.changePlayer();  
+      ui.currentPlayer.scene.changePlayer();
     }
     else {  
       try {
