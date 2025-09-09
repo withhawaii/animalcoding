@@ -17,7 +17,7 @@ class MainScene extends Phaser.Scene {
     this.bgm = this.sound.get('bgm_01');
     intro.on('complete', () => {
       this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
-      ui.currentPlayer.startIdle();
+      ui.currentPlayer.bounce();
       this.dice.show();
     });
     intro.play({volume: this.game.config.bgm_volume});
@@ -132,7 +132,7 @@ class MainScene extends Phaser.Scene {
       ui.currentPlayer = this.players[ui.currentPlayer.id + 1];
     }
     ui.log('New Player:', ui.currentPlayer);
-    ui.currentPlayer.startIdle();
+    ui.currentPlayer.bounce();
     ui.editor.setValue("", -1);
     this.dice.show();
   }

@@ -46,7 +46,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
-  startIdle(height = 10, duration = 500) {
+  bounce(height = 10, duration = 500) {
     let player = this;
     this.scene.tweens.add({
       targets: player,
@@ -60,7 +60,7 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  stopIdle() {
+  reposition() {
     this.scene.tweens.killTweensOf(this);
     this.y = this.yGrid * 32 + 64;
   }

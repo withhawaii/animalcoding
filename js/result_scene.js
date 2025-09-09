@@ -118,7 +118,7 @@ class ResultScene extends Phaser.Scene {
       let sprite = players_sorted[i].sprite;
       this.players[i] = new Player(this, 362 + 100 * i, 175 + 20 * i, sprite, i, 0, 0, CST.DOWN);
       if(i == 0) {
-        this.players[i].startIdle();
+        this.players[i].bounce();
       }
       else if(i == players_sorted.length - 1) {
         this.players[i].setFrame(4);

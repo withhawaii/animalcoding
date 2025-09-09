@@ -95,7 +95,7 @@ const ui = {
   runCode() {
     ui.disableButton('run_code');
     ui.disableButton('skip');
-    ui.currentPlayer.stopIdle();
+    ui.currentPlayer.reposition();
     try {
       ui.interpreter = new Interpreter(ui.editor.getValue(), ui.interpreterConfig);
       setTimeout(ui.runStep, 110);
@@ -136,7 +136,7 @@ const ui = {
   skipTurn() {
     ui.disableButton('run_code');
     ui.disableButton('skip');
-    ui.currentPlayer.stopIdle();
+    ui.currentPlayer.reposition();
     ui.interpreter = new Interpreter('', ui.initInterpreter);
     setTimeout(ui.runCode, 110);
   },
@@ -192,6 +192,8 @@ const ui = {
     let config = JSON.parse(localStorage.getItem('config')) || {};
     config.stage = document.getElementById('config_stage').value;
     config.debug = document.getElementById('config_debug').value;
+    config.master_volume = document.getElementById('config_master_volume').value;
+    config.bgm_volume = document.getElementById('config_bgm_volume').value;
     localStorage.setItem('config', JSON.stringify(config));
 
     let players = {}
@@ -213,7 +215,7 @@ const ui = {
     }
     localStorage.setItem('players', JSON.stringify(players));
 
-    ui.log('Config saved:', players, config);    
+    console.log('Config saved:', players, config);    
   },
 
   changeVolume(event) {
@@ -243,11 +245,15 @@ const ui = {
   },
 
   init() {
-    const config_saved = JSON.parse(localStorage.getItem('config'));
-    document.getElementById('config_stage').value = config_saved.stage || 'stage1'
-    document.getElementById('config_debug').value = config_saved.debug || 'N'
-    document.getElementById('config_master_volume').value = config_saved.master_volume || '1'
-    document.getElementById('config_bgm_volume').value = config_saved.bgm_volume || '1'
+    let config_saved = JSON.parse(localStorage.getItem('config'));
+    if(!config_saved) {
+      ui.saveConfig();
+      config_saved = JSON.parse(localStorage.getItem('config'));
+    }
+    document.getElementById('config_stage').value = config_saved.stage
+    document.getElementById('config_debug').value = config_saved.debug
+    document.getElementById('config_master_volume').value = config_saved.master_volume
+    document.getElementById('config_bgm_volume').value = config_saved.bgm_volume       
     document.getElementById('run_code').addEventListener('click', ui.runCode);
     document.getElementById('snippet_select').addEventListener('change', ui.insertCode);
     document.getElementById('skip').addEventListener('click', ui.skipTurn);
