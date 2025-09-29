@@ -4,6 +4,10 @@ const CST = {
   DOWN: 2,
   LEFT: 3,
 
+  COIN_POINT: 1,
+  RUBY_POINT: 5,
+  CRYSTAL_POINT: 10,
+
   IMAGES: {
     dice_albedo: 'images/dice-albedo.png',
     ground: 'tilemap/ground.png',
@@ -32,6 +36,45 @@ const CST = {
     0xf012be,
     0xb10dc9
   ],
+
+  STAGE_CONFIG: {
+    stage1: {
+      name: 'Stage 1',
+      next: 'stage2',
+      snippets: [
+        ["move_forward();", "move_forward()"], 
+        ["turn_left();", "turn_left()"],
+        ["turn_right();", "turn_right()"], 
+        ["pick_up();", "pick_up()"],
+      ]
+    },  
+    stage2: {
+      name: 'Stage 2',
+      next: 'stage3',
+    }, 
+    stage3: {
+      name: 'Stage 3',
+      next: 'stage4',
+    }, 
+    stage4: {
+      name: 'Stage 4',
+      next: 'stage4',
+    }, 
+    stage5: {
+      name: 'Stage 5',
+      next: null,
+    },
+    demo: {
+      name: 'Demo',
+      next: null,
+      snippets: [
+        ["move_forward();", "move_forward()"], 
+        ["turn_left();", "turn_left()"],
+        ["turn_right();", "turn_right()"], 
+        ["pick_up();", "pick_up()"],
+      ]
+    },
+  },
 
   SNIPPETS: {
     demo: [

@@ -102,7 +102,7 @@ class ResultScene extends Phaser.Scene {
   createPlayers() {
     const defaultFontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff', fill: '#ffffff'}
     this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
-    this.add.image(1024/2, 250, 'textures', 'Podium');
+    this.add.image(1024/2, 230, 'textures', 'Podium');
     let coin = this.add.image(250, 348, 'textures', 'Coin').setOrigin(0.5, 0.5);
     let ruby = this.add.image(250, 396, 'textures', 'Ruby').setOrigin(0.5, 0.5);
     let crystal = this.add.image(250, 454, 'textures', 'Crystal').setOrigin(0.5, 0.5);
@@ -110,13 +110,15 @@ class ResultScene extends Phaser.Scene {
     crystal.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     this.add.text(300, 500, 'Errors:', defaultFontStyle).setOrigin(1, 0.5);
-    this.add.text(300, 550, 'Scores:', defaultFontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 550, 'Score:', defaultFontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 600, 'Total:', defaultFontStyle).setOrigin(1, 0.5);
 
-    let players_sorted = Object.values(JSON.parse(localStorage.getItem('players'))) 
+    let players_sorted = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b[this.game.config.stage].score - a[this.game.config.stage].score);
+    ui.log(players_sorted);
     this.players = [];
     for(let i = 0; i < players_sorted.length; i++) {
       let sprite = players_sorted[i].sprite;
-      this.players[i] = new Player(this, 362 + 100 * i, 175 + 20 * i, sprite, i, 0, 0, CST.DOWN);
+      this.players[i] = new Player(this, 362 + 100 * i, 155 + 20 * i, sprite, i, 0, 0, CST.DOWN);
       if(i == 0) {
         this.players[i].bounce();
       }
@@ -124,11 +126,12 @@ class ResultScene extends Phaser.Scene {
         this.players[i].setFrame(4);
       }
       let player_info = players_sorted[i][this.game.config.stage];
+      this.add.text(362 + 100 * i, 295, players_sorted[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff', fill: '#ffffff'}).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 350, player_info.coin, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 400, player_info.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 450, player_info.crystal, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 500, player_info.error, defaultFontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 550, player_info.score, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 550, players_sorted[i].score, defaultFontStyle).setOrigin(0.5, 0.5);
     }
     ui.currentPlayer = this.players[0];
   }

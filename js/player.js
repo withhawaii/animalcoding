@@ -15,7 +15,6 @@ class Player extends Phaser.GameObjects.Sprite {
     this.ruby = 0;
     this.crystal = 0;
     this.error = 0;
-    this.score = 0;
     this.code = "";
     this.setFrame(this.direction);
     this.setDepth(this.yGrid);
@@ -31,20 +30,25 @@ class Player extends Phaser.GameObjects.Sprite {
     player.toolbar.setEnergy(player.energy);
   }
 
-  updateItem(key, value) {
+  updateItem(item, value) {
     let player = this;
-    if(key == 'coin') {
+    if(item.index == 30) {
       player.coin = player.coin + value;
       player.toolbar.coinText.setText(player.coin);
     }
-    else if(key == 'ruby') {
+    else if(item.index == 32) {
       player.ruby = player.ruby + value;
       player.toolbar.coinText.setText(player.ruby);
     }
-    else if(key == 'crystal') {
+    else if(item.index == 31) {
       player.crystal = player.crystal + value;
       player.toolbar.crystalText.setText(player.crystal);
     }
+  }
+
+  score() {
+    let score = this.coin * CST.COIN_POINT + this.ruby * CST.RUBY_POINT + this.crystal * CST.CRYSTAL_POINT;
+    return score;
   }
 
   bounce(height = 10, duration = 500) {
@@ -231,13 +235,13 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    let item = this.scene.items[player.yGrid][player.xGrid].obj;
-    if(item) {
+    let item = this.scene.items[player.yGrid][player.xGrid];
+    if(item.index != -1) {
       ui.log('pick_up:', item);
-      item.setVisible(false); 
+      item.obj.setVisible(false); 
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
-      player.updateItem('coin', 1);
+      player.updateItem(item, 1);
     }
     else {
       this.hangUp();      
