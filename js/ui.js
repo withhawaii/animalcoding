@@ -92,6 +92,10 @@ const ui = {
       ui.log('turn_right');
       return ui.currentPlayer.pickUp();
     }));
+    interpreter.setProperty(scope, 'take', interpreter.createNativeFunction(function() {
+      ui.log('take');
+      return ui.currentPlayer.take();
+    }));
   },
 
   runCode() {
@@ -204,6 +208,7 @@ const ui = {
   saveConfig() {
     let config = JSON.parse(localStorage.getItem('config')) || {};
     config.stage = document.getElementById('config_stage').value;
+    config.shuffle = document.getElementById('config_shuffle').value;
     config.debug = document.getElementById('config_debug').value;
     config.master_volume = document.getElementById('config_master_volume').value;
     config.bgm_volume = document.getElementById('config_bgm_volume').value;

@@ -46,6 +46,7 @@ const CST = {
         ["turn_left();", "turn_left()"],
         ["turn_right();", "turn_right()"], 
         ["pick_up();", "pick_up()"],
+        ["take();", "take()"],
       ]
     },  
     stage2: {
@@ -72,6 +73,7 @@ const CST = {
         ["turn_left();", "turn_left()"],
         ["turn_right();", "turn_right()"], 
         ["pick_up();", "pick_up()"],
+        ["take();", "take()"],
       ]
     },
   },
@@ -82,6 +84,7 @@ const CST = {
       ["turn_left();", "turn_left()"],
       ["turn_right();", "turn_right()"], 
       ["pick_up();", "pick_up()"],
+      ["take();", "take()"],
     ],
     stage1: [
       ["move_forward();", "move_forward()"], 

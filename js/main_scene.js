@@ -65,14 +65,19 @@ class MainScene extends Phaser.Scene {
   }
 
   createPlayers() {
-    let players = JSON.parse(localStorage.getItem('players'));
-    let players_shuffled = Object.values(players).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+    let players;
+    if(this.game.config.shuffle) {
+      players = Object.values(JSON.parse(localStorage.getItem('players'))).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+    }
+    else {
+      players = Object.values(JSON.parse(localStorage.getItem('players')))
+    }
     const player_coordinates = this.map.getObjectLayer('players').objects;
     const toolbar_coordinates = [[0,0],[756,0],[756,640],[0,640]];
     this.players = [];
-    for(let i = 0; i < players_shuffled.length; i++) {
-      let sprite = players_shuffled[i].sprite;
-      let name = players_shuffled[i].name;      
+    for(let i = 0; i < players.length; i++) {
+      let sprite = players[i].sprite;
+      let name = players[i].name;
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
       this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);

@@ -30,17 +30,17 @@ class Player extends Phaser.GameObjects.Sprite {
     player.toolbar.setEnergy(player.energy);
   }
 
-  updateItem(item, value) {
+  updateItem(item_index, value) {
     let player = this;
-    if(item.index == 30) {
+    if(item_index == 30) {
       player.coin = player.coin + value;
       player.toolbar.coinText.setText(player.coin);
     }
-    else if(item.index == 32) {
+    else if(item_index == 32) {
       player.ruby = player.ruby + value;
       player.toolbar.coinText.setText(player.ruby);
     }
-    else if(item.index == 31) {
+    else if(item_index == 31) {
       player.crystal = player.crystal + value;
       player.toolbar.crystalText.setText(player.crystal);
     }
@@ -241,10 +241,32 @@ class Player extends Phaser.GameObjects.Sprite {
       item.obj.setVisible(false); 
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
-      player.updateItem(item, 1);
+      player.updateItem(item.index, 1);
     }
     else {
       this.hangUp();      
     }
+  }
+
+  take() {
+    let player = this;
+
+    if(player.energy <= 0) {
+      this.hangUp();
+      return;
+    }
+
+    let players = this.scene.players;
+    for(let i = 0; i < players.length; i++) {
+      if(player.xGrid == players[i].xGrid && player.yGrid == players[i].yGrid) {
+        if(players[i].crystal > 0) {
+          this.scene.sound.play('pickup');
+          players[i].updateItem(31, -1);
+          player.updateItem(31, 1);
+          return;
+        }
+      }
+    }
+    this.hangUp();
   }
 } 

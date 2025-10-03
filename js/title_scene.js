@@ -31,6 +31,7 @@ class TitleScene extends Phaser.Scene {
         for (const key in config) {
           this.game.config[key] = config[key];
         }
+        this.game.config.shuffle = config.shuffle == 'Y' ? true : false;
         this.game.config.debug = config.debug == 'Y' ? true : false;
         ui.log('Config loaded:',  ui.game.config);
         this.scene.start('Main');
