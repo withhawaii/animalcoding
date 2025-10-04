@@ -91,9 +91,6 @@ class MainScene extends Phaser.Scene {
     this.dice.on('pointerdown', () => {
       if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
         this.dice.roll((diceValue) => {
-          if(this.game.config.debug) {
-            diceValue = 6;
-          }
           ui.currentPlayer.updateEnergy(diceValue);
           ui.log('Dice value:', diceValue, 'New energy:', ui.currentPlayer.energy);
           this.dice.hide();

@@ -43,14 +43,12 @@ class Dice extends Phaser.GameObjects.Container {
     if (!this.diceIsRolling) {
         this.diceIsRolling = true;
         let diceRoll;
-        diceRoll = Phaser.Math.Between(1, 6);
-        // if (currentPlayer.id == 0) {
-        //     diceRoll = 6;
-        // }
-        // else {
-        //     diceRoll = Phaser.Math.Between(1, 6);
-        // }
-         
+        if(this.scene.game.config.debug) {
+          diceRoll = 6;
+        }
+        else {
+          diceRoll = Phaser.Math.Between(1, 6);
+        }         
 
         // Shadow
         this.scene.add.tween({
