@@ -38,7 +38,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
     else if(item_index == 32) {
       player.ruby = player.ruby + value;
-      player.toolbar.coinText.setText(player.ruby);
+      player.toolbar.rubyText.setText(player.ruby);
     }
     else if(item_index == 31) {
       player.crystal = player.crystal + value;

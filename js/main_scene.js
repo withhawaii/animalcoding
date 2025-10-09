@@ -13,14 +13,39 @@ class MainScene extends Phaser.Scene {
     this.events.once('shutdown', this.shutdown, this);
     ui.loadSnippets(this.game.config.stage);
 
-    const intro = this.sound.get('intro');
+    this.sound.play('intro', {volume: this.game.config.bgm_volume});
     this.bgm = this.sound.get('bgm_01');
-    intro.on('complete', () => {
-      this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
-      ui.currentPlayer.bounce();
-      this.dice.show();
+
+    const stageText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Stage 1', {
+      fontFamily: '"Press Start 2P"',
+      fontSize: '48px',
+      color: '#ffffff'
+    }).setOrigin(0.5);
+    stageText.setAlpha(0);
+    stageText.setDepth(20);
+
+    this.tweens.add({
+      targets: stageText,
+      alpha: 1,
+      duration: 2000,
+      ease: 'Power2',
+      onComplete: () => {
+        this.time.delayedCall(2000, () => {
+          this.tweens.add({
+            targets: stageText,
+            alpha: 0,
+            duration: 2000,
+            ease: 'Power2',
+            onComplete: () => {
+              stageText.destroy();
+              this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
+              ui.currentPlayer.bounce();
+              this.dice.show();
+            }
+          });
+        });
+      }
     });
-    intro.play({volume: this.game.config.bgm_volume});
   }
 
   createBackground() {
