@@ -51,13 +51,13 @@ class Player extends Phaser.GameObjects.Sprite {
     return score;
   }
 
-  bounce(height = 10, duration = 500) {
+  bounce(height = 10, duration = 350) {
     let player = this;
     this.scene.tweens.add({
       targets: player,
       y: player.y - height,
       ease: 'Quad.easeOut',
-      duration: 500,
+      duration: duration,
       repeat: -1,
       yoyo: true,
       onComplete: function() {
