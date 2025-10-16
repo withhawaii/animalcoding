@@ -11,12 +11,13 @@ class MainScene extends Phaser.Scene {
     this.createDice();
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
-    ui.loadSnippets(this.game.config.stage);
+    this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
+    ui.loadSnippets(this.stage_config.snippets);
 
     this.sound.play('intro', {volume: this.game.config.bgm_volume});
     this.bgm = this.sound.get('bgm_01');
 
-    const stageText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Stage 1', {
+    const stageText = this.add.text(this.scale.width / 2, this.scale.height / 2, this.stage_config.name, {
       fontFamily: '"Press Start 2P"',
       fontSize: '48px',
       color: '#ffffff'

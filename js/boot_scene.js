@@ -17,6 +17,10 @@ class BootScene extends Phaser.Scene {
     this.load.atlas('textures', 'images/textures.png', 'images/textures.json')
     this.load.spritesheet('objects', 'tilemap/objects.png', { frameWidth: 64, frameHeight: 64 });
     this.load.tilemapTiledJSON('stage1', 'tilemap/' + 'stage1.json');
+    this.load.tilemapTiledJSON('stage2', 'tilemap/' + 'stage2.json');
+    this.load.tilemapTiledJSON('stage3', 'tilemap/' + 'stage3.json');
+    this.load.tilemapTiledJSON('stage4', 'tilemap/' + 'stage4.json');
+    this.load.tilemapTiledJSON('stage5', 'tilemap/' + 'stage5.json');
     this.load.tilemapTiledJSON('demo', 'tilemap/' + 'demo.json');
   }
   

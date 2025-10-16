@@ -10,7 +10,10 @@ class ResultScene extends Phaser.Scene {
     this.createPlayers();
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
+    this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
+
     this.input.on('pointerdown', () => {
+      this.game.config.stage = this.stage_config.next;
       this.scene.stop('Result');
       this.scene.start('Main');
     });
