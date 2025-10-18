@@ -23,6 +23,7 @@ const CST = {
     intro: 'audio/jingle_01.mp3',
     result: 'audio/jingle_02.mp3',
     bgm_01: 'audio/bgm_01.wav',
+    bgm_02: 'audio/bgm_02.wav',
   },
 
   TINTS: [
@@ -41,6 +42,7 @@ const CST = {
     stage1: {
       name: 'Stage 1',
       next: 'stage2',
+      bgm: 'bgm_01',
       snippets: [
         "move_forward();", 
         "turn_left();",
@@ -52,6 +54,7 @@ const CST = {
     stage2: {
       name: 'Stage 2',
       next: 'stage3',
+      bgm: 'bgm_02',
       snippets: [
         "move_forward();", 
         "turn_left();",
@@ -63,6 +66,7 @@ const CST = {
     stage3: {
       name: 'Stage 3',
       next: 'stage4',
+      bgm: 'bgm_01',
       snippets: [
         "move_forward();", 
         "turn_left();",
@@ -74,6 +78,7 @@ const CST = {
     stage4: {
       name: 'Stage 4',
       next: 'stage5',
+      bgm: 'bgm_02',
       snippets: [
         "move_forward();", 
         "turn_left();",
@@ -85,6 +90,7 @@ const CST = {
     stage5: {
       name: 'Stage 5',
       next: null,
+      bgm: 'bgm_01',
       snippets: [
         "move_forward();", 
         "turn_left();",
@@ -96,6 +102,7 @@ const CST = {
     demo: {
       name: 'Demo',
       next: null,
+      bgm: 'bgm_02',
       snippets: [
         "move_forward();", 
         "turn_left();",

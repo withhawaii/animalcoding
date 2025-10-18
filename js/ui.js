@@ -102,7 +102,7 @@ const ui = {
     });
   },
 
-  insertCode(event) {
+  insertSnippet(event) {
     const snippet = event.target.value;
     if (snippet) {
       ui.editor.session.insert(ui.editor.getCursorPosition(), snippet + "\n");
@@ -204,7 +204,7 @@ const ui = {
     document.getElementById('config_master_volume').value = config_saved.master_volume
     document.getElementById('config_bgm_volume').value = config_saved.bgm_volume       
     document.getElementById('run_code').addEventListener('click', ui.runCode);
-    document.getElementById('snippet_select').addEventListener('change', ui.insertCode);
+    document.getElementById('snippet_select').addEventListener('change', ui.insertSnippet);
     document.getElementById('skip').addEventListener('click', ui.skipTurn);
     document.getElementById('config_save').addEventListener('click', ui.saveConfig);
     document.getElementById('config_master_volume').addEventListener('change', ui.changeVolume);
