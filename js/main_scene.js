@@ -60,6 +60,7 @@ class MainScene extends Phaser.Scene {
     const groundTileset = this.map.addTilesetImage('ground', 'ground');
     this.ground = this.map.createLayer('ground', groundTileset, 0, 64);
 
+    this.traps = [];
     const objectsTileset = this.map.getTileset('objects');
     //Manually render obstacles as images
     this.obstacles = this.map.getLayer('obstacles').data;
@@ -67,12 +68,35 @@ class MainScene extends Phaser.Scene {
       for (let j = 0; j < this.obstacles[i].length; j++) {
         let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
-          this.obstacles[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
+          //Create sprite for traps
+          if(tileData.index == 18) {
+            this.obstacles[i][j].obj = this.add.sprite(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
+            this.traps.push(this.obstacles[i][j].obj);
+          }
+          else {
+            this.obstacles[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
+          }
           this.obstacles[i][j].obj.setOrigin(0, 0.5);
           this.obstacles[i][j].obj.depth = i;
         }
       }
     }
+
+    this.time.addEvent({
+      delay: 5000,     
+      callback: () => {
+        for(let i = 0; i < this.traps.length; i++) {
+          if(this.traps[i].frame.name == CST.TRAP_ON) {
+            this.traps[i].setFrame(CST.TRAP_OFF);
+          }
+          else {
+            this.traps[i].setFrame(CST.TRAP_ON);            
+          }
+        }
+        this.sound.play('trap');
+      },
+      loop: true 
+    });
 
     //Manually render items as images
     this.items = this.map.getLayer('items').data;

@@ -126,7 +126,7 @@ class ResultScene extends Phaser.Scene {
         this.players[i].bounce();
       }
       else if(i == players_sorted.length - 1) {
-        this.players[i].setFrame(4);
+        this.players[i].setFrame(CST.FALL);
       }
       let player_info = players_sorted[i][this.game.config.stage];
       this.add.text(362 + 100 * i, 295, players_sorted[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff', fill: '#ffffff'}).setOrigin(0.5, 0.5);

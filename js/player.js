@@ -81,7 +81,7 @@ class Player extends Phaser.GameObjects.Sprite {
       repeat: 0,
       yoyo: true,
       onComplete: function() {
-        player.setFrame(4);        
+        player.setFrame(CST.FALL);        
         ui.log('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
            player.setFrame(player.direction);

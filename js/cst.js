@@ -3,6 +3,10 @@ const CST = {
   RIGHT: 1,
   DOWN: 2,
   LEFT: 3,
+  FALL: 4,
+
+  TRAP_ON: 17,
+  TRAP_OFF: 18,
 
   COIN_POINT: 1,
   RUBY_POINT: 5,
@@ -20,6 +24,7 @@ const CST = {
     charged: 'audio/powerup.mp3',
     hangup: 'audio/freeze.mp3',
     pickup: 'audio/pickup.mp3',
+    trap: 'audio/trap.mp3',
     intro: 'audio/jingle_01.mp3',
     result: 'audio/jingle_02.mp3',
     bgm_01: 'audio/bgm_01.wav',
