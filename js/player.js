@@ -70,24 +70,80 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = this.yGrid * 32 + 64;
   }
 
-  hangUp(duration = 100) {
+  gridAhead() {
     let player = this;
-    this.scene.sound.play('hangup');
-    this.scene.tweens.add({
-      targets: player,
-      y: player.y - 10,
-      ease: 'Bounce',
-      duration: duration,
-      repeat: 0,
-      yoyo: true,
-      onComplete: function() {
-        player.setFrame(CST.FALL);        
-        ui.log('hangup:', player.x, player.y, player.direction);
-        player.scene.time.delayedCall(1000, () => {
-           player.setFrame(player.direction);
-        });
-      }
-    });
+    let newGrid = {}
+
+    if (player.direction == CST.UP) {
+      newGrid.x = player.xGrid;
+      newGrid.y = player.yGrid - 1;
+    } else if (player.direction == CST.RIGHT) {
+      newGrid.x = player.xGrid + 1;
+      newGrid.y = player.yGrid;
+    } else if (player.direction == CST.DOWN) {
+      newGrid.x = player.xGrid;
+      newGrid.y = player.yGrid + 1;
+    } else if (player.direction == CST.LEFT) {
+      newGrid.x = player.xGrid - 1;
+      newGrid.y = player.yGrid;
+    }
+
+    return newGrid;
+  }
+
+  pathAhead() {
+    let player = this;
+    let newGrid = player.gridAhead();
+
+    //Move only when a solid ground exists and no obstruct on the way
+    let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
+    return (ground && ground.properties['move'] && !this.scene.obstacles[newGrid.x][newGrid.y].obj) 
+  }
+
+  move() {
+    let player = this;
+    let newGrid = player.gridAhead();
+
+    if(player.energy <= 0) {
+      this.hangUp();
+      return;
+    }
+    
+    if(player.pathAhead()) {
+      player.setDepth(newGrid.y);
+      this.scene.sound.play('move');
+      this.scene.tweens.add({
+        targets: player,
+        x: newGrid.x * 64 + 32,
+        y: newGrid.y * 32 + 64,
+        ease: 'Bounce',
+        duration: 500,
+        repeat: 0,
+        yoyo: false,
+        onComplete: function() {
+          player.xGrid = newGrid.x;
+          player.yGrid = newGrid.y;
+          player.updateEnergy(-1);
+          ui.log('move:', player.xGrid, player.yGrid, player.direction);
+        }
+      });
+    }
+    else {
+      this.scene.sound.play('stuck');
+      this.scene.tweens.add({
+        targets: this,
+        x: newGrid.x * 64 + 32,
+        y: newGrid.y * 32 + 64,
+        ease: 'Bounce',
+        duration: 500,
+        repeat: 0,
+        yoyo: true,
+        onComplete: function() {
+          player.updateEnergy(- 1);
+          ui.log('stuck:', player.x, player.y, player.direction);
+        }
+      });
+    }
   }
 
   turn(step) {
@@ -117,112 +173,23 @@ class Player extends Phaser.GameObjects.Sprite {
       }
     });
   }
-  
-  move() {
+
+  hangUp(duration = 100) {
     let player = this;
-    let new_xGrid;
-    let new_yGrid;
-
-    if(player.energy <= 0) {
-      this.hangUp();
-      return;
-    }
-
-    if (player.direction == CST.UP) {
-      new_xGrid = player.xGrid;
-      new_yGrid = player.yGrid - 1;
-    } else if (player.direction == CST.RIGHT) {
-      new_xGrid = player.xGrid + 1;
-      new_yGrid = player.yGrid;
-    } else if (player.direction == CST.DOWN) {
-      new_xGrid = player.xGrid;
-      new_yGrid = player.yGrid + 1;
-    } else if (player.direction == CST.LEFT) {
-      new_xGrid = player.xGrid - 1;
-      new_yGrid = player.yGrid;
-    }
-    
-    //Move only when a solid ground exists and no obstruct on the way
-    let ground = this.scene.ground.getTileAt(new_xGrid, new_yGrid, true);
-    if(ground && ground.properties['move'] && !this.scene.obstacles[new_yGrid][new_xGrid].obj) {
-      player.setDepth(new_yGrid);
-      this.scene.sound.play('move');
-      this.scene.tweens.add({
-        targets: player,
-        x: new_xGrid * 64 + 32,
-        y: new_yGrid * 32 + 64,
-        ease: 'Bounce',
-        duration: 500,
-        repeat: 0,
-        yoyo: false,
-        onComplete: function() {
-          player.xGrid = new_xGrid;
-          player.yGrid = new_yGrid;
-          player.updateEnergy(-1);
-          ui.log('move:', player.xGrid, player.yGrid, player.direction);
-        }
-      });
-    }
-    else {
-      this.stuck();
-    }
-  }
-
-  path_ahead() {
-    let player = this;
-    let new_xGrid;
-    let new_yGrid;
-
-    if (player.direction == CST.UP) {
-      new_xGrid = player.xGrid;
-      new_yGrid = player.yGrid - 1;
-    } else if (player.direction == CST.RIGHT) {
-      new_xGrid = player.xGrid + 1;
-      new_yGrid = player.yGrid;
-    } else if (player.direction == CST.DOWN) {
-      new_xGrid = player.xGrid;
-      new_yGrid = player.yGrid + 1;
-    } else if (player.direction == CST.LEFT) {
-      new_xGrid = player.xGrid - 1;
-      new_yGrid = player.yGrid;
-    }
-
-    //Move only when a solid ground exists and no obstruct on the way
-    let ground = this.scene.ground.getTileAt(new_xGrid, new_yGrid, true);
-    return (ground && ground.properties['move'] && !this.scene.obstacles[new_yGrid][new_xGrid].obj) 
-  }
-
-  stuck() {
-    let player = this;
-    let new_x;
-    let new_y;
-
-    if (player.direction == CST.UP) {
-      new_x = player.x;
-      new_y = player.y - 32/4;
-    } else if (player.direction == CST.RIGHT) {
-      new_x = player.x + 64/4;
-      new_y = player.y;
-    } else if (player.direction == CST.DOWN) {
-      new_x = player.x;
-      new_y = player.y + 32/4;
-    } else if (player.direction == CST.LEFT) {
-      new_x = player.x - 64/4;
-      new_y = player.y;
-    }
-
-    this.scene.sound.play('stuck');
+    this.scene.sound.play('hangup');
     this.scene.tweens.add({
-      targets: this,
-      x: new_x,
-      y: new_y,
+      targets: player,
+      y: player.y - 10,
       ease: 'Bounce',
-      duration: 500,
+      duration: duration,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
-        player.updateEnergy(- 1);
-        ui.log('stuck:', player.x, player.y, player.direction);
+        player.setFrame(CST.FALL);        
+        ui.log('hangup:', player.x, player.y, player.direction);
+        player.scene.time.delayedCall(1000, () => {
+           player.setFrame(player.direction);
+        });
       }
     });
   }
