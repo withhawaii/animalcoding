@@ -29,12 +29,9 @@ const ui = {
     }));
     interpreter.setProperty(scope, 'stop_trap', interpreter.createNativeFunction(function() {
       ui.log('stop_trap');
-      return ui.currentPlayer.disarmTrap();
+      return ui.currentPlayer.stopTrap();
     }));
-    interpreter.setProperty(scope, 'trap_is_on', interpreter.createNativeFunction(function() {
-      ui.log('trap_is_on', ui.currentPlayer.trapAhead());
-      return ui.currentPlayer.trapAhead();
-    }));
+    interpreter.setProperty(scope, 'trap_is_on', ui.currentPlayer.trapAhead());
   },
 
   runCode() {
@@ -72,7 +69,7 @@ const ui = {
 
   getAnimationDelay(node) {
     const animationDelay = 520;
-    if(node.type == 'CallExpression' && node.callee.name != 'trap_is_on') {
+    if(node.type == 'CallExpression') {
       return animationDelay;
     }
     else {

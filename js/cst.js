@@ -118,9 +118,9 @@ const CST = {
         "turn_right();", 
         "pick_up();",
         "take();",
-        "trap_is_on()",
         "stop_trap();",
-        "if() {\n}",
+        "for(let i = 0; i < 10; i++){\n\n}",
+        "if(trap_is_on) {\n\n} else {\n\n}",
       ]
     },
   },

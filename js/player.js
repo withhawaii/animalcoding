@@ -167,14 +167,14 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
-  disarmTrap() {
+  stopTrap() {
     let player = this;
     let newGrid = player.gridAhead();
     let trap = this.scene.obstacles[newGrid.y][newGrid.x]
     ui.log("disarmTrap:", trap);
 
     if(player.energy <= 0) {
-      this.hangUp();
+      player.hangUp();
       return;
     }
 
@@ -185,6 +185,9 @@ class Player extends Phaser.GameObjects.Sprite {
       player.scene.time.delayedCall(3000, () => {
         trap.timer.paused = false;
       });
+    }
+    else {
+      player.hangUp();
     }
     player.updateEnergy(- 1);
   }

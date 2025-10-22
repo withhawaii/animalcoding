@@ -60,7 +60,6 @@ class MainScene extends Phaser.Scene {
     const groundTileset = this.map.addTilesetImage('ground', 'ground');
     this.ground = this.map.createLayer('ground', groundTileset, 0, 64);
 
-    this.traps = [];
     const objectsTileset = this.map.getTileset('objects');
     //Manually render obstacles as images
     this.obstacles = this.map.getLayer('obstacles').data;
@@ -68,24 +67,23 @@ class MainScene extends Phaser.Scene {
       for (let j = 0; j < this.obstacles[i].length; j++) {
         let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
-          //Create sprite for traps
+          //Create sprites for traps
           if(tileData.index == 18) {
             this.obstacles[i][j].obj = this.add.sprite(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
-            this.obstacles[i][j].xGrid = j;
-            this.obstacles[i][j].yGrid = i;
             this.obstacles[i][j].timer = this.time.addEvent({
               delay: Phaser.Math.Between(3000, 4000),
               loop: true, 
               callback: () => {
                 if(this.obstacles[i][j].obj.frame.name == CST.TRAP_ON) {
                   this.obstacles[i][j].obj.setFrame(CST.TRAP_OFF);
+                  this.sound.play('trap');
                 }
                 else {
                   if(!this.anyPlayersOnTrap(this.obstacles[i][j])) {
                     this.obstacles[i][j].obj.setFrame(CST.TRAP_ON);
+                    this.sound.play('trap');
                   }
                 }
-                this.sound.play('trap');
               }
             });
           }
@@ -115,7 +113,7 @@ class MainScene extends Phaser.Scene {
 
   anyPlayersOnTrap(trap) {
     for(let i = 0; i < this.players.length ; i++){
-      if(this.players[i].xGrid == trap.xGrid && this.players[i].yGrid == trap.yGrid) {
+      if(this.players[i].xGrid == trap.x && this.players[i].yGrid == trap.y) {
         return(true);
       }
     }
