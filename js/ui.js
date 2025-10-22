@@ -27,6 +27,14 @@ const ui = {
       ui.log('take');
       return ui.currentPlayer.take();
     }));
+    interpreter.setProperty(scope, 'stop_trap', interpreter.createNativeFunction(function() {
+      ui.log('stop_trap');
+      return ui.currentPlayer.disarmTrap();
+    }));
+    interpreter.setProperty(scope, 'trap_is_on', interpreter.createNativeFunction(function() {
+      ui.log('trap_is_on', ui.currentPlayer.trapAhead());
+      return ui.currentPlayer.trapAhead();
+    }));
   },
 
   runCode() {
@@ -36,7 +44,7 @@ const ui = {
     try {
       ui.currentPlayer.code = ui.editor.getValue();
       ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.interpreterConfig);
-      setTimeout(ui.runStep, 110);
+      ui.currentPlayer.scene.time.delayedCall(110, ui.runStep);
     }
     catch(e) {
       ui.handleError(e);
@@ -44,23 +52,32 @@ const ui = {
   },
 
   runStep() {
-    const animationDelay = 520;
     let stack = ui.interpreter.getStateStack();
     let node = stack[stack.length - 1].node;
     ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-    ui.log(ui.interpreter.getStatus(), node.type);
+    ui.log(ui.interpreter.getStatus(), node);
     if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
       ui.currentPlayer.scene.changePlayer();
     }
     else {  
       try {
         ui.interpreter.step();
-        setTimeout(ui.runStep, node.type == 'CallExpression' ? animationDelay : 0);
+        ui.currentPlayer.scene.time.delayedCall(ui.getAnimationDelay(node), ui.runStep);
       }
       catch(e) {
         ui.handleError(e);
       }
     } 
+  },
+
+  getAnimationDelay(node) {
+    const animationDelay = 520;
+    if(node.type == 'CallExpression' && node.callee.name != 'trap_is_on') {
+      return animationDelay;
+    }
+    else {
+      return 0;
+    }
   },
 
   handleError(error) {

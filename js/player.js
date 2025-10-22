@@ -7,6 +7,8 @@ class Player extends Phaser.GameObjects.Sprite {
     this.animal = texture;
     this.x = x;
     this.y = y;
+    this.xGridSpawn = xGrid;
+    this.yGridSpawn = yGrid;
     this.xGrid = xGrid;
     this.yGrid = yGrid;
     this.direction = direction;  
@@ -17,7 +19,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.error = 0;
     this.code = "";
     this.setFrame(this.direction);
-    this.setDepth(this.yGrid);
+    this.setDepth(this.yGrid + 1);
     this.scene.add.existing(this);
   }
 
@@ -67,6 +69,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   reposition() {
     this.scene.tweens.killTweensOf(this);
+    this.x = this.xGrid * 64 + 32;
     this.y = this.yGrid * 32 + 64;
   }
 
@@ -97,20 +100,28 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //Move only when a solid ground exists and no obstruct on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
-    return (ground && ground.properties['move'] && !this.scene.obstacles[newGrid.x][newGrid.y].obj) 
+//    console.log("pathAhead:", this.scene.obstacles[newGrid.y][newGrid.x].index);
+    return (ground && ground.properties['move'] && (this.scene.obstacles[newGrid.y][newGrid.x].index == -1 || this.scene.obstacles[newGrid.y][newGrid.x].index == 18))
+  }
+
+  trapAhead() {
+    let player = this;
+    let newGrid = player.gridAhead();
+    console.log("trap", newGrid,this.scene.obstacles[newGrid.y][newGrid.x]);
+    return (this.scene.obstacles[newGrid.y][newGrid.x].index == 18 && this.scene.obstacles[newGrid.y][newGrid.x].obj.frame.name == CST.TRAP_ON) 
   }
 
   move() {
     let player = this;
     let newGrid = player.gridAhead();
+    let trapped = player.trapAhead();
 
     if(player.energy <= 0) {
       this.hangUp();
       return;
     }
-    
+
     if(player.pathAhead()) {
-      player.setDepth(newGrid.y);
       this.scene.sound.play('move');
       this.scene.tweens.add({
         targets: player,
@@ -121,10 +132,20 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: false,
         onComplete: function() {
-          player.xGrid = newGrid.x;
-          player.yGrid = newGrid.y;
-          player.updateEnergy(-1);
-          ui.log('move:', player.xGrid, player.yGrid, player.direction);
+          if(trapped) {
+            player.setFrame(CST.FALL);        
+            player.scene.sound.play('hangup');
+            player.updateEnergy(-1 * player.energy);
+            player.reposition();
+            ui.log('trapped:', player.xGrid, player.yGrid, player.direction);
+          }
+          else {
+            player.xGrid = newGrid.x;
+            player.yGrid = newGrid.y;
+            player.setDepth(newGrid.y + 1);
+            player.updateEnergy(-1);
+            ui.log('moved:', player.xGrid, player.yGrid, player.direction);
+          }  
         }
       });
     }
@@ -144,6 +165,28 @@ class Player extends Phaser.GameObjects.Sprite {
         }
       });
     }
+  }
+
+  disarmTrap() {
+    let player = this;
+    let newGrid = player.gridAhead();
+    let trap = this.scene.obstacles[newGrid.y][newGrid.x]
+    ui.log("disarmTrap:", trap);
+
+    if(player.energy <= 0) {
+      this.hangUp();
+      return;
+    }
+
+    if(trap.index == 18) {
+      trap.timer.paused = true;
+      trap.obj.setFrame(CST.TRAP_OFF);
+      player.scene.sound.play('disarm');
+      player.scene.time.delayedCall(3000, () => {
+        trap.timer.paused = false;
+      });
+    }
+    player.updateEnergy(- 1);
   }
 
   turn(step) {

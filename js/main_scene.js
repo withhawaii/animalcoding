@@ -71,7 +71,23 @@ class MainScene extends Phaser.Scene {
           //Create sprite for traps
           if(tileData.index == 18) {
             this.obstacles[i][j].obj = this.add.sprite(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
-            this.traps.push(this.obstacles[i][j].obj);
+            this.obstacles[i][j].xGrid = j;
+            this.obstacles[i][j].yGrid = i;
+            this.obstacles[i][j].timer = this.time.addEvent({
+              delay: Phaser.Math.Between(3000, 4000),
+              loop: true, 
+              callback: () => {
+                if(this.obstacles[i][j].obj.frame.name == CST.TRAP_ON) {
+                  this.obstacles[i][j].obj.setFrame(CST.TRAP_OFF);
+                }
+                else {
+                  if(!this.anyPlayersOnTrap(this.obstacles[i][j])) {
+                    this.obstacles[i][j].obj.setFrame(CST.TRAP_ON);
+                  }
+                }
+                this.sound.play('trap');
+              }
+            });
           }
           else {
             this.obstacles[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
@@ -81,22 +97,6 @@ class MainScene extends Phaser.Scene {
         }
       }
     }
-
-    this.time.addEvent({
-      delay: 5000,     
-      callback: () => {
-        for(let i = 0; i < this.traps.length; i++) {
-          if(this.traps[i].frame.name == CST.TRAP_ON) {
-            this.traps[i].setFrame(CST.TRAP_OFF);
-          }
-          else {
-            this.traps[i].setFrame(CST.TRAP_ON);            
-          }
-        }
-        this.sound.play('trap');
-      },
-      loop: true 
-    });
 
     //Manually render items as images
     this.items = this.map.getLayer('items').data;
@@ -111,6 +111,15 @@ class MainScene extends Phaser.Scene {
         }
       }
     }
+  }
+
+  anyPlayersOnTrap(trap) {
+    for(let i = 0; i < this.players.length ; i++){
+      if(this.players[i].xGrid == trap.xGrid && this.players[i].yGrid == trap.yGrid) {
+        return(true);
+      }
+    }
+    return(false);
   }
 
   createPlayers() {

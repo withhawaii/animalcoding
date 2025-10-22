@@ -25,6 +25,7 @@ const CST = {
     hangup: 'audio/freeze.mp3',
     pickup: 'audio/pickup.mp3',
     trap: 'audio/trap.mp3',
+    disarm: 'audio/disarm.mp3',
     intro: 'audio/jingle_01.mp3',
     result: 'audio/jingle_02.mp3',
     bgm_01: 'audio/bgm_01.wav',
@@ -90,6 +91,9 @@ const CST = {
         "turn_right();", 
         "pick_up();",
         "take();",
+        "trap_is_on()",
+        "stop_trap();",
+        "if() {\n}",
       ]
     }, 
     stage5: {
@@ -114,6 +118,9 @@ const CST = {
         "turn_right();", 
         "pick_up();",
         "take();",
+        "trap_is_on()",
+        "stop_trap();",
+        "if() {\n}",
       ]
     },
   },
