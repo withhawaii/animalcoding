@@ -149,7 +149,7 @@ class ResultScene extends Phaser.Scene {
 
   updateEmitter(emitter) {
     emitter.setPosition(1024 * Phaser.Math.FloatBetween(0.25, 0.75), 768 * Phaser.Math.FloatBetween(0, 0.5))
-    emitter.setParticleTint(Phaser.Utils.Array.GetRandom(CST.TINTS));
+    emitter.setParticleTint(Phaser.Utils.Array.GetRandom([0xff4136, 0xff851b, 0xffdc00, 0x01ff70, 0x2ecc40, 0x7fdbff, 0x0074d9, 0xf012be, 0xb10dc9]));
   }
 
   updateParticleRotation(p) {

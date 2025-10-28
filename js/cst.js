@@ -14,9 +14,9 @@ const CST = {
 
   IMAGES: {
     dice_albedo: 'images/dice-albedo.png',
-    ground: 'tilemap/ground.png',
+    ground: 'images/ground.png',
   },
-  
+
   AUDIO: {
     move: 'audio/move.mp3',
     turn: 'audio/turn.mp3',
@@ -31,18 +31,6 @@ const CST = {
     bgm_01: 'audio/bgm_01.wav',
     bgm_02: 'audio/bgm_02.wav',
   },
-
-  TINTS: [
-    0xff4136,
-    0xff851b,
-    0xffdc00,
-    0x01ff70,
-    0x2ecc40,
-    0x7fdbff,
-    0x0074d9,
-    0xf012be,
-    0xb10dc9
-  ],
 
   STAGE_CONFIG: {
     stage1: {
@@ -63,10 +51,10 @@ const CST = {
       bgm: 'bgm_02',
       snippets: [
         "move_forward();", 
-        "turn_left();",
         "turn_right();", 
         "pick_up();",
         "take();",
+        "function my_command() {\n  \n}",
       ]
     }, 
     stage3: {
@@ -79,6 +67,8 @@ const CST = {
         "turn_right();", 
         "pick_up();",
         "take();",
+        "function my_command() {\n  \n}",
+        "for(i = 0; i < 10; i++){\n  \n}",
       ]
     }, 
     stage4: {
@@ -93,7 +83,9 @@ const CST = {
         "take();",
         "trap_is_on()",
         "stop_trap();",
-        "if() {\n}",
+        "function my_command() {\n  \n}",
+        "for(i = 0; i < 10; i++){\n  \n}",
+        "if(trap_is_on) {\n  \n} else {\n  \n}",
       ]
     }, 
     stage5: {
@@ -106,6 +98,10 @@ const CST = {
         "turn_right();", 
         "pick_up();",
         "take();",
+        "stop_trap();",
+        "function my_command() {\n  \n}",
+        "for(i = 0; i < 10; i++){\n  \n}",
+        "if(trap_is_on) {\n  \n} else {\n  \n}",
       ]
     },
     demo: {
@@ -119,8 +115,9 @@ const CST = {
         "pick_up();",
         "take();",
         "stop_trap();",
-        "for(let i = 0; i < 10; i++){\n\n}",
-        "if(trap_is_on) {\n\n} else {\n\n}",
+        "function my_command() {\n  \n}",
+        "for(i = 0; i < 10; i++){\n  \n}",
+        "if(trap_is_on) {\n  \n} else {\n  \n}",
       ]
     },
   },
