@@ -4,18 +4,11 @@ const CST = {
   DOWN: 2,
   LEFT: 3,
   FALL: 4,
-
   TRAP_ON: 17,
   TRAP_OFF: 18,
-
   COIN_POINT: 1,
   RUBY_POINT: 5,
   CRYSTAL_POINT: 10,
-
-  IMAGES: {
-    dice_albedo: 'images/dice-albedo.png',
-    ground: 'images/ground.png',
-  },
 
   AUDIO: {
     move: 'audio/move.mp3',
@@ -35,6 +28,7 @@ const CST = {
   STAGE_CONFIG: {
     stage1: {
       name: 'Stage 1',
+      map: 'maps/stage1.json',
       next: 'stage2',
       bgm: 'bgm_01',
       snippets: [
@@ -47,6 +41,7 @@ const CST = {
     },  
     stage2: {
       name: 'Stage 2',
+      map: 'maps/stage2.json',
       next: 'stage3',
       bgm: 'bgm_02',
       snippets: [
@@ -59,6 +54,7 @@ const CST = {
     }, 
     stage3: {
       name: 'Stage 3',
+      map: 'maps/stage3.json',
       next: 'stage4',
       bgm: 'bgm_01',
       snippets: [
@@ -73,6 +69,7 @@ const CST = {
     }, 
     stage4: {
       name: 'Stage 4',
+      map: 'maps/stage4.json',
       next: 'stage5',
       bgm: 'bgm_02',
       snippets: [
@@ -90,6 +87,7 @@ const CST = {
     }, 
     stage5: {
       name: 'Stage 5',
+      map: 'maps/stage5.json',
       next: null,
       bgm: 'bgm_01',
       snippets: [
@@ -106,6 +104,7 @@ const CST = {
     },
     demo: {
       name: 'Demo',
+      map: 'maps/demo.json',
       next: null,
       bgm: 'bgm_02',
       snippets: [
