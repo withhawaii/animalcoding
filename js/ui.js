@@ -6,74 +6,72 @@ const ui = {
   errorCount: 0,
   errorAllowance: 1,
 
-  interpreterConfig(interpreter, scope) {
-    interpreter.setProperty(scope, 'move_forward', interpreter.createNativeFunction(function() {
+  gameApi(interpreter, scope) {
+    interpreter.setProperty(scope, 'move_forward', interpreter.createAsyncFunction(function(callback) {
       ui.log('move_forward');
-      return ui.currentPlayer.move();
+      ui.currentPlayer.move(callback);
     }));
-    interpreter.setProperty(scope, 'turn_left', interpreter.createNativeFunction(function() {
+    interpreter.setProperty(scope, 'turn_left', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_left');
-      return ui.currentPlayer.turn(-1);
+      ui.currentPlayer.turn(-1, callback);
     }));
-    interpreter.setProperty(scope, 'turn_right', interpreter.createNativeFunction(function() {
+    interpreter.setProperty(scope, 'turn_right', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_right');
-      return ui.currentPlayer.turn(1);
+      ui.currentPlayer.turn(1, callback);
     }));
-    interpreter.setProperty(scope, 'pick_up', interpreter.createNativeFunction(function() {
+    interpreter.setProperty(scope, 'pick_up', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_right');
-      return ui.currentPlayer.pickUp();
+      return ui.currentPlayer.pickUp(callback);
     }));
-    interpreter.setProperty(scope, 'take', interpreter.createNativeFunction(function() {
+    interpreter.setProperty(scope, 'take', interpreter.createAsyncFunction(function(callback) {
       ui.log('take');
-      return ui.currentPlayer.take();
+      return ui.currentPlayer.take(callback);
     }));
-    interpreter.setProperty(scope, 'stop_trap', interpreter.createNativeFunction(function() {
+    interpreter.setProperty(scope, 'stop_trap', interpreter.createAsyncFunction(function(callback) {
       ui.log('stop_trap');
-      return ui.currentPlayer.stopTrap();
+      return ui.currentPlayer.stopTrap(callback);
     }));
     interpreter.setProperty(scope, 'trap_is_on', ui.currentPlayer.trapAhead());
+    interpreter.setProperty(scope, 'path_ahead', ui.currentPlayer.pathAhead());
   },
 
-  runCode() {
+  prepareCode() {
     ui.disableButton('run_code');
     ui.disableButton('skip');
     ui.currentPlayer.reposition();
     try {
       ui.currentPlayer.code = ui.editor.getValue();
-      ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.interpreterConfig);
-      ui.currentPlayer.scene.time.delayedCall(110, ui.runStep);
+      ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.gameApi);
     }
     catch(e) {
       ui.handleError(e);
     }
   },
 
-  runStep() {
+  runCode() {
+    if(!ui.interpreter) {
+      ui.prepareCode();
+    }
+    
     let stack = ui.interpreter.getStateStack();
     let node = stack[stack.length - 1].node;
     ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-    ui.log(ui.interpreter.getStatus(), node);
+    ui.log('interpreter status:', ui.interpreter.getStatus());
+
     if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
+      ui.interpreter = null;
       ui.currentPlayer.scene.changePlayer();
     }
-    else {  
+    else {
       try {
-        ui.interpreter.step();
-        ui.currentPlayer.scene.time.delayedCall(ui.getAnimationDelay(node), ui.runStep);
+        ui.interpreter.run();
+        setTimeout(ui.runCode, 520);
       }
       catch(e) {
+        ui.interpreter.paused = true;
+        ui.interpreter = null;
         ui.handleError(e);
       }
-    } 
-  },
-
-  getAnimationDelay(node) {
-    const animationDelay = 520;
-    if(node.type == 'CallExpression') {
-      return animationDelay;
-    }
-    else {
-      return 0;
     }
   },
 

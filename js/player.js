@@ -111,13 +111,13 @@ class Player extends Phaser.GameObjects.Sprite {
     return (this.scene.obstacles[newGrid.y][newGrid.x].index == 18 && this.scene.obstacles[newGrid.y][newGrid.x].obj.frame.name == CST.TRAP_ON) 
   }
 
-  move() {
+  move(callback = (data) => {}) {
     let player = this;
     let newGrid = player.gridAhead();
     let trapped = player.trapAhead();
 
     if(player.energy <= 0) {
-      this.hangUp();
+      this.hangUp(callback);
       return;
     }
 
@@ -128,7 +128,7 @@ class Player extends Phaser.GameObjects.Sprite {
         x: newGrid.x * 64 + 32,
         y: newGrid.y * 32 + 64,
         ease: 'Bounce',
-        duration: 500,
+        duration: 1000,
         repeat: 0,
         yoyo: false,
         onComplete: function() {
@@ -136,8 +136,12 @@ class Player extends Phaser.GameObjects.Sprite {
             player.setFrame(CST.FALL);        
             player.scene.sound.play('hangup');
             player.updateEnergy(-1 * player.energy);
-            player.reposition();
-            ui.log('trapped:', player.xGrid, player.yGrid, player.direction);
+            player.scene.time.delayedCall(1000, () => {
+              player.reposition();
+              player.setFrame(player.direction);
+              ui.log('trapped:', player.xGrid, player.yGrid, player.direction);
+              callback(false);
+            });
           }
           else {
             player.xGrid = newGrid.x;
@@ -145,6 +149,7 @@ class Player extends Phaser.GameObjects.Sprite {
             player.setDepth(newGrid.y + 1);
             player.updateEnergy(-1);
             ui.log('moved:', player.xGrid, player.yGrid, player.direction);
+            callback(true);
           }  
         }
       });
@@ -162,19 +167,20 @@ class Player extends Phaser.GameObjects.Sprite {
         onComplete: function() {
           player.updateEnergy(- 1);
           ui.log('stuck:', player.x, player.y, player.direction);
+          callback(true);
         }
       });
     }
   }
 
-  stopTrap() {
+  stopTrap(callback = (data) => {}) {
     let player = this;
     let newGrid = player.gridAhead();
     let trap = this.scene.obstacles[newGrid.y][newGrid.x]
     ui.log("disarmTrap:", trap);
 
     if(player.energy <= 0) {
-      player.hangUp();
+      player.hangUp(callback);
       return;
     }
 
@@ -182,6 +188,10 @@ class Player extends Phaser.GameObjects.Sprite {
       trap.timer.paused = true;
       trap.obj.setFrame(CST.TRAP_OFF);
       player.scene.sound.play('disarm');
+      player.scene.time.delayedCall(1000, () => {
+        ui.log('trap stopped:', player.xGrid, player.yGrid, player.direction);
+        callback(true);
+      });
       player.scene.time.delayedCall(3000, () => {
         trap.timer.paused = false;
       });
@@ -192,14 +202,14 @@ class Player extends Phaser.GameObjects.Sprite {
     player.updateEnergy(- 1);
   }
 
-  turn(step) {
+  turn(step, callback = (data) => {}) {
     let player = this;
     //Modulo calculation to get a new direction
     let new_direction = ((this.direction + step) % 4 + 4) % 4;
     ui.log('new_direction:', new_direction);
 
     if(player.energy <= 0) {
-      this.hangUp();
+      this.hangUp(callback);
       return;
     }
 
@@ -216,35 +226,37 @@ class Player extends Phaser.GameObjects.Sprite {
         player.setFrame(player.direction);
         player.updateEnergy(- 1);
         ui.log('turn:', player.x, player.y, player.direction);
+        callback(true);
       }
     });
   }
 
-  hangUp(duration = 100) {
+  hangUp(callback = (data) => {}) {
     let player = this;
     this.scene.sound.play('hangup');
     this.scene.tweens.add({
       targets: player,
       y: player.y - 10,
       ease: 'Bounce',
-      duration: duration,
+      duration: 100,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
         player.setFrame(CST.FALL);        
         ui.log('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
-           player.setFrame(player.direction);
+          player.setFrame(player.direction);
+          callback(false);
         });
       }
     });
   }
 
-  pickUp() {
+  pickUp(callback = (data) => {}) {
     let player = this;
 
     if(player.energy <= 0) {
-      this.hangUp();
+      this.hangUp(callback);
       return;
     }
 
@@ -255,13 +267,17 @@ class Player extends Phaser.GameObjects.Sprite {
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
       player.updateItem(item.index, 1);
+      player.scene.time.delayedCall(1000, () => {
+        ui.log('picked up:', player.xGrid, player.yGrid, player.direction);
+        callback(true);
+      });
     }
     else {
-      this.hangUp();      
+      this.hangUp(callback);      
     }
   }
 
-  take() {
+  take(callback = (data) => {}) {
     let player = this;
 
     if(player.energy <= 0) {
@@ -276,10 +292,14 @@ class Player extends Phaser.GameObjects.Sprite {
           this.scene.sound.play('pickup');
           players[i].updateItem(31, -1);
           player.updateItem(31, 1);
+          player.scene.time.delayedCall(1000, () => {
+            ui.log('Took an item:', player.xGrid, player.yGrid, player.direction);
+            callback(true);
+          });
           return;
         }
       }
     }
-    this.hangUp();
+    this.hangUp(callback);
   }
 } 
