@@ -114,7 +114,6 @@ class Player extends Phaser.GameObjects.Sprite {
   move(callback = (data) => {}) {
     let player = this;
     let newGrid = player.gridAhead();
-    let trapped = player.trapAhead();
 
     if(player.energy <= 0) {
       this.hangUp(callback);
@@ -132,7 +131,7 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: false,
         onComplete: function() {
-          if(trapped) {
+          if(player.trapAhead()) {
             player.setFrame(CST.FALL);        
             player.scene.sound.play('hangup');
             player.updateEnergy(-1 * player.energy);
