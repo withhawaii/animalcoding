@@ -97,8 +97,7 @@ const ui = {
     ui.disableButton('run_code');
     ui.disableButton('skip');
     ui.currentPlayer.reposition();
-    ui.interpreter = new Interpreter('', ui.initInterpreter);
-    setTimeout(ui.runCode, 110);
+    ui.currentPlayer.scene.changePlayer();
   },
 
   loadSnippets(snippets) {
