@@ -6,6 +6,7 @@ class TitleScene extends Phaser.Scene {
   
   create() {
     this.createBackground();
+    ui.insertText('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie, neque id ultricies interdum, nisl ante suscipit lectus, at scelerisque risus tortor id massa. Mauris sollicitudin, ligula eu sagittis venenatis, lacus eros tempor erat, at pharetra metus ex ut ante. In hac habitasse platea dictumst. Pellentesque fringilla ultrices elementum. Sed pharetra ultrices odio, vitae pellentesque risus tincidunt eu. In sed luctus turpis, tincidunt dictum diam. Sed accumsan eros est, ut bibendum enim mollis blandit. Nulla cursus justo at odio volutpat, in accumsan velit porta. Etiam tincidunt suscipit justo, a sodales augue fringilla vel. Donec vulputate risus ex, sit amet imperdiet ante luctus nec. Nullam lacinia in nisl vitae laoreet. Nulla facilisi.');
   }
 
   createBackground() {

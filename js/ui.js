@@ -101,6 +101,12 @@ const ui = {
   },
 
   loadSnippets(snippets) {
+    if(ui.editor.session.interval) clearInterval(ui.editor.session.interval);
+    const session = ui.editor.session;
+    session.setUseWrapMode(false);
+    session.setMode("ace/mode/javascript");
+    ui.editor.setValue("");
+
     const menu = document.getElementById("snippet_select");
     while (menu.options.length > 1) {
       menu.remove(1); // remove the second item each time
@@ -119,6 +125,24 @@ const ui = {
       ui.editor.session.insert(ui.editor.getCursorPosition(), snippet + "\n");
       event.target.value = "";
     }
+  },
+
+  insertText(text, speed = 50, callback) {
+    let index = 0;
+    const session = ui.editor.session;
+    session.setUseWrapMode(true);
+    session.setMode("ace/mode/text");
+    if(ui.editor.session.interval) clearInterval(ui.editor.session.interval);
+    ui.editor.session.interval = setInterval(() => {
+      if (index < text.length) {
+        const ch = text[index];
+        session.insert(ui.editor.getCursorPosition(), ch);
+        index++;
+      } else {
+        clearInterval(interval);
+        if (callback) callback();
+      }
+    }, speed);
   },
 
   enableButton(id) {
