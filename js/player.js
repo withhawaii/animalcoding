@@ -176,7 +176,6 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     let newGrid = player.gridAhead();
     let trap = this.scene.obstacles[newGrid.y][newGrid.x]
-    ui.log("disarmTrap:", trap);
 
     if(player.energy <= 0) {
       player.hangUp(callback);

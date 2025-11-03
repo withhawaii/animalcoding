@@ -31,16 +31,16 @@
 					}
 				},
 				{
-					"filename": "UI_Logo_01",
+					"filename": "UI_Title",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
 						"w": 451,
-						"h": 99
+						"h": 97
 					},
 					"spriteSourceSize": {
 						"x": 1,
-						"y": 1,
+						"y": 0,
 						"w": 450,
 						"h": 97
 					},

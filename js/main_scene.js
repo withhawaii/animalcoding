@@ -206,6 +206,12 @@ class MainScene extends Phaser.Scene {
     let players = JSON.parse(localStorage.getItem('players'));
     for(let i = 0; i < this.players.length; i++) {
       players[this.players[i].animal][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score(), error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
+      players[this.players[i].animal].total_score = 0;
+      ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'].forEach((stage, index) => {
+        if(players[this.players[i].animal][stage] && players[this.players[i].animal][stage].score) {
+          players[this.players[i].animal].total_score += players[this.players[i].animal][stage].score;
+        }
+      });
     }
     localStorage.setItem('players', JSON.stringify(players));
     ui.log('Config saved:', config, players);

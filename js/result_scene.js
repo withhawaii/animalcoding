@@ -5,21 +5,35 @@ class ResultScene extends Phaser.Scene {
   }
   
   create() {
+    this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
     this.createBackground();
     this.createFireWorks();
     this.createPlayers();
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
-    this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
 
     this.input.on('pointerdown', () => {
+      this.scene.stop('Result');
       if(this.stage_config.next) {
         this.game.config.stage = this.stage_config.next;
-        this.scene.stop('Result');
         this.scene.start('Main');
       }
+      else {
+        this.scene.start('Title');
+      }
     });
-    this.sound.play('result', {volume: this.game.config.bgm_volume});
+
+    const result = this.sound.get('result');
+    result.play({volume: this.game.config.bgm_volume})
+    result.once('complete', () => {
+      let ranking_text = "Total Ranking\n\n"
+      let players_sorted = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b.total_score - a.total_score);
+      for(let i = 0; i < players_sorted.length; i++) {
+        ranking_text += `${i + 1}...${players_sorted[i].name} (${players_sorted[i].total_score} pts)\n` 
+      }
+      ranking_text += "\nGreat job! Everyone!!"
+      ui.insertText(ranking_text);
+    });
   }
 
   createBackground() {
@@ -105,8 +119,8 @@ class ResultScene extends Phaser.Scene {
   }
 
   createPlayers() {
-    const defaultFontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff', fill: '#ffffff'}
-    this.add.image(1024/2, 48, 'textures', 'UI_Logo_01');
+    const defaultFontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff'}
+    this.add.image(1024/2, 48, 'textures', 'UI_Title');
     this.add.image(1024/2, 230, 'textures', 'Podium');
     let coin = this.add.image(250, 348, 'textures', 'Coin').setOrigin(0.5, 0.5);
     let ruby = this.add.image(250, 396, 'textures', 'Ruby').setOrigin(0.5, 0.5);
@@ -114,6 +128,8 @@ class ResultScene extends Phaser.Scene {
     ruby.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     crystal.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
+//    this.add.text(1024/2, 48, this.stage_config.name + ' Ranking', {fontFamily: 'Fredoka', fontSize: '48px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
+    this.add.text(1024/2, 48, this.stage_config.name + ' Ranking', {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
     this.add.text(300, 500, 'Errors:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 550, 'Score:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 600, 'Total:', defaultFontStyle).setOrigin(1, 0.5);
@@ -131,7 +147,7 @@ class ResultScene extends Phaser.Scene {
         this.players[i].setFrame(CST.FALL);
       }
       let player_info = players_sorted[i][this.game.config.stage];
-      this.add.text(362 + 100 * i, 295, players_sorted[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff', fill: '#ffffff'}).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 295, players_sorted[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff'}).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 350, player_info.coin, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 400, player_info.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 450, player_info.crystal, defaultFontStyle).setOrigin(0.5, 0.5);

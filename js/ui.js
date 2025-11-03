@@ -129,6 +129,7 @@ const ui = {
 
   insertText(text, speed = 50, callback) {
     let index = 0;
+    ui.editor.setValue("");
     const session = ui.editor.session;
     session.setUseWrapMode(true);
     session.setMode("ace/mode/text");
@@ -139,7 +140,7 @@ const ui = {
         session.insert(ui.editor.getCursorPosition(), ch);
         index++;
       } else {
-        clearInterval(interval);
+        clearInterval(ui.editor.session.interval);
         if (callback) callback();
       }
     }, speed);
