@@ -25,39 +25,34 @@ const ui = {
     }));
     interpreter.setProperty(scope, 'take', interpreter.createAsyncFunction(function(callback) {
       ui.log('take');
-      return ui.currentPlayer.take(callback);
+      ui.currentPlayer.take(callback);
     }));
     interpreter.setProperty(scope, 'stop_trap', interpreter.createAsyncFunction(function(callback) {
       ui.log('stop_trap');
-      return ui.currentPlayer.stopTrap(callback);
+      ui.currentPlayer.stopTrap(callback);
     }));
     interpreter.setProperty(scope, 'trap_is_on', ui.currentPlayer.trapAhead());
     interpreter.setProperty(scope, 'path_ahead', ui.currentPlayer.pathAhead());
   },
 
   prepareCode() {
-    ui.disableButton('run_code');
-    ui.disableButton('skip');
-    ui.currentPlayer.reposition();
-    try {
-      ui.currentPlayer.code = ui.editor.getValue();
-      ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.gameApi);
-    }
-    catch(e) {
-      ui.handleError(e);
+    if(!ui.interpreter) {
+      ui.disableButton('run_code');
+      ui.disableButton('skip');
+      ui.currentPlayer.reposition();
+      try {
+        ui.currentPlayer.code = ui.editor.getValue();
+        ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.gameApi);
+      }
+      catch(e) {
+        ui.handleError(e);
+      }
     }
   },
 
   runCode() {
-    if(!ui.interpreter) {
-      ui.prepareCode();
-    }
-    
-    let stack = ui.interpreter.getStateStack();
-    let node = stack[stack.length - 1].node;
-    ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
-    ui.log('interpreter status:', ui.interpreter.getStatus());
-
+    ui.prepareCode();
+        
     if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
       ui.interpreter = null;
       ui.currentPlayer.scene.changePlayer();
@@ -65,6 +60,9 @@ const ui = {
     else {
       try {
         ui.interpreter.run();
+        let stack = ui.interpreter.getStateStack();
+        let node = stack[stack.length - 1].node;
+        ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
         setTimeout(ui.runCode, 520);
       }
       catch(e) {
