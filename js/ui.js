@@ -123,7 +123,7 @@ const ui = {
     const snippet = event.target.value;
     if (snippet) {
       ui.editor.session.insert(ui.editor.getCursorPosition(), snippet + "\n");
-      event.target.value = "";
+      event.currentTarget.value = "";
     }
   },
 
