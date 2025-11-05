@@ -16,8 +16,8 @@ class BootScene extends Phaser.Scene {
     this.load.atlas('textures', 'images/textures.png', 'images/textures.json')
     this.load.obj('dice_obj', 'images/dice.obj');
     this.load.image('dice_albedo', 'images/dice-albedo.png');
-    this.load.image('ground', 'images/ground.png');
-    this.load.spritesheet('objects', 'images/objects.png', { frameWidth: 64, frameHeight: 64 });
+    this.load.image('ground', 'maps/ground.png');
+    this.load.spritesheet('objects', 'maps/objects.png', { frameWidth: 64, frameHeight: 64 });
   }
   
   create() {
