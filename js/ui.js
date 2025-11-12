@@ -5,6 +5,7 @@ const ui = {
   currentPlayer: null,
   errorCount: 0,
   errorAllowance: 1,
+  stopRequested: false,
 
   gameApi(interpreter, scope) {
     interpreter.setProperty(scope, 'move_forward', interpreter.createAsyncFunction(function(callback) {
@@ -31,8 +32,18 @@ const ui = {
       ui.log('stop_trap');
       ui.currentPlayer.stopTrap(callback);
     }));
-    interpreter.setProperty(scope, 'trap_is_on', ui.currentPlayer.trapAhead());
-    interpreter.setProperty(scope, 'path_ahead', ui.currentPlayer.pathAhead());
+    interpreter.setProperty(scope, 'trap_is_on', interpreter.createAsyncFunction(function(callback) {
+      ui.log('trap_is_on');
+      callback(ui.currentPlayer.trapAhead());
+    }));
+    interpreter.setProperty(scope, 'path_ahead', interpreter.createAsyncFunction(function(callback) {
+      ui.log('path_ahead');
+      callback(ui.currentPlayer.pathAhead());
+    }));
+    interpreter.setProperty(scope, 'log', interpreter.createAsyncFunction(function(text, callback) {
+      console.log('[Interpreter]', text);
+      callback(true);
+    }));
   },
 
   prepareCode() {
@@ -45,6 +56,8 @@ const ui = {
         ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.gameApi);
       }
       catch(e) {
+        ui.interpreter.paused = true;
+        ui.interpreter = null;
         ui.handleError(e);
       }
     }
@@ -53,8 +66,9 @@ const ui = {
   runCode() {
     ui.prepareCode();
         
-    if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
+    if (ui.interpreter.getStatus() == Interpreter.Status.DONE || ui.stopRequested) {
       ui.interpreter = null;
+      ui.stopRequested = false;
       ui.currentPlayer.scene.changePlayer();
     }
     else {
@@ -171,6 +185,17 @@ const ui = {
   },
 
   saveConfig() {
+    let players = {}
+    const name1 = document.getElementById('config_name_1').value.trim();
+    const name2 = document.getElementById('config_name_2').value.trim();
+    const name3 = document.getElementById('config_name_3').value.trim();
+    const name4 = document.getElementById('config_name_4').value.trim();
+    if(name1.length > 0) players['Cat'] = {sprite: 'Cat', name: name1};
+    if(name2.length > 0) players['Rabbit'] = {sprite: 'Rabbit', name: name2}
+    if(name3.length > 0) players['Chick'] = {sprite: 'Chick', name: name3}
+    if(name4.length > 0) players['Pig'] = {sprite: 'Pig', name: name4}
+    localStorage.setItem('players', JSON.stringify(players));
+
     let config = JSON.parse(localStorage.getItem('config')) || {};
     config.stage = document.getElementById('config_stage').value;
     config.shuffle = document.getElementById('config_shuffle').value;
@@ -178,25 +203,6 @@ const ui = {
     config.master_volume = document.getElementById('config_master_volume').value;
     config.bgm_volume = document.getElementById('config_bgm_volume').value;
     localStorage.setItem('config', JSON.stringify(config));
-
-    let players = {}
-    const name1 = document.getElementById('config_name_1').value.trim();
-    if(name1.length > 0) {
-      players['Cat'] = {sprite: 'Cat', name: name1};
-    }
-    const name2 = document.getElementById('config_name_2').value.trim();
-    if(name2.length > 0) {
-      players['Rabbit'] = {sprite: 'Rabbit', name: name2}
-    }
-    const name3 = document.getElementById('config_name_3').value.trim();
-    if(name3.length > 0) {
-      players['Chick'] = {sprite: 'Chick', name: name3}
-    }
-    const name4 = document.getElementById('config_name_4').value.trim();
-    if(name4.length > 0) {
-      players['Pig'] = {sprite: 'Pig', name: name4}
-    }
-    localStorage.setItem('players', JSON.stringify(players));
 
     console.log('Config saved:', players, config);    
   },
@@ -246,12 +252,20 @@ const ui = {
     document.getElementById('btn_back').addEventListener('click', ui.switchScene);
     document.getElementById('btn_end').addEventListener('click', ui.switchScene);
 
-    //Ctrl + shift + a to show a play options modal
     window.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a' && ui.game.scene.isActive('Main')) {
+
+      //Ctrl + shift + a to show a play options modal
+      if(e.key === 'F1' && ui.game.scene.isActive('Main')) {
         e.preventDefault();
         ui.showModal('dialog-config2');
       }
+
+      //Ctrl + shift + s to stop running code
+      if(e.key === 'Escape' && ui.interpreter) {
+        e.preventDefault();
+        console.warn("Requesting stop");
+        ui.stopRequested = true;
+      }    
     });
 
     ui.editor = ace.edit('editor', CST.EDITOR_CONFIG);

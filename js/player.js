@@ -100,15 +100,21 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //Move only when a solid ground exists and no obstruct on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
-//    console.log("pathAhead:", this.scene.obstacles[newGrid.y][newGrid.x].index);
-    return (ground && ground.properties['move'] && (this.scene.obstacles[newGrid.y][newGrid.x].index == -1 || this.scene.obstacles[newGrid.y][newGrid.x].index == 18))
+    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
+    if(ground && ground.properties['move'] && (obstacle.index == -1 || obstacle.index == 18)) {
+      return(true);
+    }
+    else {
+      return(false);
+    }
   }
 
   trapAhead() {
     let player = this;
     let newGrid = player.gridAhead();
-    console.log("trap", newGrid,this.scene.obstacles[newGrid.y][newGrid.x]);
-    return (this.scene.obstacles[newGrid.y][newGrid.x].index == 18 && this.scene.obstacles[newGrid.y][newGrid.x].obj.frame.name == CST.TRAP_ON) 
+    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
+//    console.log("trap", newGrid, obstacle);
+    return (obstacle.index == 18 && obstacle.obj.frame.name == CST.TRAP_ON) 
   }
 
   move(callback = (data) => {}) {
