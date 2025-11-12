@@ -52,8 +52,14 @@ const ui = {
       ui.disableButton('skip');
       ui.currentPlayer.reposition();
       try {
-        ui.currentPlayer.code = ui.editor.getValue();
-        ui.interpreter = new Interpreter(ui.currentPlayer.code, ui.gameApi);
+        let code = ui.editor.getValue();
+        ui.currentPlayer.code = code;
+        const vars = ['path_ahead', 'trap_is_on'];
+        for (const name of vars) {
+          const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
+          code = code.replace(regex, `${name}()`);
+        }
+        ui.interpreter = new Interpreter(code, ui.gameApi);
       }
       catch(e) {
         ui.interpreter.paused = true;
@@ -74,9 +80,7 @@ const ui = {
     else {
       try {
         ui.interpreter.run();
-        let stack = ui.interpreter.getStateStack();
-        let node = stack[stack.length - 1].node;
-        ui.editor.selection.setRange(new ace.Range(node.Y.start.line - 1, node.Y.start.ab, node.Y.end.line - 1, node.Y.end.ab));
+        ui.highlightCode();
         setTimeout(ui.runCode, 520);
       }
       catch(e) {
@@ -85,6 +89,13 @@ const ui = {
         ui.handleError(e);
       }
     }
+  },
+
+  highlightCode() {
+    const stack = ui.interpreter.getStateStack();
+    const node = stack[stack.length - 1].node;
+//    console.log(node);
+    ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
   },
 
   handleError(error) {

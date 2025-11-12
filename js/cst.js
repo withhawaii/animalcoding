@@ -82,8 +82,8 @@ const CST = {
         "stop_trap();",
         "function my_command() {\n  \n}",
         "for(i = 0; i < 10; i++){\n  \n}",
-        "if(trap_is_on()) {\n  \n} else {\n  \n}",
-        "if(path_ahead()) {\n  \n} else {\n  \n}",
+        "if(trap_is_on) {\n  \n} else {\n  \n}",
+        "if(path_ahead) {\n  \n} else {\n  \n}",
       ]
     }, 
     stage5: {
@@ -100,8 +100,8 @@ const CST = {
         "stop_trap();",
         "function my_command() {\n  \n}",
         "for(i = 0; i < 10; i++){\n  \n}",
-        "if(trap_is_on()) {\n  \n} else {\n  \n}",
-        "if(path_ahead()) {\n  \n} else {\n  \n}",
+        "if(trap_is_on) {\n  \n} else {\n  \n}",
+        "if(path_ahead) {\n  \n} else {\n  \n}",
       ]
     },
     demo: {
@@ -118,8 +118,8 @@ const CST = {
         "stop_trap();",
         "function my_command() {\n  \n}",
         "for(i = 0; i < 10; i++){\n  \n}",
-        "if(trap_is_on()) {\n  \n} else {\n  \n}",
-        "if(path_ahead()) {\n  \n} else {\n  \n}",
+        "if(trap_is_on) {\n  \n} else {\n  \n}",
+        "if(path_ahead) {\n  \n} else {\n  \n}",
       ]
     },
   },
