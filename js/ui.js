@@ -280,6 +280,7 @@ const ui = {
     });
 
     ui.editor = ace.edit('editor', CST.EDITOR_CONFIG);
+    ui.editor.commands.bindKey("F1", null);
     ui.game = new Phaser.Game({
       type: Phaser.AUTO,
       backgroundColor: '#7DB8EF',
