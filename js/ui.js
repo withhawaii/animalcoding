@@ -54,7 +54,8 @@ const ui = {
       try {
         let code = ui.editor.getValue();
         //Preserve functions for the next turn
-        ui.currentPlayer.code = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs).join('\n\n');
+        const functions = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs) || [];
+        ui.currentPlayer.code = functions.join('\n\n');
         const vars = ['path_ahead', 'trap_is_on'];
         for (const name of vars) {
           const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
