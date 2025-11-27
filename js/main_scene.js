@@ -137,6 +137,11 @@ class MainScene extends Phaser.Scene {
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
       this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
+      if(this.game.config.debug) {
+       this.players[i].updateItem(30, 5);
+       this.players[i].updateItem(31, 5);
+       this.players[i].updateItem(32, 5);
+      }
     }
     ui.currentPlayer = this.players[0];
   }

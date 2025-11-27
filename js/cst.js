@@ -36,7 +36,7 @@ const CST = {
         "turn_left();",
         "turn_right();", 
         "pick_up();",
-        "take();",
+        "steal();",
       ]
     },  
     stage2: {
@@ -48,7 +48,7 @@ const CST = {
         "move_forward();", 
         "turn_right();", 
         "pick_up();",
-        "take();",
+        "steal();",
         "function my_command() {\n  \n}",
       ]
     }, 
@@ -62,7 +62,7 @@ const CST = {
         "turn_left();",
         "turn_right();", 
         "pick_up();",
-        "take();",
+        "steal();",
         "function my_command() {\n  \n}",
         "for(i = 0; i < 10; i++){\n  \n}",
       ]
@@ -77,7 +77,7 @@ const CST = {
         "turn_left();",
         "turn_right();", 
         "pick_up();",
-        "take();",
+        "steal();",
         "trap_is_on()",
         "stop_trap();",
         "function my_command() {\n  \n}",
@@ -96,7 +96,7 @@ const CST = {
         "turn_left();",
         "turn_right();", 
         "pick_up();",
-        "take();",
+        "steal();",
         "stop_trap();",
         "function my_command() {\n  \n}",
         "for(i = 0; i < 10; i++){\n  \n}",
@@ -114,7 +114,7 @@ const CST = {
         "turn_left();",
         "turn_right();", 
         "pick_up();",
-        "take();",
+        "steal();",
         "stop_trap();",
         "function my_command() {\n  \n}",
         "for(i = 0; i < 10; i++){\n  \n}",

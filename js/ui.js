@@ -24,9 +24,9 @@ const ui = {
       ui.log('turn_right');
       return ui.currentPlayer.pickUp(callback);
     }));
-    interpreter.setProperty(scope, 'take', interpreter.createAsyncFunction(function(callback) {
-      ui.log('take');
-      ui.currentPlayer.take(callback);
+    interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
+      ui.log('steal');
+      ui.currentPlayer.steal(callback);
     }));
     interpreter.setProperty(scope, 'stop_trap', interpreter.createAsyncFunction(function(callback) {
       ui.log('stop_trap');

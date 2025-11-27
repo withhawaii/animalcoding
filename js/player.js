@@ -281,29 +281,49 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
-  take(callback = (data) => {}) {
+  anotherPlayer() {
     let player = this;
+    let players = this.scene.players;
+    for(let i = 0; i < players.length; i++) {
+      if(player.id != players[i].id && player.xGrid == players[i].xGrid && player.yGrid == players[i].yGrid) {
+        return(players[i]);
+      }
+    }
+    return(null); 
+  }
 
-    if(player.energy <= 0) {
-      this.hangUp();
+  steal(callback = (data) => {}) {
+    let player = this;
+    let anotherPlayer = player.anotherPlayer();
+
+    if(player.energy <= 0 || !anotherPlayer) {
+      this.hangUp(callback);
       return;
     }
 
-    let players = this.scene.players;
-    for(let i = 0; i < players.length; i++) {
-      if(player.xGrid == players[i].xGrid && player.yGrid == players[i].yGrid) {
-        if(players[i].crystal > 0) {
-          this.scene.sound.play('pickup');
-          players[i].updateItem(31, -1);
-          player.updateItem(31, 1);
-          player.scene.time.delayedCall(1000, () => {
-            ui.log('Took an item:', player.xGrid, player.yGrid, player.direction);
-            callback(true);
-          });
-          return;
-        }
+    const success = Phaser.Utils.Array.GetRandom([true, false, false]);
+    if(success) {
+      if(anotherPlayer.crystal > 0) {
+        anotherPlayer.updateItem(31, -1);
+        player.updateItem(31, 1);
       }
+      else if(anotherPlayer.ruby > 0) {
+        anotherPlayer.updateItem(32, -1);
+        player.updateItem(32, 1);
+      }
+      else if(anotherPlayer.coin > 0) {
+        anotherPlayer.updateItem(30, -1);
+        player.updateItem(30, 1);
+      }
+      this.scene.sound.play('pickup');
+      player.updateEnergy(- 1);
+      player.scene.time.delayedCall(1000, () => {
+        ui.log('Took an item:', player.xGrid, player.yGrid, player.direction);
+        callback(true);
+      });
     }
-    this.hangUp(callback);
+    else {
+      this.hangUp(callback);
+    }
   }
 } 
