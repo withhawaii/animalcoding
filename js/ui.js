@@ -64,9 +64,7 @@ const ui = {
         ui.interpreter = new Interpreter(code, ui.gameApi);
       }
       catch(e) {
-        ui.interpreter.paused = true;
-        ui.interpreter = null;
-        ui.handleError(e);
+        ui.handleError(e.message);
       }
     }
   },
@@ -79,16 +77,17 @@ const ui = {
       ui.stopRequested = false;
       ui.currentPlayer.scene.changePlayer();
     }
+    else if(ui.interpreter.getStateStack().length > 1000) {
+      ui.handleError('Call stack limit reached!');      
+    } 
     else {
       try {
-        ui.interpreter.run();
+        ui.interpreter.step();
         ui.highlightCode();
-        setTimeout(ui.runCode, 520);
+        setTimeout(ui.runCode, 0);
       }
       catch(e) {
-        ui.interpreter.paused = true;
-        ui.interpreter = null;
-        ui.handleError(e);
+        ui.handleError(e.message);
       }
     }
   },
@@ -96,17 +95,18 @@ const ui = {
   highlightCode() {
     const stack = ui.interpreter.getStateStack();
     const node = stack[stack.length - 1].node;
-//    console.log(node);
     ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
   },
 
-  handleError(error) {
+  handleError(message) {
+    ui.interpreter.paused = true;
+    ui.interpreter = null;
     ui.errorCount += 1;
     ui.currentPlayer.error += 1;
     ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
     ui.currentPlayer.hangUp();
     if(ui.errorCount <= ui.errorAllowance) {
-      document.getElementById('error-message').innerHTML = `${error.message}.<br/>Debug your code and run it again!`;
+      document.getElementById('error-message').innerHTML = `${message}.<br/>Debug your code and run it again!`;
       ui.currentPlayer.bounce();
       ui.enableButton('run_code');
       ui.enableButton('skip');
