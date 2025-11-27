@@ -53,7 +53,8 @@ const ui = {
       ui.currentPlayer.reposition();
       try {
         let code = ui.editor.getValue();
-        ui.currentPlayer.code = code;
+        //Preserve functions for the next turn
+        ui.currentPlayer.code = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs).join('\n\n');
         const vars = ['path_ahead', 'trap_is_on'];
         for (const name of vars) {
           const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
@@ -262,6 +263,10 @@ const ui = {
     document.getElementById('config_bgm_volume').addEventListener('change', ui.changeVolume);  
     document.getElementById('btn_back').addEventListener('click', ui.switchScene);
     document.getElementById('btn_end').addEventListener('click', ui.switchScene);
+
+    document.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+    });
 
     window.addEventListener('keydown', (e) => {
 
