@@ -19,12 +19,8 @@ body,
 .column {
 }
 
-#snippet_select {
-  width: 312px;
-}
-
 #editor {
-  height: 590px; 
+  height: 650px; 
   width: 320px;
 }
 

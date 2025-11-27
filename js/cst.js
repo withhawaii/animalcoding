@@ -175,7 +175,9 @@ const CST = {
     indentedSoftWrap: false, // boolean
     foldStyle: 'markbegin', // enum: 'manual'/'markbegin'/'markbeginend'.
     theme: 'ace/theme/monokai',
-    mode: 'ace/mode/javascript' // string: path to language mode 
+    mode: 'ace/mode/javascript', // string: path to language mode 
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: false,
   },  
 }
    

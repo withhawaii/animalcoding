@@ -132,24 +132,17 @@ const ui = {
     session.setMode("ace/mode/javascript");
     ui.editor.setValue("");
 
-    const menu = document.getElementById("snippet_select");
-    while (menu.options.length > 1) {
-      menu.remove(1); // remove the second item each time
+    const snippetCompleter = {
+        getCompletions: function(editor, session, pos, prefix, callback) {
+            const list = snippets.map((snippet, index) => ({
+              caption: snippet.replace(/\s+/g, ''),
+              value: snippet + '\n',
+              score: 1000 - index
+            }));
+            callback(null, list);
+        }
     }
-    snippets.forEach((value, index) => {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
-      menu.appendChild(option);
-    });
-  },
-
-  insertSnippet(event) {
-    const snippet = event.target.value;
-    if (snippet) {
-      ui.editor.session.insert(ui.editor.getCursorPosition(), snippet + "\n");
-      event.currentTarget.value = "";
-    }
+    ui.editor.completers = [snippetCompleter]
   },
 
   insertText(text, speed = 50, callback) {
@@ -257,7 +250,6 @@ const ui = {
     document.getElementById('config_master_volume').value = config_saved.master_volume
     document.getElementById('config_bgm_volume').value = config_saved.bgm_volume       
     document.getElementById('run_code').addEventListener('click', ui.runCode);
-    document.getElementById('snippet_select').addEventListener('change', ui.insertSnippet);
     document.getElementById('skip').addEventListener('click', ui.skipTurn);
     document.getElementById('config_save').addEventListener('click', ui.saveConfig);
     document.getElementById('config_master_volume').addEventListener('change', ui.changeVolume);
@@ -270,14 +262,13 @@ const ui = {
     });
 
     window.addEventListener('keydown', (e) => {
-
-      //Ctrl + shift + a to show a play options modal
+      //F1 to show a play options modal
       if(e.key === 'F1' && ui.game.scene.isActive('Main')) {
         e.preventDefault();
         ui.showModal('dialog-config2');
       }
 
-      //Ctrl + shift + s to stop running code
+      //Esc to stop running code
       if(e.key === 'Escape' && ui.interpreter) {
         e.preventDefault();
         console.warn("Requesting stop");
