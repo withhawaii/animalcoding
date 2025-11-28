@@ -262,6 +262,21 @@ const ui = {
     });
 
     window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === "r") {
+        e.preventDefault();
+        document.getElementById("run_code").click();
+      }
+
+      if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        document.getElementById("skip").click();
+      }
+
+      if (e.code === "Space" && ui.game.scene.isActive('Main') && ui.game.scene.getScene('Main').dice.isReadyToRoll()) {
+        e.preventDefault();
+        ui.game.scene.getScene('Main').rollDice();
+      }
+
       //F1 to show a play options modal
       if(e.key === 'F1' && ui.game.scene.isActive('Main')) {
         e.preventDefault();
@@ -278,6 +293,17 @@ const ui = {
 
     ui.editor = ace.edit('editor', CST.EDITOR_CONFIG);
     ui.editor.commands.bindKey("F1", null);
+    ui.editor.container.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        const renderer = ui.editor.renderer;
+        const canvasPos = renderer.scroller.getBoundingClientRect();
+        const x = e.clientX - canvasPos.left;
+        const y = e.clientY - canvasPos.top;
+        const rowCol = renderer.screenToTextCoordinates(x, y);
+        ui.editor.moveCursorToPosition(rowCol);
+        ui.editor.execCommand("startAutocomplete");
+    });
+
     ui.game = new Phaser.Game({
       type: Phaser.AUTO,
       backgroundColor: '#7DB8EF',

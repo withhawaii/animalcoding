@@ -150,15 +150,7 @@ class MainScene extends Phaser.Scene {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
     this.dice.hide();
     this.dice.on('pointerdown', () => {
-      if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
-        this.dice.roll((diceValue) => {
-          ui.currentPlayer.updateEnergy(diceValue);
-          ui.log('Dice value:', diceValue, 'New energy:', ui.currentPlayer.energy);
-          this.dice.hide();
-          ui.enableButton('run_code');
-          ui.enableButton('skip');
-        });
-      }
+      this.rollDice();
     });
   }
 
@@ -168,6 +160,18 @@ class MainScene extends Phaser.Scene {
       this.sound.add(prop);
     }
     this.sound.volume = this.game.config.master_volume;
+  }
+
+  rollDice() {
+    if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
+      this.dice.roll((diceValue) => {
+        ui.currentPlayer.updateEnergy(diceValue);
+        ui.log('Dice value:', diceValue, 'New AP:', ui.currentPlayer.energy);
+        this.dice.hide();
+        ui.enableButton('run_code');
+        ui.enableButton('skip');
+      });
+    }
   }
 
   isAllItemsPicked() {
