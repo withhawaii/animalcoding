@@ -72,14 +72,17 @@ const ui = {
   runCode() {
     ui.prepareCode();
         
-    if (ui.interpreter.getStatus() == Interpreter.Status.DONE || ui.stopRequested) {
+    if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
       ui.interpreter = null;
-      ui.stopRequested = false;
       ui.currentPlayer.scene.changePlayer();
     }
+    else if(ui.stopRequested) {
+      ui.stopRequested = false;
+      ui.handleError('The code was stopped by the moderator.');      
+    }
     else if(ui.interpreter.getStateStack().length > 1000) {
-      ui.handleError('Call stack limit reached!');      
-    } 
+      ui.handleError('The code kept calling the same function over and over!');      
+    }
     else {
       try {
         ui.interpreter.step();
@@ -92,12 +95,6 @@ const ui = {
     }
   },
 
-  highlightCode() {
-    const stack = ui.interpreter.getStateStack();
-    const node = stack[stack.length - 1].node;
-    ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
-  },
-
   handleError(message) {
     ui.interpreter.paused = true;
     ui.interpreter = null;
@@ -105,14 +102,14 @@ const ui = {
     ui.currentPlayer.error += 1;
     ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
     ui.currentPlayer.hangUp();
-    if(ui.errorCount <= ui.errorAllowance) {
-      document.getElementById('error-message').innerHTML = `${message}.<br/>Debug your code and run it again!`;
+    if(ui.errorCount <= ui.errorAllowance && ui.currentPlayer.energy > 0) {
+      document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
       ui.currentPlayer.bounce();
       ui.enableButton('run_code');
       ui.enableButton('skip');
     }
     else {
-      document.getElementById('error-message').innerHTML = `${error.message}.<br/>Moving onto the next player!`;
+      document.getElementById('error-message').innerHTML = `${message}<br/>Moving onto the next player!`;
       ui.currentPlayer.scene.changePlayer();  
     }
     ui.showModal('dialog-default');
@@ -123,6 +120,12 @@ const ui = {
     ui.disableButton('skip');
     ui.currentPlayer.reposition();
     ui.currentPlayer.scene.changePlayer();
+  },
+
+  highlightCode() {
+    const stack = ui.interpreter.getStateStack();
+    const node = stack[stack.length - 1].node;
+    ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
   },
 
   loadSnippets(snippets) {
@@ -261,7 +264,6 @@ const ui = {
     });
 
     window.addEventListener("keydown", function(e) {
-
       //Prevent browser refresh shortcuts
       const k = e.key.toLowerCase();
       const isF5 = e.key === "F5";
@@ -292,16 +294,13 @@ const ui = {
           ui.game.scene.getScene('Main').rollDice();
         }
 
-        //F1 to show a play options modal
         if(e.key === 'F1') {
           e.preventDefault();
           ui.showModal('dialog-config2');
         }
 
-        //Esc to stop running code
         if(e.key === 'Escape' && ui.interpreter) {
           e.preventDefault();
-          console.warn("Requesting stop");
           ui.stopRequested = true;
         }
       }
