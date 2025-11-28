@@ -131,7 +131,6 @@ const ui = {
     session.setUseWrapMode(false);
     session.setMode("ace/mode/javascript");
     ui.editor.setValue("");
-
     const snippetCompleter = {
         getCompletions: function(editor, session, pos, prefix, callback) {
             const list = snippets.map((snippet, index) => ({
@@ -142,7 +141,7 @@ const ui = {
             callback(null, list);
         }
     }
-    ui.editor.completers = [snippetCompleter]
+    ui.editor.completers = [snippetCompleter];
   },
 
   insertText(text, speed = 50, callback) {
@@ -261,35 +260,44 @@ const ui = {
       e.preventDefault();
     });
 
-    window.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.key === "r") {
-        e.preventDefault();
-        document.getElementById("run_code").click();
+    window.addEventListener("keydown", function(e) {
+      //Prevent browser refresh shortcuts
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r") {
+          e.preventDefault();
+          e.stopImmediatePropagation();
       }
 
-      if (e.ctrlKey && e.key === "s") {
-        e.preventDefault();
-        document.getElementById("skip").click();
-      }
+      //Assign shortcuts for the game controls
+      if(ui.game.scene.isActive('Main')) {
+        if (e.ctrlKey && e.key === "r") {
+          e.preventDefault();
+          document.getElementById("run_code").click();
+        }
 
-      if (e.code === "Space" && ui.game.scene.isActive('Main') && ui.game.scene.getScene('Main').dice.isReadyToRoll()) {
-        e.preventDefault();
-        ui.game.scene.getScene('Main').rollDice();
-      }
+        if (e.ctrlKey && e.key === "s") {
+          e.preventDefault();
+          document.getElementById("skip").click();
+        }
 
-      //F1 to show a play options modal
-      if(e.key === 'F1' && ui.game.scene.isActive('Main')) {
-        e.preventDefault();
-        ui.showModal('dialog-config2');
-      }
+        if (e.code === "Space" && ui.game.scene.getScene('Main').dice.isReadyToRoll()) {
+          e.preventDefault();
+          ui.game.scene.getScene('Main').rollDice();
+        }
 
-      //Esc to stop running code
-      if(e.key === 'Escape' && ui.interpreter) {
-        e.preventDefault();
-        console.warn("Requesting stop");
-        ui.stopRequested = true;
-      }    
-    });
+        //F1 to show a play options modal
+        if(e.key === 'F1') {
+          e.preventDefault();
+          ui.showModal('dialog-config2');
+        }
+
+        //Esc to stop running code
+        if(e.key === 'Escape' && ui.interpreter) {
+          e.preventDefault();
+          console.warn("Requesting stop");
+          ui.stopRequested = true;
+        }
+      }
+    }, true);
 
     ui.editor = ace.edit('editor', CST.EDITOR_CONFIG);
     ui.editor.commands.bindKey("F1", null);

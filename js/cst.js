@@ -81,7 +81,7 @@ const CST = {
         "trap_is_on()",
         "stop_trap();",
         "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++){\n  \n}",
+        "for(i = 0; i < 10; i++) {\n  \n}",
         "if(trap_is_on) {\n  \n} else {\n  \n}",
         "if(path_ahead) {\n  \n} else {\n  \n}",
       ]
@@ -99,7 +99,7 @@ const CST = {
         "steal();",
         "stop_trap();",
         "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++){\n  \n}",
+        "for(i = 0; i < 10; i++) {\n  \n}",
         "if(trap_is_on) {\n  \n} else {\n  \n}",
         "if(path_ahead) {\n  \n} else {\n  \n}",
       ]
@@ -117,7 +117,7 @@ const CST = {
         "steal();",
         "stop_trap();",
         "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++){\n  \n}",
+        "for(i = 0; i < 10; i++) {\n  \n}",
         "if(trap_is_on) {\n  \n} else {\n  \n}",
         "if(path_ahead) {\n  \n} else {\n  \n}",
       ]

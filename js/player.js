@@ -301,8 +301,7 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    const success = Phaser.Utils.Array.GetRandom([true, false, false]);
-    if(success) {
+    if(Phaser.Utils.Array.GetRandom([true, false, false])) {
       if(anotherPlayer.crystal > 0) {
         anotherPlayer.updateItem(31, -1);
         player.updateItem(31, 1);
@@ -326,4 +325,4 @@ class Player extends Phaser.GameObjects.Sprite {
       this.hangUp(callback);
     }
   }
-} 
+}
