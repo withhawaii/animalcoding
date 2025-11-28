@@ -261,10 +261,18 @@ const ui = {
     });
 
     window.addEventListener("keydown", function(e) {
+
       //Prevent browser refresh shortcuts
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r") {
-          e.preventDefault();
-          e.stopImmediatePropagation();
+      const k = e.key.toLowerCase();
+      const isF5 = e.key === "F5";
+      const isCtrlR = e.ctrlKey && !e.metaKey && k === "r";
+      const isCtrlShiftR = e.ctrlKey && e.shiftKey && k === "r";
+      const isCtrlF5 = e.ctrlKey && e.key === "F5";
+      const isCmdR = e.metaKey && k === "r";
+      const isCmdShiftR = e.metaKey && e.shiftKey && k === "r";
+      if (isF5 || isCtrlR || isCtrlShiftR || isCtrlF5 || isCmdR || isCmdShiftR) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
       }
 
       //Assign shortcuts for the game controls
