@@ -196,26 +196,26 @@ const ui = {
   },
 
   saveConfig() {
-    let players = {}
+    let players_json = {}
     const name1 = document.getElementById('config_name_1').value.trim();
     const name2 = document.getElementById('config_name_2').value.trim();
     const name3 = document.getElementById('config_name_3').value.trim();
     const name4 = document.getElementById('config_name_4').value.trim();
-    if(name1.length > 0) players[0] = {id: 0, sprite: 'Cat', name: name1};
-    if(name2.length > 0) players[1] = {id: 1, sprite: 'Rabbit', name: name2}
-    if(name3.length > 0) players[2] = {id: 2, sprite: 'Chick', name: name3}
-    if(name4.length > 0) players[3] = {id: 3, sprite: 'Pig', name: name4}
-    localStorage.setItem('players', JSON.stringify(players));
+    if(name1.length > 0) players_json[0] = {id: 0, sprite: 'Cat', name: name1};
+    if(name2.length > 0) players_json[1] = {id: 1, sprite: 'Rabbit', name: name2}
+    if(name3.length > 0) players_json[2] = {id: 2, sprite: 'Chick', name: name3}
+    if(name4.length > 0) players_json[3] = {id: 3, sprite: 'Pig', name: name4}
+    localStorage.setItem('players', JSON.stringify(players_json));
 
-    let config = JSON.parse(localStorage.getItem('config')) || {};
-    config.stage = document.getElementById('config_stage').value;
-    config.shuffle = document.getElementById('config_shuffle').value;
-    config.debug = document.getElementById('config_debug').value;
-    config.master_volume = document.getElementById('config_master_volume').value;
-    config.bgm_volume = document.getElementById('config_bgm_volume').value;
-    localStorage.setItem('config', JSON.stringify(config));
+    let config_json = JSON.parse(localStorage.getItem('config')) || {};
+    config_json.stage = document.getElementById('config_stage').value;
+    config_json.shuffle = document.getElementById('config_shuffle').value;
+    config_json.debug = document.getElementById('config_debug').value;
+    config_json.master_volume = document.getElementById('config_master_volume').value;
+    config_json.bgm_volume = document.getElementById('config_bgm_volume').value;
+    localStorage.setItem('config', JSON.stringify(config_json));
 
-    console.log('Config saved:', players, config);    
+    console.log('Config saved:', players_json, config_json);
   },
 
   changeVolume(event) {
@@ -245,15 +245,22 @@ const ui = {
   },
 
   init() {
-    let config_saved = JSON.parse(localStorage.getItem('config'));
-    if(!config_saved) {
+    let config_json = JSON.parse(localStorage.getItem('config'));
+    let players_json = JSON.parse(localStorage.getItem('players'));
+    if(!config_json) {
       ui.saveConfig();
-      config_saved = JSON.parse(localStorage.getItem('config'));
+      config_json = JSON.parse(localStorage.getItem('config'));
     }
-    document.getElementById('config_stage').value = config_saved.stage
-    document.getElementById('config_debug').value = config_saved.debug
-    document.getElementById('config_master_volume').value = config_saved.master_volume
-    document.getElementById('config_bgm_volume').value = config_saved.bgm_volume       
+    document.getElementById('config_name_1').value = players_json[0] ? players_json[0].name : "";
+    document.getElementById('config_name_2').value = players_json[1] ? players_json[1].name : ""; 
+    document.getElementById('config_name_3').value = players_json[2] ? players_json[2].name : "";
+    document.getElementById('config_name_4').value = players_json[3] ? players_json[3].name : "";
+    document.getElementById('config_stage').value = config_json.stage;
+    document.getElementById('config_debug').value = config_json.debug;
+    document.getElementById('config_shuffle').value = config_json.shuffle;       
+    document.getElementById('config_master_volume').value = config_json.master_volume;
+    document.getElementById('config_bgm_volume').value = config_json.bgm_volume;
+
     document.getElementById('run_code').addEventListener('click', ui.runCode);
     document.getElementById('skip').addEventListener('click', ui.skipTurn);
     document.getElementById('config_save').addEventListener('click', ui.saveConfig);
