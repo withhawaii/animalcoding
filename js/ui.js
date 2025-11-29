@@ -51,16 +51,20 @@ const ui = {
       ui.disableButton('run_code');
       ui.disableButton('skip');
       ui.currentPlayer.reposition();
+      let code = ui.editor.getValue();
+
+      //Preserve functions for the next turn
+      const functions = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs) || [];
+      ui.currentPlayer.code = functions.join('\n\n');
+
+      //Turn conditional variables into functions
+      const vars = ['path_ahead', 'trap_is_on'];
+      for (const name of vars) {
+        const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
+        code = code.replace(regex, `${name}()`);
+      }
+
       try {
-        let code = ui.editor.getValue();
-        //Preserve functions for the next turn
-        const functions = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs) || [];
-        ui.currentPlayer.code = functions.join('\n\n');
-        const vars = ['path_ahead', 'trap_is_on'];
-        for (const name of vars) {
-          const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
-          code = code.replace(regex, `${name}()`);
-        }
         ui.interpreter = new Interpreter(code, ui.gameApi);
       }
       catch(e) {
@@ -135,14 +139,14 @@ const ui = {
     session.setMode("ace/mode/javascript");
     ui.editor.setValue("");
     const snippetCompleter = {
-        getCompletions: function(editor, session, pos, prefix, callback) {
-            const list = snippets.map((snippet, index) => ({
-              caption: snippet.replace(/\s+/g, ''),
-              value: snippet + '\n',
-              score: 1000 - index
-            }));
-            callback(null, list);
-        }
+      getCompletions: function(editor, session, pos, prefix, callback) {
+          const list = snippets.map((snippet, index) => ({
+            caption: snippet.replace(/\s+/g, ''),
+            value: snippet + '\n',
+            score: 1000 - index
+          }));
+          callback(null, list);
+      }
     }
     ui.editor.completers = [snippetCompleter];
   },

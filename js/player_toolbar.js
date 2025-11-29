@@ -7,11 +7,11 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     this.y = y;
     this.background = this.scene.add.image(0, 0, 'textures', 'UI_Toolbar_Icon').setOrigin(0, 0);
     this.avatar = this.scene.add.image(6, 6, 'textures', texture +  '_Avatar_Circle').setScale(0.8).setOrigin(0, 0);
-    this.energyText = this.scene.add.text(70, 16, '0', { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6);
-    this.nameText = this.scene.add.text(110, 10, name, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
-    this.coinText = this.scene.add.text(140, 40, '0', {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
-    this.rubyText = this.scene.add.text(190, 40, '0', {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
-    this.crystalText = this.scene.add.text(235, 40, '0', {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
+    this.energyText = this.scene.add.text(82, 33, '0', { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6).setOrigin(0.5, 0.5);
+    this.nameText = this.scene.add.text(110, 13, name, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
+    this.coinText = this.scene.add.text(148, 46, '0', {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
+    this.rubyText = this.scene.add.text(198, 46, '0', {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
+    this.crystalText = this.scene.add.text(240, 46, '0', {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
     this.add(this.background);
     this.add(this.avatar);
     this.add(this.energyText);
