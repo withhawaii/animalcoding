@@ -214,15 +214,15 @@ class MainScene extends Phaser.Scene {
     localStorage.setItem('config', JSON.stringify(config_json));
 
     let players_json = JSON.parse(localStorage.getItem('players'));
-    for(let i = 0; i < this.players.length; i++) {
-      players_json[this.players[i].id][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score(), bonus: this.players[i].bonus, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
-      players_json[this.players[i].id].total_score = 0;
-      ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'].forEach((stage, index) => {
-        if(players_json[this.players[i].id][stage] && players_json[this.players[i].id][stage].score) {
-          players_json[this.players[i].id].total_score += players_json[this.players[i].id][stage].score;
+    this.players.forEach((player) => {
+      players_json[player.id][this.game.config.stage] = {energy: player.energy, score: player.score(), bonus: player.bonus, coin: player.coin, ruby: player.ruby, crystal: player.crystal};
+      players_json[player.id].total_score = 0;
+      ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'].forEach((stage) => {
+        if(players_json[player.id][stage] && players_json[player.id][stage].score) {
+          players_json[player.id].total_score += players_json[player.id][stage].score;
         }
       });
-    }
+    });
     localStorage.setItem('players', JSON.stringify(players_json));
     ui.log('Config saved:', config_json, players_json);
   }
