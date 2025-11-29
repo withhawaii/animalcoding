@@ -27,9 +27,9 @@ class ResultScene extends Phaser.Scene {
     result.play({volume: this.game.config.bgm_volume})
     result.once('complete', () => {
       let ranking_text = "Total Ranking\n\n"
-      let players_sorted = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b.total_score - a.total_score);
-      for(let i = 0; i < players_sorted.length; i++) {
-        ranking_text += `${i + 1}...${players_sorted[i].name} (${players_sorted[i].total_score} pts)\n` 
+      let players_json = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b.total_score - a.total_score);
+      for(let i = 0; i < players_json.length; i++) {
+        ranking_text += `${i + 1}...${players_json[i].name} (${players_json[i].total_score} pts)\n` 
       }
       ranking_text += "\nGreat job! Everyone!!"
       ui.insertText(ranking_text);
@@ -130,29 +130,30 @@ class ResultScene extends Phaser.Scene {
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
 //    this.add.text(1024/2, 48, this.stage_config.name + ' Ranking', {fontFamily: 'Fredoka', fontSize: '48px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
     this.add.text(1024/2, 48, this.stage_config.name + ' Ranking', {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
-    this.add.text(300, 500, 'Errors:', defaultFontStyle).setOrigin(1, 0.5);
-    this.add.text(300, 550, 'Score:', defaultFontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 500, 'AP:', defaultFontStyle).setOrigin(1, 0.5);
+    this.add.text(300, 550, 'Bonus:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 600, 'Total:', defaultFontStyle).setOrigin(1, 0.5);
 
-    let players_sorted = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b[this.game.config.stage].score - a[this.game.config.stage].score);
-    ui.log(players_sorted);
+    let players_json = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b[this.game.config.stage].score - a[this.game.config.stage].score);
+    ui.log(players_json);
     this.players = [];
-    for(let i = 0; i < players_sorted.length; i++) {
-      let sprite = players_sorted[i].sprite;
+    for(let i = 0; i < players_json.length; i++) {
+      let sprite = players_json[i].sprite;
       this.players[i] = new Player(this, 362 + 100 * i, 155 + 20 * i, sprite, i, 0, 0, CST.DOWN);
       if(i == 0) {
         this.players[i].bounce();
       }
-      else if(i == players_sorted.length - 1) {
+      else if(i == players_json.length - 1) {
         this.players[i].setFrame(CST.FALL);
       }
-      let player_info = players_sorted[i][this.game.config.stage];
-      this.add.text(362 + 100 * i, 295, players_sorted[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff'}).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 350, player_info.coin, defaultFontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 400, player_info.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 450, player_info.crystal, defaultFontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 500, player_info.error, defaultFontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 550, players_sorted[i].score, defaultFontStyle).setOrigin(0.5, 0.5);
+      let result = players_json[i][this.game.config.stage];
+      this.add.text(362 + 100 * i, 295, players_json[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff'}).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 350, result.coin, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 400, result.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 450, result.crystal, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 500, result.energy, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 550, result.bonus, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 600, result.score, defaultFontStyle).setOrigin(0.5, 0.5);
     }
     ui.currentPlayer = this.players[0];
   }

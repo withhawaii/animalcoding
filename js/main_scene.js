@@ -121,21 +121,22 @@ class MainScene extends Phaser.Scene {
   }
 
   createPlayers() {
-    let players;
+    let players_json;
     if(this.game.config.shuffle) {
-      players = Object.values(JSON.parse(localStorage.getItem('players'))).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+      players_json = Object.values(JSON.parse(localStorage.getItem('players'))).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
     }
     else {
-      players = Object.values(JSON.parse(localStorage.getItem('players')))
+      players_json = Object.values(JSON.parse(localStorage.getItem('players')))
     }
     const player_coordinates = this.map.getObjectLayer('players').objects;
     const toolbar_coordinates = [[0,0],[756,0],[756,640],[0,640]];
     this.players = [];
-    for(let i = 0; i < players.length; i++) {
-      let sprite = players[i].sprite;
-      let name = players[i].name;
+    for(let i = 0; i < players_json.length; i++) {
+      let sprite = players_json[i].sprite;
+      let name = players_json[i].name;
+      let id = players_json[i].id;
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
-      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, i, starting_point.x, starting_point.y, CST.DOWN);
+      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
       if(this.game.config.debug) {
        this.players[i].updateItem(30, 5);
@@ -207,23 +208,23 @@ class MainScene extends Phaser.Scene {
   }
 
   saveRecords() {
-    let config = JSON.parse(localStorage.getItem('config')) || {};
-    config.master_volume = this.game.config.master_volume;
-    config.bgm_volume = this.game.config.bgm_volume;
-    localStorage.setItem('config', JSON.stringify(config));
+    let config_json = JSON.parse(localStorage.getItem('config')) || {};
+    config_json.master_volume = this.game.config.master_volume;
+    config_json.bgm_volume = this.game.config.bgm_volume;
+    localStorage.setItem('config', JSON.stringify(config_json));
 
-    let players = JSON.parse(localStorage.getItem('players'));
+    let players_json = JSON.parse(localStorage.getItem('players'));
     for(let i = 0; i < this.players.length; i++) {
-      players[this.players[i].animal][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score(), error: this.players[i].error, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
-      players[this.players[i].animal].total_score = 0;
+      players_json[this.players[i].id][this.game.config.stage] = {energy: this.players[i].energy, score: this.players[i].score(), bonus: this.players[i].bonus, coin: this.players[i].coin, ruby: this.players[i].ruby, crystal: this.players[i].crystal};
+      players_json[this.players[i].id].total_score = 0;
       ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'].forEach((stage, index) => {
-        if(players[this.players[i].animal][stage] && players[this.players[i].animal][stage].score) {
-          players[this.players[i].animal].total_score += players[this.players[i].animal][stage].score;
+        if(players_json[this.players[i].id][stage] && players_json[this.players[i].id][stage].score) {
+          players_json[this.players[i].id].total_score += players_json[this.players[i].id][stage].score;
         }
       });
     }
-    localStorage.setItem('players', JSON.stringify(players));
-    ui.log('Config saved:', config, players);
+    localStorage.setItem('players', JSON.stringify(players_json));
+    ui.log('Config saved:', config_json, players_json);
   }
 
   update(time, delta) {

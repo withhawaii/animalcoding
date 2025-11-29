@@ -103,7 +103,6 @@ const ui = {
     ui.interpreter.paused = true;
     ui.interpreter = null;
     ui.errorCount += 1;
-    ui.currentPlayer.error += 1;
     ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
     ui.currentPlayer.hangUp();
     if(ui.errorCount <= ui.errorAllowance && ui.currentPlayer.energy > 0) {
@@ -202,10 +201,10 @@ const ui = {
     const name2 = document.getElementById('config_name_2').value.trim();
     const name3 = document.getElementById('config_name_3').value.trim();
     const name4 = document.getElementById('config_name_4').value.trim();
-    if(name1.length > 0) players['Cat'] = {sprite: 'Cat', name: name1};
-    if(name2.length > 0) players['Rabbit'] = {sprite: 'Rabbit', name: name2}
-    if(name3.length > 0) players['Chick'] = {sprite: 'Chick', name: name3}
-    if(name4.length > 0) players['Pig'] = {sprite: 'Pig', name: name4}
+    if(name1.length > 0) players[0] = {id: 0, sprite: 'Cat', name: name1};
+    if(name2.length > 0) players[1] = {id: 1, sprite: 'Rabbit', name: name2}
+    if(name3.length > 0) players[2] = {id: 2, sprite: 'Chick', name: name3}
+    if(name4.length > 0) players[3] = {id: 3, sprite: 'Pig', name: name4}
     localStorage.setItem('players', JSON.stringify(players));
 
     let config = JSON.parse(localStorage.getItem('config')) || {};
