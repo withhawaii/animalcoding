@@ -196,15 +196,11 @@ const ui = {
   },
 
   saveConfig() {
-    let players_json = {}
-    const name1 = document.getElementById('config_name_1').value.trim();
-    const name2 = document.getElementById('config_name_2').value.trim();
-    const name3 = document.getElementById('config_name_3').value.trim();
-    const name4 = document.getElementById('config_name_4').value.trim();
-    if(name1.length > 0) players_json[0] = {id: 0, sprite: 'Cat', name: name1};
-    if(name2.length > 0) players_json[1] = {id: 1, sprite: 'Rabbit', name: name2}
-    if(name3.length > 0) players_json[2] = {id: 2, sprite: 'Chick', name: name3}
-    if(name4.length > 0) players_json[3] = {id: 3, sprite: 'Pig', name: name4}
+    let players_json = [];
+    players_json[0] = {id: 0, sprite: 'Cat', name: document.getElementById('config_name_1').value.trim()};
+    players_json[1] = {id: 1, sprite: 'Rabbit', name: document.getElementById('config_name_2').value.trim()}
+    players_json[2] = {id: 2, sprite: 'Chick', name: document.getElementById('config_name_3').value.trim()}
+    players_json[3] = {id: 3, sprite: 'Pig', name: document.getElementById('config_name_4').value.trim()}
     localStorage.setItem('players', JSON.stringify(players_json));
 
     let config_json = JSON.parse(localStorage.getItem('config')) || {};
@@ -215,7 +211,7 @@ const ui = {
     config_json.bgm_volume = document.getElementById('config_bgm_volume').value;
     localStorage.setItem('config', JSON.stringify(config_json));
 
-    console.log('Config saved:', players_json, config_json);
+    console.log('Data saved:', players_json, config_json);
   },
 
   changeVolume(event) {
@@ -245,21 +241,23 @@ const ui = {
   },
 
   init() {
-    let config_json = JSON.parse(localStorage.getItem('config'));
-    let players_json = JSON.parse(localStorage.getItem('players'));
-    if(!config_json) {
-      ui.saveConfig();
-      config_json = JSON.parse(localStorage.getItem('config'));
+    //Init modal components
+    const config_json = JSON.parse(localStorage.getItem('config'));
+    const players_json = JSON.parse(localStorage.getItem('players'));
+    if(config_json) {
+      document.getElementById('config_name_1').value = players_json[0] ? players_json[0].name : "";
+      document.getElementById('config_name_2').value = players_json[1] ? players_json[1].name : ""; 
+      document.getElementById('config_name_3').value = players_json[2] ? players_json[2].name : "";
+      document.getElementById('config_name_4').value = players_json[3] ? players_json[3].name : "";
+      document.getElementById('config_stage').value = config_json.stage;
+      document.getElementById('config_debug').value = config_json.debug;
+      document.getElementById('config_shuffle').value = config_json.shuffle;       
+      document.getElementById('config_master_volume').value = config_json.master_volume;
+      document.getElementById('config_bgm_volume').value = config_json.bgm_volume;
     }
-    document.getElementById('config_name_1').value = players_json[0] ? players_json[0].name : "";
-    document.getElementById('config_name_2').value = players_json[1] ? players_json[1].name : ""; 
-    document.getElementById('config_name_3').value = players_json[2] ? players_json[2].name : "";
-    document.getElementById('config_name_4').value = players_json[3] ? players_json[3].name : "";
-    document.getElementById('config_stage').value = config_json.stage;
-    document.getElementById('config_debug').value = config_json.debug;
-    document.getElementById('config_shuffle').value = config_json.shuffle;       
-    document.getElementById('config_master_volume').value = config_json.master_volume;
-    document.getElementById('config_bgm_volume').value = config_json.bgm_volume;
+    else {
+      ui.saveConfig();
+    }
 
     document.getElementById('run_code').addEventListener('click', ui.runCode);
     document.getElementById('skip').addEventListener('click', ui.skipTurn);
@@ -269,6 +267,7 @@ const ui = {
     document.getElementById('btn_back').addEventListener('click', ui.switchScene);
     document.getElementById('btn_end').addEventListener('click', ui.switchScene);
 
+    //Prevent browser context menu
     document.addEventListener("contextmenu", function (e) {
       e.preventDefault();
     });
@@ -343,6 +342,7 @@ const ui = {
       },
       scene: [BootScene, TitleScene, MainScene, ResultScene]
     });
+
     ui.disableButton('run_code');
     ui.disableButton('skip');
   }

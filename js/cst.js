@@ -9,6 +9,7 @@ const CST = {
   COIN_POINT: 1,
   RUBY_POINT: 5,
   CRYSTAL_POINT: 10,
+  TITLE_MESSAGE: "This is a turn-based multiplayer game designed to introduce basic text-based programming concepts. You can play with up to 4 players.\n\nClick 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. Have fun coding your way through the adventure!",
 
   AUDIO: {
     move: 'audio/move.mp3',

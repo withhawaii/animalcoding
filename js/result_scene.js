@@ -26,8 +26,8 @@ class ResultScene extends Phaser.Scene {
     const result = this.sound.get('result');
     result.play({volume: this.game.config.bgm_volume})
     result.once('complete', () => {
-      let ranking_text = "Total Ranking\n\n"
-      let players_json = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b.total_score - a.total_score);
+      let ranking_text = "Cumulative Ranking\n\n"
+      const players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "").sort((a, b) => b.total_score - a.total_score);
       for(let i = 0; i < players_json.length; i++) {
         ranking_text += `${i + 1}...${players_json[i].name} (${players_json[i].total_score} pts)\n` 
       }
@@ -134,7 +134,7 @@ class ResultScene extends Phaser.Scene {
     this.add.text(300, 550, 'Bonus:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 600, 'Total:', defaultFontStyle).setOrigin(1, 0.5);
 
-    let players_json = Object.values(JSON.parse(localStorage.getItem('players'))).sort((a, b) => b[this.game.config.stage].score - a[this.game.config.stage].score);
+    const players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "").sort((a, b) => b[this.game.config.stage].score - a[this.game.config.stage].score);
     ui.log(players_json);
     this.players = [];
     for(let i = 0; i < players_json.length; i++) {

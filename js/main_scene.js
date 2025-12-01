@@ -121,12 +121,9 @@ class MainScene extends Phaser.Scene {
   }
 
   createPlayers() {
-    let players_json;
+    let players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "")
     if(this.game.config.shuffle) {
-      players_json = Object.values(JSON.parse(localStorage.getItem('players'))).map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
-    }
-    else {
-      players_json = Object.values(JSON.parse(localStorage.getItem('players')))
+      players_json = Phaser.Utils.Array.Shuffle(players_json); 
     }
     const player_coordinates = this.map.getObjectLayer('players').objects;
     const toolbar_coordinates = [[0,0],[756,0],[756,640],[0,640]];
@@ -214,17 +211,17 @@ class MainScene extends Phaser.Scene {
     localStorage.setItem('config', JSON.stringify(config_json));
 
     let players_json = JSON.parse(localStorage.getItem('players'));
-    this.players.forEach((player) => {
-      players_json[player.id][this.game.config.stage] = {energy: player.energy, score: player.score(), bonus: player.bonus, coin: player.coin, ruby: player.ruby, crystal: player.crystal};
+    for(let player of this.players) {
+      players_json[player.id][this.game.config.stage] = {score: player.score(), energy: player.energy, bonus: player.bonus, coin: player.coin, ruby: player.ruby, crystal: player.crystal};
       players_json[player.id].total_score = 0;
-      ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'].forEach((stage) => {
+      for(let stage of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5']) {
         if(players_json[player.id][stage] && players_json[player.id][stage].score) {
           players_json[player.id].total_score += players_json[player.id][stage].score;
         }
-      });
-    });
+      };
+    };
     localStorage.setItem('players', JSON.stringify(players_json));
-    ui.log('Config saved:', config_json, players_json);
+    ui.log('Data saved:', config_json, players_json);
   }
 
   update(time, delta) {
