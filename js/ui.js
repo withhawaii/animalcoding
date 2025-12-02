@@ -64,8 +64,6 @@ const ui = {
         ui.interpreter = new Interpreter(code, ui.gameApi);
       }
       catch(e) {
-        ui.interpreter.paused = true;
-        ui.interpreter = null;
         ui.handleError(e);
       }
     }
@@ -86,8 +84,6 @@ const ui = {
         setTimeout(ui.runCode, 520);
       }
       catch(e) {
-        ui.interpreter.paused = true;
-        ui.interpreter = null;
         ui.handleError(e);
       }
     }
@@ -101,6 +97,10 @@ const ui = {
   },
 
   handleError(error) {
+    if(ui.interpreter) {
+      ui.interpreter.paused = true;
+      ui.interpreter = null;
+    }
     ui.errorCount += 1;
     ui.currentPlayer.error += 1;
     ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
