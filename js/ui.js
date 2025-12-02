@@ -100,8 +100,10 @@ const ui = {
   },
 
   handleError(message) {
-    ui.interpreter.paused = true;
-    ui.interpreter = null;
+    if(ui.interpreter) {
+      ui.interpreter.paused = true;
+      ui.interpreter = null;
+    }
     ui.errorCount += 1;
     ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
     ui.currentPlayer.hangUp();

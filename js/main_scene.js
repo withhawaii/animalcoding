@@ -133,7 +133,7 @@ class MainScene extends Phaser.Scene {
       let name = players_json[i].name;
       let id = players_json[i].id;
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
-      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, starting_point.x, starting_point.y, CST.DOWN);
+      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, i, starting_point.x, starting_point.y, CST.DOWN);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
       if(this.game.config.debug) {
        this.players[i].updateItem(30, 5);
@@ -192,11 +192,11 @@ class MainScene extends Phaser.Scene {
       this.scene.start('Result');
     }
 
-    if(ui.currentPlayer.id + 1 >= this.players.length) {
+    if(ui.currentPlayer.order + 1 >= this.players.length) {
       ui.currentPlayer = this.players[0];
     }
     else {
-      ui.currentPlayer = this.players[ui.currentPlayer.id + 1];
+      ui.currentPlayer = this.players[ui.currentPlayer.order + 1];
     }
     ui.log('New Player:', ui.currentPlayer);
     ui.currentPlayer.bounce();

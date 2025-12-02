@@ -1,9 +1,10 @@
 class Player extends Phaser.GameObjects.Sprite {
 
-  constructor(scene, x, y, texture, id, xGrid, yGrid, direction) {
+  constructor(scene, x, y, texture, id, order, xGrid, yGrid, direction) {
     super(scene, x, y, texture);
     this.scene = scene;
     this.id = id;
+    this.order = order;
     this.x = x;
     this.y = y;
     this.xGridSpawn = xGrid;
