@@ -322,6 +322,7 @@ class Player extends Phaser.GameObjects.Sprite {
       });
     }
     else {
+      player.updateEnergy(- 1);
       this.hangUp(callback);
     }
   }
