@@ -1,3 +1,51 @@
+const SNIPPETS = {
+  move_forward: {
+    caption: 'move_forward();',
+    value: 'move_forward();\n',
+    help: 'Move a character one step forward'
+  },
+  turn_left: {
+    caption: 'turn_left();',
+    value: 'turn_left();\n',
+    help: 'Rotate a character towards left 90 degree'
+  },
+  turn_right: {
+    caption: 'turn_right();',
+    value: 'turn_right();\n',
+    help: 'Rotate a character towards right 90 degree'
+  },  
+  pick_up: {
+    caption: 'pick_up();',
+    value: 'pick_up();\n',
+    help: 'Pick up an item on the ground'
+  },
+  steal: {
+    caption: 'steal();',
+    value: 'steal();\n',
+    help: 'Steal an item from other players'
+  },
+  function: {
+    caption: 'function() my_command()...',
+    value: "function my_command() {\n  \n}",
+    help: 'Give a name to a block of commands for later use'
+  },
+  for: {
+    caption: 'for(i = 0; i < 10; i++)...',
+    value: "for(i = 0; i < 10; i++){\n  \n}",
+    help: 'Repeat a block of commands'
+  },
+  if_trap_is_on: {
+    caption: 'if(trap_is_on)...',
+    value: "if(trap_is_on) {\n  \n} else {\n  \n}",
+    help: 'Run a block of commands when the trap in front of character is on'
+  },
+  if_path_ahead: {
+    caption: 'if(path_ahead)...',
+    value: "if(path_ahead) {\n  \n} else {\n  \n}",
+    help: 'Run a block of commands when there is no obstruct in front of character'
+  },
+}
+
 const CST = {
   UP: 0,
   RIGHT: 1,
@@ -33,11 +81,10 @@ const CST = {
       next: 'stage2',
       bgm: 'bgm_01',
       snippets: [
-        "move_forward();", 
-        "turn_left();",
-        "turn_right();", 
-        "pick_up();",
-        "steal();",
+        SNIPPETS['move_forward'],
+        SNIPPETS['turn_left'],
+        SNIPPETS['turn_right'],
+        SNIPPETS['pick_up'],
       ]
     },  
     stage2: {
@@ -46,11 +93,11 @@ const CST = {
       next: 'stage3',
       bgm: 'bgm_02',
       snippets: [
-        "move_forward();", 
-        "turn_right();", 
-        "pick_up();",
-        "steal();",
-        "function my_command() {\n  \n}",
+        SNIPPETS['move_forward'],
+        SNIPPETS['turn_left'],
+        SNIPPETS['turn_right'],
+        SNIPPETS['pick_up'],
+        SNIPPETS['function'],
       ]
     }, 
     stage3: {
@@ -59,13 +106,12 @@ const CST = {
       next: 'stage4',
       bgm: 'bgm_01',
       snippets: [
-        "move_forward();", 
-        "turn_left();",
-        "turn_right();", 
-        "pick_up();",
-        "steal();",
-        "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++){\n  \n}",
+        SNIPPETS['move_forward'],
+        SNIPPETS['turn_left'],
+        SNIPPETS['turn_right'],
+        SNIPPETS['pick_up'],
+        SNIPPETS['function'],
+        SNIPPETS['for'],
       ]
     }, 
     stage4: {
@@ -74,17 +120,14 @@ const CST = {
       next: 'stage5',
       bgm: 'bgm_02',
       snippets: [
-        "move_forward();", 
-        "turn_left();",
-        "turn_right();", 
-        "pick_up();",
-        "steal();",
-        "trap_is_on()",
-        "stop_trap();",
-        "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++) {\n  \n}",
-        "if(trap_is_on) {\n  \n} else {\n  \n}",
-        "if(path_ahead) {\n  \n} else {\n  \n}",
+        SNIPPETS['move_forward'],
+        SNIPPETS['turn_left'],
+        SNIPPETS['turn_right'],
+        SNIPPETS['pick_up'],
+        SNIPPETS['function'],
+        SNIPPETS['for'],
+        SNIPPETS['if_trap_is_on'],
+        SNIPPETS['if_path_ahead'],
       ]
     }, 
     stage5: {
@@ -93,16 +136,15 @@ const CST = {
       next: null,
       bgm: 'bgm_01',
       snippets: [
-        "move_forward();", 
-        "turn_left();",
-        "turn_right();", 
-        "pick_up();",
-        "steal();",
-        "stop_trap();",
-        "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++) {\n  \n}",
-        "if(trap_is_on) {\n  \n} else {\n  \n}",
-        "if(path_ahead) {\n  \n} else {\n  \n}",
+        SNIPPETS['move_forward'],
+        SNIPPETS['turn_left'],
+        SNIPPETS['turn_right'],
+        SNIPPETS['pick_up'],
+        SNIPPETS['steal'],
+        SNIPPETS['function'],
+        SNIPPETS['for'],
+        SNIPPETS['if_trap_is_on'],
+        SNIPPETS['if_path_ahead'],
       ]
     },
     demo: {
@@ -111,16 +153,15 @@ const CST = {
       next: null,
       bgm: 'bgm_02',
       snippets: [
-        "move_forward();", 
-        "turn_left();",
-        "turn_right();", 
-        "pick_up();",
-        "steal();",
-        "stop_trap();",
-        "function my_command() {\n  \n}",
-        "for(i = 0; i < 10; i++) {\n  \n}",
-        "if(trap_is_on) {\n  \n} else {\n  \n}",
-        "if(path_ahead) {\n  \n} else {\n  \n}",
+        SNIPPETS['move_forward'],
+        SNIPPETS['turn_left'],
+        SNIPPETS['turn_right'],
+        SNIPPETS['pick_up'],
+        SNIPPETS['steal'],
+        SNIPPETS['function'],
+        SNIPPETS['for'],
+        SNIPPETS['if_trap_is_on'],
+        SNIPPETS['if_path_ahead'],
       ]
     },
   },
@@ -179,6 +220,7 @@ const CST = {
     mode: 'ace/mode/javascript', // string: path to language mode 
     enableBasicAutocompletion: true,
     enableLiveAutocompletion: false,
+    placeholder: '\nTo insert code, press "Control-Space"',
   },  
 }
    

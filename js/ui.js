@@ -142,8 +142,9 @@ const ui = {
     const snippetCompleter = {
       getCompletions: function(editor, session, pos, prefix, callback) {
           const list = snippets.map((snippet, index) => ({
-            caption: snippet.replace(/\s+/g, ''),
-            value: snippet + '\n',
+            caption: snippet.caption,
+            value: snippet.value,
+            docText: snippet.help,
             score: 1000 - index
           }));
           callback(null, list);
