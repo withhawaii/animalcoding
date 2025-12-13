@@ -30,14 +30,26 @@
   <div class="flex-container">
     <div class="column">
       <div id="game-container"></div>
-    </div>  
+    </div> 
     <div class="column">
       <div id="editor"></div>
       <div id="control">
+        <button id="help" class="nes-btn">?</button>
         <button id="skip" class="nes-btn">Skip</button>
         <button id="run_code" class="nes-btn is-primary">Run Code</button>
       </div>
     </div>
+
+
+    <dialog class="nes-dialog" id="dialog-help">
+      <form method="dialog">
+        <p class="title">Help</p>
+        <p id="error-message"></p>
+        <menu class="dialog-menu" style="text-align: right">
+          <button class="nes-btn is-primary">Got it!</button>
+        </menu>
+      </form>
+    </dialog>
 
     <dialog class="nes-dialog" id="dialog-default">
       <form method="dialog">

@@ -21,10 +21,11 @@ body,
 
 #editor {
   height: 650px; 
-  width: 320px;
+  width: 350px;
 }
 
 #control {
+  width: 350px;
   padding: 5px;
   text-align: center;
 }

@@ -33,6 +33,15 @@ class Dice extends Phaser.GameObjects.Container {
    
   show() {
     this.dice.setVisible(true);
+    this.scene.tweens.add({
+        targets: this.dice,
+        scaleX: { from: 1, to: 1.05 },
+        scaleY: { from: 1.05, to: 1 },
+        duration: 400,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut'
+    });
   }
 
   hide() {
@@ -42,6 +51,7 @@ class Dice extends Phaser.GameObjects.Container {
   roll(callback) {
     if (!this.diceIsRolling) {
         this.diceIsRolling = true;
+        this.scene.tweens.killTweensOf(this.dice);        
         let diceRoll;
         if(this.scene.game.config.debug) {
           diceRoll = 6;

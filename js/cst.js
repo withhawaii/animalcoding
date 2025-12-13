@@ -2,47 +2,47 @@ const SNIPPETS = {
   move_forward: {
     caption: 'move_forward();',
     value: 'move_forward();\n',
-    help: 'Move a character one step forward'
+    help: 'Move a character \none step forward'
   },
   turn_left: {
     caption: 'turn_left();',
     value: 'turn_left();\n',
-    help: 'Rotate a character towards left 90 degree'
+    help: 'Rotate a character \ntowards left 90 degree'
   },
   turn_right: {
     caption: 'turn_right();',
     value: 'turn_right();\n',
-    help: 'Rotate a character towards right 90 degree'
+    help: 'Rotate a character \ntowards right 90 degree'
   },  
   pick_up: {
     caption: 'pick_up();',
     value: 'pick_up();\n',
-    help: 'Pick up an item on the ground'
+    help: 'Pick up an item \non the ground'
   },
   steal: {
     caption: 'steal();',
     value: 'steal();\n',
-    help: 'Steal an item from other players'
+    help: 'Steal an item \nfrom other players'
   },
   function: {
     caption: 'function() my_command()...',
-    value: "function my_command() {\n  \n}",
-    help: 'Give a name to a block of commands for later use'
+    value: "function my_command() {\n  \n}\n",
+    help: 'Give a name to \na block of commands \nfor later use'
   },
   for: {
     caption: 'for(i = 0; i < 10; i++)...',
-    value: "for(i = 0; i < 10; i++){\n  \n}",
-    help: 'Repeat a block of commands'
+    value: "for(i = 0; i < 10; i++){\n  \n}\n",
+    help: 'Repeat a block of commands \nmultiple times'
   },
   if_trap_is_on: {
     caption: 'if(trap_is_on)...',
-    value: "if(trap_is_on) {\n  \n} else {\n  \n}",
-    help: 'Run a block of commands when the trap in front of character is on'
+    value: "if(trap_is_on) {\n  \n} else {\n  \n}\n",
+    help: 'Run a block of commands \nwhen the trap in front of \nthe character is on'
   },
   if_path_ahead: {
     caption: 'if(path_ahead)...',
-    value: "if(path_ahead) {\n  \n} else {\n  \n}",
-    help: 'Run a block of commands when there is no obstruct in front of character'
+    value: "if(path_ahead) {\n  \n} else {\n  \n}\n",
+    help: 'Run a block of commands \nwhen there is no obstruct \nin front of the character'
   },
 }
 
@@ -57,7 +57,7 @@ const CST = {
   COIN_POINT: 1,
   RUBY_POINT: 5,
   CRYSTAL_POINT: 10,
-  TITLE_MESSAGE: "This is a turn-based multiplayer game designed to introduce basic text-based programming concepts. You can play with up to 4 players.\n\nClick 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. Have fun coding your way through the adventure!",
+  TITLE_MESSAGE: "This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!",
 
   AUDIO: {
     move: 'audio/move.mp3',
@@ -216,7 +216,7 @@ const CST = {
     wrap: false, // boolean | string | number: true/'free' means wrap instead of horizontal scroll, false/'off' means horizontal scroll instead of wrap, and number means number of column before wrap. -1 means wrap at print margin
     indentedSoftWrap: false, // boolean
     foldStyle: 'markbegin', // enum: 'manual'/'markbegin'/'markbeginend'.
-    theme: 'ace/theme/monokai',
+    theme: 'ace/theme/tomorrow_night_blue',
     mode: 'ace/mode/javascript', // string: path to language mode 
     enableBasicAutocompletion: true,
     enableLiveAutocompletion: false,
