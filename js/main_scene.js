@@ -13,10 +13,12 @@ class MainScene extends Phaser.Scene {
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
     this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
+    this.turns_left = this.stage_config.turns;
+    this.toolbar = new StageToolbar(this, 1024/2, 0, this.turns_left);
     this.bgm = this.sound.get(this.stage_config.bgm);
     ui.loadSnippets(this.stage_config.snippets);
     ui.editor.setReadOnly(true);
-    ui.enableButton('btn_help');    
+    ui.enableButton('btn_help');
     if(this.stage_config.video) {
       ui.enableButton('btn_open_video').click();
     }
@@ -104,7 +106,7 @@ class MainScene extends Phaser.Scene {
       players_json = Phaser.Utils.Array.Shuffle(players_json); 
     }
     const player_coordinates = this.map.getObjectLayer('players').objects;
-    const toolbar_coordinates = [[0,0],[756,0],[756,640],[0,640]];
+    const toolbar_coordinates = [[0,0],[724,0],[724,640],[0,640]];
     this.players = [];
     for(let i = 0; i < players_json.length; i++) {
       let sprite = players_json[i].sprite;
@@ -141,37 +143,45 @@ class MainScene extends Phaser.Scene {
   startStage() {
     this.isStarted = true;
     this.sound.play('intro');
-    const stageText = this.add.text(this.scale.width / 2, this.scale.height / 2, this.stage_config.name, {
+    this.showMessage(this.stage_config.name, () => {
+      this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
+      ui.currentPlayer.bounce();
+      this.dice.show();
+    });
+  }
+
+  showMessage(message, callback) {
+    const messageText = this.add.text(this.scale.width / 2, this.scale.height / 2, message, {
       fontFamily: '"Press Start 2P"',
       fontSize: '48px',
       color: '#ffffff'
     }).setOrigin(0.5);
-    stageText.setAlpha(0);
-    stageText.setDepth(20);
+    messageText.setAlpha(0);
+    messageText.setDepth(20);
 
     this.tweens.add({
-      targets: stageText,
+      targets: messageText,
       alpha: 1,
       duration: 2000,
       ease: 'Power2',
       onComplete: () => {
         this.time.delayedCall(2000, () => {
           this.tweens.add({
-            targets: stageText,
+            targets: messageText,
             alpha: 0,
             duration: 2000,
             ease: 'Power2',
             onComplete: () => {
-              stageText.destroy();
-              this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
-              ui.currentPlayer.bounce();
-              this.dice.show();
+              messageText.destroy();
+              if (typeof callback === 'function') {
+                callback(); 
+              }
             }
           });
         });
       }
     });
-  }
+  }  
 
   rollDice() {
     if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
@@ -200,23 +210,43 @@ class MainScene extends Phaser.Scene {
   }
 
   changePlayer() {
+    let delay = 0;
     ui.errorCount = 0;
-
     if(this.isAllItemsPicked()) {
       this.scene.start('Result');
     }
 
-    if(ui.currentPlayer.order + 1 >= this.players.length) {
+    if(ui.currentPlayer.order === this.players.length - 1) {
       ui.currentPlayer = this.players[0];
+      if(this.turns_left) {
+        this.turns_left -= 1;
+        if(this.turns_left === 0) {
+          this.scene.start('Result');  
+        }
+        else if (this.turns_left === 1) {
+          this.toolbar.setTurn(this.turns_left);
+          this.showMessage('Final Turn!!!');
+          this.bgm.pause();
+          this.sound.play('final');
+          delay += 5000;
+        }
+        else {
+          this.toolbar.setTurn(this.turns_left);          
+        }
+      }
     }
     else {
       ui.currentPlayer = this.players[ui.currentPlayer.order + 1];
     }
-    ui.log('New Player:', ui.currentPlayer);
-    ui.currentPlayer.bounce();
-    ui.editor.setValue(ui.currentPlayer.code, -1);
-    ui.editor.setReadOnly(true);
-    this.dice.show();
+
+    this.time.delayedCall(delay, () => {
+      ui.log('New Player:', ui.currentPlayer);
+      this.bgm.resume();
+      ui.currentPlayer.bounce();
+      ui.editor.setReadOnly(true);
+      ui.editor.setValue(ui.currentPlayer.code, -1);
+      this.dice.show();
+    }); 
   }
 
   saveRecords() {

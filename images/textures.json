@@ -4,8 +4,8 @@
 			"image": "textures",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1477,
-				"h": 1044
+				"w": 1783,
+				"h": 824
 			},
 			"scale": 1,
 			"frames": [
@@ -115,6 +115,27 @@
 					}
 				},
 				{
+					"filename": "UI_Toolbar_Plain",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 301,
+						"h": 68
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 1,
+						"w": 301,
+						"h": 67
+					},
+					"frame": {
+						"x": 597,
+						"y": 156,
+						"w": 301,
+						"h": 67
+					}
+				},
+				{
 					"filename": "Pig_Spritesheet",
 					"rotated": false,
 					"trimmed": true,
@@ -130,7 +151,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 156,
+						"y": 223,
 						"w": 298,
 						"h": 43
 					}
@@ -151,7 +172,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 199,
+						"y": 266,
 						"w": 297,
 						"h": 52
 					}
@@ -172,7 +193,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 251,
+						"y": 318,
 						"w": 297,
 						"h": 44
 					}
@@ -193,7 +214,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 295,
+						"y": 362,
 						"w": 296,
 						"h": 50
 					}
@@ -214,30 +235,9 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 345,
+						"y": 412,
 						"w": 296,
 						"h": 50
-					}
-				},
-				{
-					"filename": "UI_Toolbar_Icon",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 268,
-						"h": 67
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 268,
-						"h": 67
-					},
-					"frame": {
-						"x": 597,
-						"y": 395,
-						"w": 268,
-						"h": 67
 					}
 				},
 				{
@@ -304,6 +304,27 @@
 					}
 				},
 				{
+					"filename": "UI_Toolbar_Icon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 268,
+						"h": 67
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 268,
+						"h": 67
+					},
+					"frame": {
+						"x": 388,
+						"y": 673,
+						"w": 268,
+						"h": 67
+					}
+				},
+				{
 					"filename": "Crystal",
 					"rotated": false,
 					"trimmed": true,
@@ -315,13 +336,13 @@
 						"x": 21,
 						"y": 3,
 						"w": 22,
-						"h": 50
+						"h": 45
 					},
 					"frame": {
 						"x": 388,
 						"y": 597,
 						"w": 22,
-						"h": 50
+						"h": 45
 					}
 				},
 				{
@@ -336,13 +357,13 @@
 						"x": 12,
 						"y": 19,
 						"w": 40,
-						"h": 36
+						"h": 30
 					},
 					"frame": {
 						"x": 388,
-						"y": 647,
+						"y": 642,
 						"w": 40,
-						"h": 36
+						"h": 30
 					}
 				},
 				{
@@ -367,27 +388,6 @@
 					}
 				},
 				{
-					"filename": "Cloud_05",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 241,
-						"h": 143
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 241,
-						"h": 143
-					},
-					"frame": {
-						"x": 428,
-						"y": 673,
-						"w": 241,
-						"h": 143
-					}
-				},
-				{
 					"filename": "Cloud_02",
 					"rotated": false,
 					"trimmed": false,
@@ -402,52 +402,31 @@
 						"h": 151
 					},
 					"frame": {
-						"x": 0,
-						"y": 765,
+						"x": 656,
+						"y": 673,
 						"w": 230,
 						"h": 151
 					}
 				},
 				{
-					"filename": "UI_CircledFrame",
+					"filename": "Cloud_05",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 80,
-						"h": 83
+						"w": 241,
+						"h": 143
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 80,
-						"h": 83
+						"w": 241,
+						"h": 143
 					},
 					"frame": {
-						"x": 230,
-						"y": 765,
-						"w": 80,
-						"h": 83
-					}
-				},
-				{
-					"filename": "Bar_Green",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 144,
-						"h": 34
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 144,
-						"h": 34
-					},
-					"frame": {
-						"x": 260,
-						"y": 725,
-						"w": 144,
-						"h": 34
+						"x": 741,
+						"y": 462,
+						"w": 241,
+						"h": 143
 					}
 				},
 				{
@@ -465,52 +444,73 @@
 						"h": 33
 					},
 					"frame": {
-						"x": 388,
-						"y": 683,
+						"x": 681,
+						"y": 496,
 						"w": 37,
 						"h": 33
 					}
 				},
 				{
-					"filename": "UI_SquareFrame",
+					"filename": "Status_Angry",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 80,
-						"h": 83
+						"w": 40,
+						"h": 33
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 80,
-						"h": 83
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
 					},
 					"frame": {
-						"x": 310,
-						"y": 759,
-						"w": 80,
-						"h": 83
+						"x": 681,
+						"y": 529,
+						"w": 38,
+						"h": 32
 					}
 				},
 				{
-					"filename": "Cloud_04",
+					"filename": "Status_Exclamation",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 236,
-						"h": 136
+						"w": 40,
+						"h": 33
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 236,
-						"h": 136
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
 					},
 					"frame": {
-						"x": 669,
-						"y": 673,
-						"w": 236,
-						"h": 136
+						"x": 681,
+						"y": 561,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Status_Happy",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 681,
+						"y": 593,
+						"w": 38,
+						"h": 32
 					}
 				},
 				{
@@ -535,6 +535,27 @@
 					}
 				},
 				{
+					"filename": "Cloud_04",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 236,
+						"h": 136
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 236,
+						"h": 136
+					},
+					"frame": {
+						"x": 1143,
+						"y": 100,
+						"w": 236,
+						"h": 136
+					}
+				},
+				{
 					"filename": "Btn_Config",
 					"rotated": false,
 					"trimmed": false,
@@ -549,94 +570,31 @@
 						"h": 104
 					},
 					"frame": {
-						"x": 1143,
-						"y": 100,
+						"x": 895,
+						"y": 223,
 						"w": 224,
 						"h": 104
 					}
 				},
 				{
-					"filename": "Btn_Start",
+					"filename": "UI_Toolbar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 224,
-						"h": 104
+						"w": 160,
+						"h": 51
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 224,
-						"h": 104
+						"w": 160,
+						"h": 51
 					},
 					"frame": {
-						"x": 894,
-						"y": 199,
-						"w": 224,
-						"h": 104
-					}
-				},
-				{
-					"filename": "Status_Angry",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 895,
+						"x": 898,
 						"y": 167,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Status_Exclamation",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 933,
-						"y": 167,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Status_Happy",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 971,
-						"y": 167,
-						"w": 38,
-						"h": 32
+						"w": 160,
+						"h": 51
 					}
 				},
 				{
@@ -654,7 +612,7 @@
 						"h": 32
 					},
 					"frame": {
-						"x": 1009,
+						"x": 1058,
 						"y": 167,
 						"w": 38,
 						"h": 32
@@ -675,52 +633,31 @@
 						"h": 32
 					},
 					"frame": {
-						"x": 1047,
+						"x": 1096,
 						"y": 167,
 						"w": 38,
 						"h": 32
 					}
 				},
 				{
-					"filename": "Status_Thirsty",
+					"filename": "UI_Toolbar_Frame",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
-						"w": 40,
-						"h": 33
+						"w": 211,
+						"h": 68
 					},
 					"spriteSourceSize": {
 						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 1085,
-						"y": 167,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "UI_Toolbar",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 160,
-						"h": 51
-					},
-					"spriteSourceSize": {
-						"x": 0,
 						"y": 0,
-						"w": 160,
-						"h": 51
+						"w": 210,
+						"h": 68
 					},
 					"frame": {
 						"x": 997,
 						"y": 0,
-						"w": 160,
-						"h": 51
+						"w": 210,
+						"h": 68
 					}
 				},
 				{
@@ -738,7 +675,7 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 1157,
+						"x": 1207,
 						"y": 0,
 						"w": 160,
 						"h": 51
@@ -759,10 +696,73 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 1317,
+						"x": 1367,
 						"y": 0,
 						"w": 160,
 						"h": 51
+					}
+				},
+				{
+					"filename": "Bar_Green",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 144,
+						"h": 34
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 144,
+						"h": 34
+					},
+					"frame": {
+						"x": 1207,
+						"y": 51,
+						"w": 144,
+						"h": 34
+					}
+				},
+				{
+					"filename": "Status_Thirsty",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 997,
+						"y": 68,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Coin",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 21,
+						"w": 27,
+						"h": 28
+					},
+					"frame": {
+						"x": 1035,
+						"y": 68,
+						"w": 27,
+						"h": 28
 					}
 				},
 				{
@@ -780,31 +780,31 @@
 						"h": 34
 					},
 					"frame": {
-						"x": 997,
+						"x": 1351,
 						"y": 51,
 						"w": 144,
 						"h": 34
 					}
 				},
 				{
-					"filename": "Coin",
+					"filename": "Btn_Start",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 64,
-						"h": 64
+						"w": 224,
+						"h": 104
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 21,
-						"w": 27,
-						"h": 31
+						"x": 0,
+						"y": 0,
+						"w": 224,
+						"h": 104
 					},
 					"frame": {
-						"x": 1141,
-						"y": 51,
-						"w": 27,
-						"h": 31
+						"x": 894,
+						"y": 327,
+						"w": 224,
+						"h": 104
 					}
 				},
 				{
@@ -822,8 +822,8 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 893,
-						"y": 303,
+						"x": 1118,
+						"y": 327,
 						"w": 160,
 						"h": 51
 					}
@@ -843,10 +843,52 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 893,
-						"y": 354,
+						"x": 1278,
+						"y": 327,
 						"w": 160,
 						"h": 51
+					}
+				},
+				{
+					"filename": "UI_CircledFrame",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 80,
+						"h": 83
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 80,
+						"h": 83
+					},
+					"frame": {
+						"x": 1438,
+						"y": 327,
+						"w": 80,
+						"h": 83
+					}
+				},
+				{
+					"filename": "UI_SquareFrame",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 80,
+						"h": 83
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 80,
+						"h": 83
+					},
+					"frame": {
+						"x": 1518,
+						"y": 327,
+						"w": 80,
+						"h": 83
 					}
 				},
 				{
@@ -864,8 +906,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 865,
-						"y": 405,
+						"x": 1527,
+						"y": 0,
 						"w": 64,
 						"h": 64
 					}
@@ -885,8 +927,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 741,
-						"y": 462,
+						"x": 1591,
+						"y": 0,
 						"w": 64,
 						"h": 64
 					}
@@ -906,8 +948,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 741,
-						"y": 526,
+						"x": 1495,
+						"y": 64,
 						"w": 64,
 						"h": 64
 					}
@@ -927,8 +969,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 741,
-						"y": 590,
+						"x": 1379,
+						"y": 85,
 						"w": 64,
 						"h": 64
 					}
@@ -948,8 +990,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 805,
-						"y": 469,
+						"x": 1379,
+						"y": 149,
 						"w": 64,
 						"h": 64
 					}
@@ -969,8 +1011,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 869,
-						"y": 469,
+						"x": 1559,
+						"y": 64,
 						"w": 64,
 						"h": 64
 					}
@@ -990,8 +1032,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 929,
-						"y": 405,
+						"x": 1443,
+						"y": 128,
 						"w": 64,
 						"h": 64
 					}
@@ -1011,8 +1053,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 805,
-						"y": 533,
+						"x": 1507,
+						"y": 128,
 						"w": 64,
 						"h": 64
 					}
@@ -1032,8 +1074,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 869,
-						"y": 533,
+						"x": 1571,
+						"y": 128,
 						"w": 64,
 						"h": 64
 					}
@@ -1053,8 +1095,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 805,
-						"y": 597,
+						"x": 1623,
+						"y": 64,
 						"w": 64,
 						"h": 64
 					}
@@ -1074,8 +1116,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 869,
-						"y": 597,
+						"x": 1655,
+						"y": 0,
 						"w": 64,
 						"h": 64
 					}
@@ -1095,8 +1137,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 669,
-						"y": 809,
+						"x": 1719,
+						"y": 0,
 						"w": 64,
 						"h": 64
 					}
@@ -1116,8 +1158,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 230,
-						"y": 848,
+						"x": 1443,
+						"y": 192,
 						"w": 64,
 						"h": 64
 					}
@@ -1137,8 +1179,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 294,
-						"y": 848,
+						"x": 1379,
+						"y": 213,
 						"w": 64,
 						"h": 64
 					}
@@ -1158,8 +1200,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 358,
-						"y": 842,
+						"x": 1119,
+						"y": 236,
 						"w": 64,
 						"h": 64
 					}
@@ -1179,8 +1221,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 358,
-						"y": 906,
+						"x": 1183,
+						"y": 236,
 						"w": 64,
 						"h": 64
 					}
@@ -1200,8 +1242,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 0,
-						"y": 916,
+						"x": 1247,
+						"y": 236,
 						"w": 64,
 						"h": 64
 					}
@@ -1221,8 +1263,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 0,
-						"y": 980,
+						"x": 1311,
+						"y": 236,
 						"w": 64,
 						"h": 64
 					}
