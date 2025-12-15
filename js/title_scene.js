@@ -7,6 +7,9 @@ class TitleScene extends Phaser.Scene {
   create() {
     this.createBackground();
     ui.insertText(CST.TITLE_MESSAGE);
+    ui.disableButton('btn_run_code');
+    ui.disableButton('btn_skip');
+    ui.disableButton('btn_help');
   }
 
   createBackground() {

@@ -5,6 +5,7 @@ class MainScene extends Phaser.Scene {
   }
   
   create() {
+    this.isStarted = false;
     this.createBackground();
     this.createMap();
     this.createPlayers();
@@ -14,38 +15,15 @@ class MainScene extends Phaser.Scene {
     this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
     this.bgm = this.sound.get(this.stage_config.bgm);
     ui.loadSnippets(this.stage_config.snippets);
-
-    this.sound.play('intro');
-    const stageText = this.add.text(this.scale.width / 2, this.scale.height / 2, this.stage_config.name, {
-      fontFamily: '"Press Start 2P"',
-      fontSize: '48px',
-      color: '#ffffff'
-    }).setOrigin(0.5);
-    stageText.setAlpha(0);
-    stageText.setDepth(20);
-
-    this.tweens.add({
-      targets: stageText,
-      alpha: 1,
-      duration: 2000,
-      ease: 'Power2',
-      onComplete: () => {
-        this.time.delayedCall(2000, () => {
-          this.tweens.add({
-            targets: stageText,
-            alpha: 0,
-            duration: 2000,
-            ease: 'Power2',
-            onComplete: () => {
-              stageText.destroy();
-              this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
-              ui.currentPlayer.bounce();
-              this.dice.show();
-            }
-          });
-        });
-      }
-    });
+    ui.editor.setReadOnly(true);
+    ui.enableButton('btn_help');    
+    if(this.stage_config.video) {
+      ui.enableButton('btn_open_video').click();
+    }
+    else {
+      ui.disableButton('btn_open_video');
+      ui.currentPlayer.scene.startStage();
+    }
   }
 
   createBackground() {
@@ -160,14 +138,50 @@ class MainScene extends Phaser.Scene {
     this.sound.volume = this.game.config.master_volume;
   }
 
+  startStage() {
+    this.isStarted = true;
+    this.sound.play('intro');
+    const stageText = this.add.text(this.scale.width / 2, this.scale.height / 2, this.stage_config.name, {
+      fontFamily: '"Press Start 2P"',
+      fontSize: '48px',
+      color: '#ffffff'
+    }).setOrigin(0.5);
+    stageText.setAlpha(0);
+    stageText.setDepth(20);
+
+    this.tweens.add({
+      targets: stageText,
+      alpha: 1,
+      duration: 2000,
+      ease: 'Power2',
+      onComplete: () => {
+        this.time.delayedCall(2000, () => {
+          this.tweens.add({
+            targets: stageText,
+            alpha: 0,
+            duration: 2000,
+            ease: 'Power2',
+            onComplete: () => {
+              stageText.destroy();
+              this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
+              ui.currentPlayer.bounce();
+              this.dice.show();
+            }
+          });
+        });
+      }
+    });
+  }
+
   rollDice() {
     if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
       this.dice.roll((diceValue) => {
         ui.currentPlayer.updateEnergy(diceValue);
         ui.log('Dice value:', diceValue, 'New AP:', ui.currentPlayer.energy);
         this.dice.hide();
-        ui.enableButton('run_code');
-        ui.enableButton('skip');
+        ui.editor.setReadOnly(false);
+        ui.enableButton('btn_run_code');
+        ui.enableButton('btn_skip');
       });
     }
   }
@@ -201,6 +215,7 @@ class MainScene extends Phaser.Scene {
     ui.log('New Player:', ui.currentPlayer);
     ui.currentPlayer.bounce();
     ui.editor.setValue(ui.currentPlayer.code, -1);
+    ui.editor.setReadOnly(true);
     this.dice.show();
   }
 

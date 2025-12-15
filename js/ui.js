@@ -48,8 +48,8 @@ const ui = {
 
   prepareCode() {
     if(!ui.interpreter) {
-      ui.disableButton('run_code');
-      ui.disableButton('skip');
+      ui.disableButton('btn_run_code');
+      ui.disableButton('btn_skip');
       ui.currentPlayer.reposition();
       let code = ui.editor.getValue();
 
@@ -121,8 +121,8 @@ const ui = {
   },
 
   skipTurn() {
-    ui.disableButton('run_code');
-    ui.disableButton('skip');
+    ui.disableButton('btn_run_code');
+    ui.disableButton('btn_skip');
     ui.currentPlayer.reposition();
     ui.currentPlayer.scene.changePlayer();
   },
@@ -176,12 +176,14 @@ const ui = {
     const btn = document.getElementById(id)
     btn.disabled = false; 
     btn.classList.remove('is-disabled');
+    return(btn);
   }, 
 
   disableButton(id) {
     const btn = document.getElementById(id)
     btn.disabled = true; 
     btn.classList.add('is-disabled');
+    return(btn);
   },
 
   showModal(id) {
@@ -196,6 +198,33 @@ const ui = {
       }
     }
     return false;
+  },
+
+  showHelp() {
+    ui.showModal('dialog-help');
+  },
+  
+  openVideo(event) {
+    const iframe = document.getElementById("driveVideo");
+    const fileId = ui.currentPlayer.scene.stage_config.video
+    if(fileId) {
+      ui.currentPlayer.scene.sound.pauseAll();
+      iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+      ui.showModal('dialog-video');
+    }
+  },
+
+  closeVideo() {
+    const dialog = document.getElementById("dialog-video");
+    const iframe = document.getElementById("driveVideo");
+    iframe.src = "";
+    dialog.close();
+    if(!ui.currentPlayer.scene.isStarted) {
+      ui.currentPlayer.scene.startStage();
+    }
+    else {
+      ui.currentPlayer.scene.sound.resumeAll();
+    }
   },
 
   saveConfig() {
@@ -262,13 +291,16 @@ const ui = {
       ui.saveConfig();
     }
 
-    document.getElementById('run_code').addEventListener('click', ui.runCode);
-    document.getElementById('skip').addEventListener('click', ui.skipTurn);
-    document.getElementById('config_save').addEventListener('click', ui.saveConfig);
+    document.getElementById('btn_run_code').addEventListener('click', ui.runCode);
+    document.getElementById('btn_skip').addEventListener('click', ui.skipTurn);
+    document.getElementById('btn_help').addEventListener('click', ui.showHelp);
+    document.getElementById('btn_config_save').addEventListener('click', ui.saveConfig);
     document.getElementById('config_master_volume').addEventListener('change', ui.changeVolume);
     document.getElementById('config_bgm_volume').addEventListener('change', ui.changeVolume);  
     document.getElementById('btn_back').addEventListener('click', ui.switchScene);
     document.getElementById('btn_end').addEventListener('click', ui.switchScene);
+    document.getElementById('btn_open_video').addEventListener('click', ui.openVideo);
+    document.getElementById('btn_close_video').addEventListener('click', ui.closeVideo);
 
     //Prevent browser context menu
     document.addEventListener("contextmenu", function (e) {
@@ -293,12 +325,12 @@ const ui = {
       if(ui.game.scene.isActive('Main')) {
         if (e.ctrlKey && e.key === "r") {
           e.preventDefault();
-          document.getElementById("run_code").click();
+          document.getElementById("btn_run_code").click();
         }
 
         if (e.ctrlKey && e.key === "s") {
           e.preventDefault();
-          document.getElementById("skip").click();
+          document.getElementById("btn_skip").click();
         }
 
         if (e.code === "Space" && ui.game.scene.getScene('Main').dice.isReadyToRoll()) {
@@ -345,9 +377,6 @@ const ui = {
       },
       scene: [BootScene, TitleScene, MainScene, ResultScene]
     });
-
-    ui.disableButton('run_code');
-    ui.disableButton('skip');
   }
 }
 

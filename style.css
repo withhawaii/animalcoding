@@ -30,10 +30,38 @@ body,
   text-align: center;
 }
 
+#dialog-video {
+    width: 90vw;
+    max-width: 1000px;
+    border: none;
+    padding: 0;
+    background: black;
+    border-radius: 12px;
+}
 
-.code-marker {
-   position: absolute; 
-   background: red
+#dialog-video::backdrop {
+    background: rgba(0,0,0,0.75);
+}
+
+#dialog-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+#dialog-help {
+    width: 800px;
+}
+
+#btn_close_video {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    z-index: 2;
+    background: none;
+    color: white;
+    font-size: 28px;
+    border: none;
+    cursor: pointer;
 }
 
 /* Fix strange the border of NES buttons */

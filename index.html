@@ -34,22 +34,11 @@
     <div class="column">
       <div id="editor"></div>
       <div id="control">
-        <button id="help" class="nes-btn">?</button>
-        <button id="skip" class="nes-btn">Skip</button>
-        <button id="run_code" class="nes-btn is-primary">Run Code</button>
+        <button id="btn_help" class="nes-btn">?</button>
+        <button id="btn_skip" class="nes-btn">Skip</button>
+        <button id="btn_run_code" class="nes-btn is-primary">Run Code</button>
       </div>
     </div>
-
-
-    <dialog class="nes-dialog" id="dialog-help">
-      <form method="dialog">
-        <p class="title">Help</p>
-        <p id="error-message"></p>
-        <menu class="dialog-menu" style="text-align: right">
-          <button class="nes-btn is-primary">Got it!</button>
-        </menu>
-      </form>
-    </dialog>
 
     <dialog class="nes-dialog" id="dialog-default">
       <form method="dialog">
@@ -116,7 +105,7 @@
         </div>
 
         <menu class="dialog-menu" style="text-align: right">
-          <button class="nes-btn is-primary" id="config_save" value="Y">OK</button>
+          <button class="nes-btn is-primary" id="btn_config_save" value="Y">OK</button>
         </menu>
       </form>
     </dialog>
@@ -158,6 +147,25 @@
           <button class="nes-btn is-primary" id="btn_resume">Resume</button>
         </menu>
       </form>
+    </dialog>
+
+    <dialog class="nes-dialog" id="dialog-help">
+      <form method="dialog">
+        <h3 class="title">Help</h3>
+        This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!
+        <br/>
+
+        <menu class="dialog-menu" style="text-align: right">
+          <button class="nes-btn" id="btn_open_video">Watch the video again</button>
+          <button class="nes-btn is-primary" id="btn_resume">Resume</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <dialog id="dialog-video">
+      <button id="btn_close_video">✕</button>
+      <iframe id="driveVideo" allow="autoplay; fullscreen" allowfullscreen frameborder="0">
+      </iframe>
     </dialog>
 
   </div>
