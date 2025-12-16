@@ -4,8 +4,8 @@
 			"image": "textures",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1783,
-				"h": 824
+				"w": 1671,
+				"h": 829
 			},
 			"scale": 1,
 			"frames": [
@@ -577,24 +577,24 @@
 					}
 				},
 				{
-					"filename": "UI_Toolbar",
+					"filename": "Bar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 160,
-						"h": 51
+						"w": 187,
+						"h": 45
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 160,
-						"h": 51
+						"w": 187,
+						"h": 45
 					},
 					"frame": {
 						"x": 898,
 						"y": 167,
-						"w": 160,
-						"h": 51
+						"w": 187,
+						"h": 45
 					}
 				},
 				{
@@ -612,28 +612,7 @@
 						"h": 32
 					},
 					"frame": {
-						"x": 1058,
-						"y": 167,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Status_Starving",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 1096,
+						"x": 1085,
 						"y": 167,
 						"w": 38,
 						"h": 32
@@ -661,7 +640,7 @@
 					}
 				},
 				{
-					"filename": "UI_Toolbar_Bottom",
+					"filename": "UI_Toolbar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -682,7 +661,7 @@
 					}
 				},
 				{
-					"filename": "UI_Toolbar_Bottom_Corner",
+					"filename": "UI_Toolbar_Bottom",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -724,7 +703,7 @@
 					}
 				},
 				{
-					"filename": "Status_Thirsty",
+					"filename": "Status_Starving",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -745,6 +724,27 @@
 					}
 				},
 				{
+					"filename": "Status_Thirsty",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 1035,
+						"y": 68,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
 					"filename": "Coin",
 					"rotated": false,
 					"trimmed": true,
@@ -759,7 +759,7 @@
 						"h": 28
 					},
 					"frame": {
-						"x": 1035,
+						"x": 1073,
 						"y": 68,
 						"w": 27,
 						"h": 28
@@ -808,7 +808,7 @@
 					}
 				},
 				{
-					"filename": "UI_Toolbar_Top",
+					"filename": "UI_Toolbar_Bottom_Corner",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -829,7 +829,7 @@
 					}
 				},
 				{
-					"filename": "UI_Toolbar_Top_Corner",
+					"filename": "UI_Toolbar_Top",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -850,6 +850,27 @@
 					}
 				},
 				{
+					"filename": "UI_Toolbar_Top_Corner",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 160,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 160,
+						"h": 51
+					},
+					"frame": {
+						"x": 1438,
+						"y": 327,
+						"w": 160,
+						"h": 51
+					}
+				},
+				{
 					"filename": "UI_CircledFrame",
 					"rotated": false,
 					"trimmed": false,
@@ -864,8 +885,8 @@
 						"h": 83
 					},
 					"frame": {
-						"x": 1438,
-						"y": 327,
+						"x": 1527,
+						"y": 0,
 						"w": 80,
 						"h": 83
 					}
@@ -885,77 +906,14 @@
 						"h": 83
 					},
 					"frame": {
-						"x": 1518,
-						"y": 327,
+						"x": 1527,
+						"y": 83,
 						"w": 80,
 						"h": 83
 					}
 				},
 				{
 					"filename": "Cat_Avatar",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1527,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Cat_Avatar_Circle",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1591,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Cat_Avatar_Rounded",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1495,
-						"y": 64,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Chick_Avatar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -976,7 +934,7 @@
 					}
 				},
 				{
-					"filename": "Chick_Avatar_Circle",
+					"filename": "Cat_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -997,28 +955,7 @@
 					}
 				},
 				{
-					"filename": "Chick_Avatar_Rounded",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1559,
-						"y": 64,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Fox_Avatar",
+					"filename": "Cat_Avatar_Rounded",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1033,13 +970,34 @@
 					},
 					"frame": {
 						"x": 1443,
-						"y": 128,
+						"y": 85,
 						"w": 64,
 						"h": 64
 					}
 				},
 				{
-					"filename": "Fox_Avatar_Circle",
+					"filename": "Chick_Avatar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1443,
+						"y": 149,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Chick_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1054,118 +1012,13 @@
 					},
 					"frame": {
 						"x": 1507,
-						"y": 128,
+						"y": 166,
 						"w": 64,
 						"h": 64
 					}
 				},
 				{
-					"filename": "Fox_Avatar_Rounded",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1571,
-						"y": 128,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Mouse_Avatar",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1623,
-						"y": 64,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Mouse_Avatar_Circle",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1655,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Mouse_Avatar_Rounded",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1719,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Pig_Avatar",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 1443,
-						"y": 192,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Pig_Avatar_Circle",
+					"filename": "Chick_Avatar_Rounded",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1186,7 +1039,28 @@
 					}
 				},
 				{
-					"filename": "Pig_Avatar_Rounded",
+					"filename": "Fox_Avatar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1443,
+						"y": 213,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Fox_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1207,7 +1081,7 @@
 					}
 				},
 				{
-					"filename": "Rabbit_Avatar",
+					"filename": "Fox_Avatar_Rounded",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1228,7 +1102,7 @@
 					}
 				},
 				{
-					"filename": "Rabbit_Avatar_Circle",
+					"filename": "Mouse_Avatar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1249,7 +1123,7 @@
 					}
 				},
 				{
-					"filename": "Rabbit_Avatar_Rounded",
+					"filename": "Mouse_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1265,6 +1139,153 @@
 					"frame": {
 						"x": 1311,
 						"y": 236,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Mouse_Avatar_Rounded",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1571,
+						"y": 166,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Pig_Avatar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1607,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Pig_Avatar_Circle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1607,
+						"y": 64,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Pig_Avatar_Rounded",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1507,
+						"y": 230,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Rabbit_Avatar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1571,
+						"y": 230,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Rabbit_Avatar_Circle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 0,
+						"y": 765,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Rabbit_Avatar_Rounded",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 64,
+						"y": 765,
 						"w": 64,
 						"h": 64
 					}
