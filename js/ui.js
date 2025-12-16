@@ -1,42 +1,48 @@
 const ui = {
+  game: null,
   editor: null,
   interpreter: null,
-  game: null,
-  currentPlayer: null,
-  stopRequested: false,
+
+  mainScene() {
+    return(ui.game.scene.getScene('Main'));
+  },
+
+  currentPlayer() {
+    return(ui.mainScene().currentPlayer);
+  },
 
   gameApi(interpreter, scope) {
     interpreter.setProperty(scope, 'move_forward', interpreter.createAsyncFunction(function(callback) {
       ui.log('move_forward');
-      ui.currentPlayer.move(callback);
+      ui.currentPlayer().move(callback);
     }));
     interpreter.setProperty(scope, 'turn_left', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_left');
-      ui.currentPlayer.turn(-1, callback);
+      ui.currentPlayer().turn(-1, callback);
     }));
     interpreter.setProperty(scope, 'turn_right', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_right');
-      ui.currentPlayer.turn(1, callback);
+      ui.currentPlayer().turn(1, callback);
     }));
     interpreter.setProperty(scope, 'pick_up', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_right');
-      return ui.currentPlayer.pickUp(callback);
+      return ui.currentPlayer().pickUp(callback);
     }));
     interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
       ui.log('steal');
-      ui.currentPlayer.steal(callback);
+      ui.currentPlayer().steal(callback);
     }));
     interpreter.setProperty(scope, 'stop_trap', interpreter.createAsyncFunction(function(callback) {
       ui.log('stop_trap');
-      ui.currentPlayer.stopTrap(callback);
+      ui.currentPlayer().stopTrap(callback);
     }));
     interpreter.setProperty(scope, 'trap_is_on', interpreter.createAsyncFunction(function(callback) {
       ui.log('trap_is_on');
-      callback(ui.currentPlayer.trapAhead());
+      callback(ui.currentPlayer().trapAhead());
     }));
     interpreter.setProperty(scope, 'path_ahead', interpreter.createAsyncFunction(function(callback) {
       ui.log('path_ahead');
-      callback(ui.currentPlayer.pathAhead());
+      callback(ui.currentPlayer().pathAhead());
     }));
     interpreter.setProperty(scope, 'log', interpreter.createAsyncFunction(function(text, callback) {
       console.log('[Interpreter]', text);
@@ -48,12 +54,12 @@ const ui = {
     if(!ui.interpreter) {
       ui.disableButton('btn_run_code');
       ui.disableButton('btn_skip');
-      ui.currentPlayer.reposition();
+      ui.currentPlayer().reposition();
       let code = ui.editor.getValue();
 
       //Preserve functions for the next turn
       const functions = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs) || [];
-      ui.currentPlayer.code = functions.join('\n\n');
+      ui.currentPlayer().code = functions.join('\n\n');
 
       //Turn conditional variables into functions
       const vars = ['path_ahead', 'trap_is_on'];
@@ -76,10 +82,10 @@ const ui = {
         
     if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
       ui.interpreter = null;
-      ui.currentPlayer.scene.changePlayer();
+      ui.mainScene().changePlayer();
     }
-    else if(ui.stopRequested) {
-      ui.stopRequested = false;
+    else if(ui.interpreter.stopRequested) {
+      ui.interpreter.stopRequested = false;
       ui.handleError('The code was stopped by the moderator.');      
     }
     else if(ui.interpreter.getStateStack().length > 1000) {
@@ -102,18 +108,18 @@ const ui = {
       ui.interpreter.paused = true;
       ui.interpreter = null;
     }
-    ui.currentPlayer.scene.errorCount += 1;
-    ui.log('Error:', ui.currentPlayer, ui.currentPlayer.scene.errorCount, ui.currentPlayer.scene.errorAllowance);
-    ui.currentPlayer.hangUp();
-    if(ui.currentPlayer.scene.errorCount <= ui.currentPlayer.scene.errorAllowance && ui.currentPlayer.energy > 0) {
+    ui.mainScene().errorCount += 1;
+    ui.log('Error:', ui.currentPlayer(), ui.mainScene().errorCount, ui.mainScene().errorAllowance);
+    ui.currentPlayer().hangUp();
+    if(ui.mainScene().errorCount <= ui.mainScene().errorAllowance && ui.currentPlayer().energy > 0) {
       document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
-      ui.currentPlayer.bounce();
+      ui.currentPlayer().bounce();
       ui.enableButton('btn_run_code');
       ui.enableButton('btn_skip');
     }
     else {
       document.getElementById('error-message').innerHTML = `${message}<br/>Moving onto the next player!`;
-      ui.currentPlayer.scene.changePlayer();  
+      ui.mainScene().changePlayer();  
     }
     ui.showModal('dialog-default');
   },
@@ -121,8 +127,8 @@ const ui = {
   skipTurn() {
     ui.disableButton('btn_run_code');
     ui.disableButton('btn_skip');
-    ui.currentPlayer.reposition();
-    ui.currentPlayer.scene.changePlayer();
+    ui.currentPlayer().reposition();
+    ui.mainScene().changePlayer();
   },
 
   highlightCode() {
@@ -204,9 +210,9 @@ const ui = {
   
   openVideo(event) {
     const iframe = document.getElementById("driveVideo");
-    const fileId = ui.currentPlayer.scene.stageConfig.video
+    const fileId = ui.mainScene().stageConfig.video
     if(fileId) {
-      ui.currentPlayer.scene.sound.pauseAll();
+      ui.mainScene().sound.pauseAll();
       iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
       ui.showModal('dialog-video');
     }
@@ -217,11 +223,11 @@ const ui = {
     const iframe = document.getElementById("driveVideo");
     iframe.src = "";
     dialog.close();
-    if(!ui.currentPlayer.scene.isStarted) {
-      ui.currentPlayer.scene.startStage();
+    if(!ui.mainScene().isStarted) {
+      ui.mainScene().startStage();
     }
     else {
-      ui.currentPlayer.scene.sound.resumeAll();
+      ui.mainScene().sound.resumeAll();
     }
   },
 
@@ -248,11 +254,11 @@ const ui = {
     const newVolume = parseFloat(event.target.value);
     if(event.target.id == 'config_master_volume') {
       ui.game.config.master_volume = newVolume;
-      ui.game.scene.getScene('Main').sound.volume = newVolume; 
+      ui.mainScene().sound.volume = newVolume; 
     }
     else {  
       ui.game.config.bgm_volume = newVolume;
-      ui.game.scene.getScene('Main').bgm.setVolume(newVolume); 
+      ui.mainScene().bgm.setVolume(newVolume); 
     }
   },
 
@@ -331,9 +337,9 @@ const ui = {
           document.getElementById("btn_skip").click();
         }
 
-        if (e.code === "Space" && ui.game.scene.getScene('Main').dice.isReadyToRoll()) {
+        if (e.code === "Space" && ui.mainScene().dice.isReadyToRoll()) {
           e.preventDefault();
-          ui.game.scene.getScene('Main').rollDice();
+          ui.mainScene().rollDice();
         }
 
         if(e.key === 'F1') {
@@ -343,7 +349,7 @@ const ui = {
 
         if(e.key === 'Escape' && ui.interpreter) {
           e.preventDefault();
-          ui.stopRequested = true;
+          ui.interpreter.stopRequested = true;
         }
       }
     }, true);

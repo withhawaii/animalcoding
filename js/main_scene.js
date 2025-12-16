@@ -30,7 +30,7 @@ class MainScene extends Phaser.Scene {
     }
     else {
       ui.disableButton('btn_open_video');
-      ui.currentPlayer.scene.startStage();
+      this.startStage();
     }
   }
 
@@ -127,7 +127,7 @@ class MainScene extends Phaser.Scene {
        this.players[i].updateItem(32, 5);
       }
     }
-    ui.currentPlayer = this.players[0];
+    this.currentPlayer = this.players[0];
   }
 
   createDice() {
@@ -151,7 +151,7 @@ class MainScene extends Phaser.Scene {
     this.sound.play('intro');
     this.showMessage(this.stageConfig.name, () => {
       this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
-      ui.currentPlayer.bounce();
+      this.currentPlayer.bounce();
       this.dice.show();
     });
   }
@@ -192,9 +192,9 @@ class MainScene extends Phaser.Scene {
   rollDice() {
     if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
       this.dice.roll((diceValue) => {
-        ui.currentPlayer.updateEnergy(diceValue);
+        this.currentPlayer.updateEnergy(diceValue);
         this.rollCount += 1;
-        ui.log('Dice value:', diceValue, 'New AP:', ui.currentPlayer.energy);
+        ui.log('Dice value:', diceValue, 'New AP:', this.currentPlayer.energy);
         if(this.rollCount >= this.rollAllowance) {
           this.dice.hide();
           this.rollCount = 0;
@@ -229,8 +229,8 @@ class MainScene extends Phaser.Scene {
       this.scene.start('Result');
     }
     //When starting a new turn with a the first player
-    if(ui.currentPlayer.order === this.players.length - 1) {
-      ui.currentPlayer = this.players[0];
+    if(this.currentPlayer.order === this.players.length - 1) {
+      this.currentPlayer = this.players[0];
       if(this.turnsAllowance) {
         this.turnsCount += 1;
         if(this.turnsCount > this.turnsAllowance) {
@@ -249,16 +249,16 @@ class MainScene extends Phaser.Scene {
       }
     }
     else {
-      ui.currentPlayer = this.players[ui.currentPlayer.order + 1];
+      this.currentPlayer = this.players[this.currentPlayer.order + 1];
     }
 
     this.time.delayedCall(delay, () => {
-      ui.log('New Player:', ui.currentPlayer);
+      ui.log('New Player:', this.currentPlayer);
       this.errorCount = 0;
       this.bgm.resume();
-      ui.currentPlayer.bounce();
+      this.currentPlayer.bounce();
       ui.editor.setReadOnly(true);
-      ui.editor.setValue(ui.currentPlayer.code, -1);
+      ui.editor.setValue(this.currentPlayer.code, -1);
       this.dice.show();
     }); 
   }

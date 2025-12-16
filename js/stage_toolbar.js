@@ -6,7 +6,7 @@ class StageToolbar extends Phaser.GameObjects.Container {
     this.x = x;
     this.y = y;
     this.background = this.scene.add.image(0, 0, 'textures', 'UI_Toolbar').setOrigin(0.5, 0);
-    this.progressBar = this.scene.add.image(-71, 25, 'textures', 'Bar_Green').setOrigin(0, 0.5).setScale(1, 1);
+    this.progressBar = this.scene.add.image(-72, 25, 'textures', 'Bar_Green').setOrigin(0, 0.5).setScale(0, 1);
     this.turnText = this.scene.add.text(0, 24, "", {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#333333'}).setOrigin(0.5, 0.5);
 //    this.turnText = this.scene.add.text(0, 34, "", {fontFamily: 'Fredoka', fontSize: '24px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
     this.infText = this.scene.add.text(50, 10, "∞", {fontFamily: '"Press Start 2P"', fontSize: '36px', color:  '#808080'}).setOrigin(0, 0.5);
