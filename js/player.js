@@ -34,15 +34,15 @@ class Player extends Phaser.GameObjects.Sprite {
 
   updateItem(item_index, value) {
     let player = this;
-    if(item_index == 30) {
+    if(item_index === 30) {
       player.coin = player.coin + value;
       player.toolbar.coinText.setText(player.coin);
     }
-    else if(item_index == 32) {
+    else if(item_index === 32) {
       player.ruby = player.ruby + value;
       player.toolbar.rubyText.setText(player.ruby);
     }
-    else if(item_index == 31) {
+    else if(item_index === 31) {
       player.crystal = player.crystal + value;
       player.toolbar.crystalText.setText(player.crystal);
     }
@@ -77,16 +77,16 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     let newGrid = {}
 
-    if (player.direction == CST.UP) {
+    if (player.direction === CST.UP) {
       newGrid.x = player.xGrid;
       newGrid.y = player.yGrid - 1;
-    } else if (player.direction == CST.RIGHT) {
+    } else if (player.direction === CST.RIGHT) {
       newGrid.x = player.xGrid + 1;
       newGrid.y = player.yGrid;
-    } else if (player.direction == CST.DOWN) {
+    } else if (player.direction === CST.DOWN) {
       newGrid.x = player.xGrid;
       newGrid.y = player.yGrid + 1;
-    } else if (player.direction == CST.LEFT) {
+    } else if (player.direction === CST.LEFT) {
       newGrid.x = player.xGrid - 1;
       newGrid.y = player.yGrid;
     }
@@ -101,7 +101,7 @@ class Player extends Phaser.GameObjects.Sprite {
     //Move only when a solid ground exists and no obstruct on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
     let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
-    if(ground && ground.properties['move'] && (obstacle.index == -1 || obstacle.index == 18)) {
+    if(ground && ground.properties['move'] && (obstacle.index === -1 || obstacle.index === 18)) {
       return(true);
     }
     else {
@@ -114,7 +114,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let newGrid = player.gridAhead();
     let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
 //    console.log("trap", newGrid, obstacle);
-    return (obstacle.index == 18 && obstacle.obj.frame.name == CST.TRAP_ON) 
+    return (obstacle.index === 18 && obstacle.obj.frame.name === CST.TRAP_ON) 
   }
 
   move(callback = (data) => {}) {
@@ -188,7 +188,7 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    if(trap.index == 18) {
+    if(trap.index === 18) {
       trap.timer.paused = true;
       trap.obj.setFrame(CST.TRAP_OFF);
       player.scene.sound.play('disarm');
@@ -285,7 +285,7 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     let players = this.scene.players;
     for(let i = 0; i < players.length; i++) {
-      if(player.id != players[i].id && player.xGrid == players[i].xGrid && player.yGrid == players[i].yGrid) {
+      if(player.id != players[i].id && player.xGrid === players[i].xGrid && player.yGrid === players[i].yGrid) {
         return(players[i]);
       }
     }

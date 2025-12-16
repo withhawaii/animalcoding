@@ -54,13 +54,13 @@ class MainScene extends Phaser.Scene {
         let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
           //Create sprites for traps
-          if(tileData.index == 18) {
+          if(tileData.index === 18) {
             this.obstacles[i][j].obj = this.add.sprite(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
             this.obstacles[i][j].timer = this.time.addEvent({
               delay: Phaser.Math.Between(3000, 4000),
               loop: true, 
               callback: () => {
-                if(this.obstacles[i][j].obj.frame.name == CST.TRAP_ON) {
+                if(this.obstacles[i][j].obj.frame.name === CST.TRAP_ON) {
                   this.obstacles[i][j].obj.setFrame(CST.TRAP_OFF);
                   this.sound.play('trap');
                 }
@@ -99,7 +99,7 @@ class MainScene extends Phaser.Scene {
 
   anyPlayersOnTrap(trap) {
     for(let i = 0; i < this.players.length ; i++){
-      if(this.players[i].xGrid == trap.x && this.players[i].yGrid == trap.y) {
+      if(this.players[i].xGrid === trap.x && this.players[i].yGrid === trap.y) {
         return(true);
       }
     }

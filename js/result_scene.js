@@ -141,10 +141,10 @@ class ResultScene extends Phaser.Scene {
       let id = players_json[i].id;
       let sprite = players_json[i].sprite;
       this.players[i] = new Player(this, 362 + 100 * i, 155 + 20 * i, sprite, id, i, 0, 0, CST.DOWN);
-      if(i == 0) {
+      if(i === 0) {
         this.players[i].bounce();
       }
-      else if(i == players_json.length - 1) {
+      else if(i === players_json.length - 1) {
         this.players[i].setFrame(CST.FALL);
       }
       let result = players_json[i][this.game.config.stage];

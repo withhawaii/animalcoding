@@ -25,8 +25,8 @@ const ui = {
       ui.currentPlayer().turn(1, callback);
     }));
     interpreter.setProperty(scope, 'pick_up', interpreter.createAsyncFunction(function(callback) {
-      ui.log('turn_right');
-      return ui.currentPlayer().pickUp(callback);
+      ui.log('pick_up');
+      ui.currentPlayer().pickUp(callback);
     }));
     interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
       ui.log('steal');
@@ -80,7 +80,7 @@ const ui = {
   runCode() {
     ui.prepareCode();
         
-    if (ui.interpreter.getStatus() == Interpreter.Status.DONE) {
+    if (ui.interpreter.getStatus() === Interpreter.Status.DONE) {
       ui.interpreter = null;
       ui.mainScene().changePlayer();
     }
@@ -252,7 +252,7 @@ const ui = {
 
   changeVolume(event) {
     const newVolume = parseFloat(event.target.value);
-    if(event.target.id == 'config_master_volume') {
+    if(event.target.id === 'config_master_volume') {
       ui.game.config.master_volume = newVolume;
       ui.mainScene().sound.volume = newVolume; 
     }
@@ -264,7 +264,7 @@ const ui = {
 
   switchScene(event) {
     ui.game.scene.stop('Main');
-    if(event.target.id == 'btn_end') {
+    if(event.target.id === 'btn_end') {
       ui.game.scene.start('Result');
     }
     else {
