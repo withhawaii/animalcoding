@@ -228,15 +228,17 @@ class MainScene extends Phaser.Scene {
     if(this.isAllItemsPicked()) {
       this.scene.start('Result');
     }
-    //When starting a new turn with a the first player
+    //When starting a new turn with the first player
     if(this.currentPlayer.order === this.players.length - 1) {
       this.currentPlayer = this.players[0];
+      this.rollAllowance = 1;
+      this.turnCount += 1;
+
       if(this.turnAllowance) {
-        this.turnCount += 1;
-        if(this.turnsCount > this.turnAllowance) {
+        if(this.turnCount > this.turnAllowance) {
           this.scene.start('Result');  
         }
-        else if (this.turnsCount === this.turnAllowance) {
+        else if (this.turnCount === this.turnAllowance) {
           this.toolbar.updateTurn();
           this.showMessage('Final Turn!');
           this.bgm.pause();
@@ -246,6 +248,16 @@ class MainScene extends Phaser.Scene {
         else {
           this.toolbar.updateTurn();          
         }
+      }
+
+      if(this.stageConfig.double.includes(this.turnCount)) {
+        this.time.delayedCall(delay, () => {
+          this.rollAllowance = 2;
+          this.showMessage('Double Roll!');
+          this.bgm.pause();
+          this.sound.play('double');
+        });
+        delay += 5000; 
       }
     }
     else {

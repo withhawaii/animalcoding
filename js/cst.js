@@ -71,6 +71,7 @@ const CST = {
     intro: 'audio/jingle_01.mp3',
     result: 'audio/jingle_02.mp3',
     final: 'audio/jingle_03.mp3',
+    double: 'audio/jingle_04.mp3',
     bgm_01: 'audio/bgm_01.wav',
     bgm_02: 'audio/bgm_02.wav',
   },
@@ -161,7 +162,8 @@ const CST = {
     demo: {
       name: 'Demo',
       map: 'maps/demo.json',
-      turn: 5, 
+      turn: 2,
+      double: [2], 
       next: null,
       bgm: 'bgm_02',
       snippets: [
