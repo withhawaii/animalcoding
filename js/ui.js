@@ -272,6 +272,49 @@ const ui = {
     }  
   },
 
+  assignShortcuts(event) {
+    //Prevent browser refresh shortcuts
+    const k = event.key.toLowerCase();
+    const isF5 = event.key === "F5";
+    const isCtrlR = event.ctrlKey && !event.metaKey && k === "r";
+    const isCtrlShiftR = event.ctrlKey && event.shiftKey && k === "r";
+    const isCtrlF5 = event.ctrlKey && event.key === "F5";
+    const isCmdR = event.metaKey && k === "r";
+    const isCmdShiftR = event.metaKey && event.shiftKey && k === "r";
+    if (isF5 || isCtrlR || isCtrlShiftR || isCtrlF5 || isCmdR || isCmdShiftR) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    //Assign shortcuts for the game controls
+    if(ui.game.scene.isActive('Main')) {
+      if (event.ctrlKey && event.key === "r") {
+        event.preventDefault();
+        document.getElementById("btn_run_code").click();
+      }
+
+      if (event.ctrlKey && event.key === "s") {
+        event.preventDefault();
+        document.getElementById("btn_skip").click();
+      }
+
+      if (event.code === "Space" && ui.mainScene().dice.isReadyToRoll()) {
+        event.preventDefault();
+        ui.mainScene().rollDice();
+      }
+
+      if(event.key === 'F1') {
+        event.preventDefault();
+        ui.showModal('dialog-config2');
+      }
+
+      if(event.key === 'Escape' && ui.interpreter) {
+        event.preventDefault();
+        ui.interpreter.stopRequested = true;
+      }
+    }
+  },
+
   log(...args) {
     ui.game.config.debug && console.log(...args);
   },
@@ -305,54 +348,12 @@ const ui = {
     document.getElementById('btn_end').addEventListener('click', ui.switchScene);
     document.getElementById('btn_open_video').addEventListener('click', ui.openVideo);
     document.getElementById('btn_close_video').addEventListener('click', ui.closeVideo);
+    window.addEventListener("keydown", ui.assignShortcuts, true);
 
     //Prevent browser context menu
     document.addEventListener("contextmenu", function (e) {
       e.preventDefault();
     });
-
-    window.addEventListener("keydown", function(e) {
-      //Prevent browser refresh shortcuts
-      const k = e.key.toLowerCase();
-      const isF5 = e.key === "F5";
-      const isCtrlR = e.ctrlKey && !e.metaKey && k === "r";
-      const isCtrlShiftR = e.ctrlKey && e.shiftKey && k === "r";
-      const isCtrlF5 = e.ctrlKey && e.key === "F5";
-      const isCmdR = e.metaKey && k === "r";
-      const isCmdShiftR = e.metaKey && e.shiftKey && k === "r";
-      if (isF5 || isCtrlR || isCtrlShiftR || isCtrlF5 || isCmdR || isCmdShiftR) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-
-      //Assign shortcuts for the game controls
-      if(ui.game.scene.isActive('Main')) {
-        if (e.ctrlKey && e.key === "r") {
-          e.preventDefault();
-          document.getElementById("btn_run_code").click();
-        }
-
-        if (e.ctrlKey && e.key === "s") {
-          e.preventDefault();
-          document.getElementById("btn_skip").click();
-        }
-
-        if (e.code === "Space" && ui.mainScene().dice.isReadyToRoll()) {
-          e.preventDefault();
-          ui.mainScene().rollDice();
-        }
-
-        if(e.key === 'F1') {
-          e.preventDefault();
-          ui.showModal('dialog-config2');
-        }
-
-        if(e.key === 'Escape' && ui.interpreter) {
-          e.preventDefault();
-          ui.interpreter.stopRequested = true;
-        }
-      }
-    }, true);
 
     ui.editor = ace.edit('editor', CST.EDITOR_CONFIG);
     ui.editor.commands.bindKey("F1", null);
