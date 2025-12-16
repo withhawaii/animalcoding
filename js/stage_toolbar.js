@@ -1,6 +1,6 @@
 class StageToolbar extends Phaser.GameObjects.Container {
  
-  constructor(scene, x, y, turn_left) {
+  constructor(scene, x, y) {
     super(scene);
     this.scene = scene;
     this.x = x;
@@ -14,15 +14,15 @@ class StageToolbar extends Phaser.GameObjects.Container {
     this.add(this.turnText);
     this.add(this.infText);
     this.scene.add.existing(this);
-    this.setTurn(turn_left);
+    this.updateTurn();
   }
 
-  setTurn(turn_left) {
-    if(turn_left) {
-      this.turnText.setText(`Turns Left: ${turn_left}`);
+  updateTurn() {
+    if(this.scene.turnsAllowance) {
+      this.turnText.setText(`Turns: ${this.scene.turnsCount}/${this.scene.turnsAllowance}`);
     }
     else {
-      this.turnText.setText(`Turns Left:   `);
+      this.turnText.setText(`Turns:   `);
       this.infText.setVisible(true);
     }
   }

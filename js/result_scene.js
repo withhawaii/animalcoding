@@ -5,7 +5,7 @@ class ResultScene extends Phaser.Scene {
   }
   
   create() {
-    this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
+    this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
     this.createBackground();
     this.createFireWorks();
     this.createPlayers();
@@ -14,8 +14,8 @@ class ResultScene extends Phaser.Scene {
 
     this.input.on('pointerdown', () => {
       this.scene.stop('Result');
-      if(this.stage_config.next) {
-        this.game.config.stage = this.stage_config.next;
+      if(this.stageConfig.next) {
+        this.game.config.stage = this.stageConfig.next;
         this.scene.start('Main');
       }
       else {
@@ -128,8 +128,8 @@ class ResultScene extends Phaser.Scene {
     ruby.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     crystal.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
-//    this.add.text(1024/2, 48, this.stage_config.name + ' Ranking', {fontFamily: 'Fredoka', fontSize: '48px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
-    this.add.text(1024/2, 48, this.stage_config.name + ' Ranking', {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
+//    this.add.text(1024/2, 48, this.stageConfig.name + ' Ranking', {fontFamily: 'Fredoka', fontSize: '48px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
+    this.add.text(1024/2, 48, this.stageConfig.name + ' Ranking', {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
     this.add.text(300, 500, 'AP:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 550, 'Bonus:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 600, 'Total:', defaultFontStyle).setOrigin(1, 0.5);

@@ -3,8 +3,6 @@ const ui = {
   interpreter: null,
   game: null,
   currentPlayer: null,
-  errorCount: 0,
-  errorAllowance: 1,
   stopRequested: false,
 
   gameApi(interpreter, scope) {
@@ -104,14 +102,14 @@ const ui = {
       ui.interpreter.paused = true;
       ui.interpreter = null;
     }
-    ui.errorCount += 1;
-    ui.log('Error:', ui.currentPlayer, ui.errorCount, ui.errorAllowance);
+    ui.currentPlayer.scene.errorCount += 1;
+    ui.log('Error:', ui.currentPlayer, ui.currentPlayer.scene.errorCount, ui.currentPlayer.scene.errorAllowance);
     ui.currentPlayer.hangUp();
-    if(ui.errorCount <= ui.errorAllowance && ui.currentPlayer.energy > 0) {
+    if(ui.currentPlayer.scene.errorCount <= ui.currentPlayer.scene.errorAllowance && ui.currentPlayer.energy > 0) {
       document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
       ui.currentPlayer.bounce();
-      ui.enableButton('run_code');
-      ui.enableButton('skip');
+      ui.enableButton('btn_run_code');
+      ui.enableButton('btn_skip');
     }
     else {
       document.getElementById('error-message').innerHTML = `${message}<br/>Moving onto the next player!`;
@@ -206,7 +204,7 @@ const ui = {
   
   openVideo(event) {
     const iframe = document.getElementById("driveVideo");
-    const fileId = ui.currentPlayer.scene.stage_config.video
+    const fileId = ui.currentPlayer.scene.stageConfig.video
     if(fileId) {
       ui.currentPlayer.scene.sound.pauseAll();
       iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;

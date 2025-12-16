@@ -12,14 +12,20 @@ class MainScene extends Phaser.Scene {
     this.createDice();
     this.createSounds();
     this.events.once('shutdown', this.shutdown, this);
-    this.stage_config = CST.STAGE_CONFIG[this.game.config.stage];
-    this.turns_left = this.stage_config.turns;
-    this.toolbar = new StageToolbar(this, 1024/2, 0, this.turns_left);
-    this.bgm = this.sound.get(this.stage_config.bgm);
-    ui.loadSnippets(this.stage_config.snippets);
+    this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
+    this.bgm = this.sound.get(this.stageConfig.bgm);
+    this.turnsCount = 1;
+    this.turnsAllowance = this.stageConfig.turns;
+    this.rollCount = 0;
+    this.rollAllowance = 1;
+    this.errorCount = 0;
+    this.errorAllowance = 1;
+
+    this.toolbar = new StageToolbar(this, 1024/2, 0);
+    ui.loadSnippets(this.stageConfig.snippets);
     ui.editor.setReadOnly(true);
     ui.enableButton('btn_help');
-    if(this.stage_config.video) {
+    if(this.stageConfig.video) {
       ui.enableButton('btn_open_video').click();
     }
     else {
@@ -143,7 +149,7 @@ class MainScene extends Phaser.Scene {
   startStage() {
     this.isStarted = true;
     this.sound.play('intro');
-    this.showMessage(this.stage_config.name, () => {
+    this.showMessage(this.stageConfig.name, () => {
       this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
       ui.currentPlayer.bounce();
       this.dice.show();
@@ -187,11 +193,18 @@ class MainScene extends Phaser.Scene {
     if(this.dice.isReadyToRoll() && !ui.isAnyModalActive()) {
       this.dice.roll((diceValue) => {
         ui.currentPlayer.updateEnergy(diceValue);
+        this.rollCount += 1;
         ui.log('Dice value:', diceValue, 'New AP:', ui.currentPlayer.energy);
-        this.dice.hide();
-        ui.editor.setReadOnly(false);
-        ui.enableButton('btn_run_code');
-        ui.enableButton('btn_skip');
+        if(this.rollCount >= this.rollAllowance) {
+          this.dice.hide();
+          this.rollCount = 0;
+          ui.editor.setReadOnly(false);
+          ui.enableButton('btn_run_code');
+          ui.enableButton('btn_skip');
+        }
+        else {
+          this.dice.show();
+        }  
       });
     }
   }
@@ -211,27 +224,27 @@ class MainScene extends Phaser.Scene {
 
   changePlayer() {
     let delay = 0;
-    ui.errorCount = 0;
+
     if(this.isAllItemsPicked()) {
       this.scene.start('Result');
     }
-
+    //When starting a new turn with a the first player
     if(ui.currentPlayer.order === this.players.length - 1) {
       ui.currentPlayer = this.players[0];
-      if(this.turns_left) {
-        this.turns_left -= 1;
-        if(this.turns_left === 0) {
+      if(this.turnsAllowance) {
+        this.turnsCount += 1;
+        if(this.turnsCount > this.turnsAllowance) {
           this.scene.start('Result');  
         }
-        else if (this.turns_left === 1) {
-          this.toolbar.setTurn(this.turns_left);
-          this.showMessage('Final Turn!!!');
+        else if (this.turnsCount === this.turnsAllowance) {
+          this.toolbar.updateTurn();
+          this.showMessage('Final Turn!');
           this.bgm.pause();
           this.sound.play('final');
           delay += 5000;
         }
         else {
-          this.toolbar.setTurn(this.turns_left);          
+          this.toolbar.updateTurn();          
         }
       }
     }
@@ -241,6 +254,7 @@ class MainScene extends Phaser.Scene {
 
     this.time.delayedCall(delay, () => {
       ui.log('New Player:', ui.currentPlayer);
+      this.errorCount = 0;
       this.bgm.resume();
       ui.currentPlayer.bounce();
       ui.editor.setReadOnly(true);
