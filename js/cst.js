@@ -79,7 +79,7 @@ const CST = {
     stage1: {
       name: 'Stage 1',
       map: 'maps/stage1.json',
-      turns: 20,
+      turn: 20,
       next: 'stage2',
       bgm: 'bgm_01',
       video: '1fQvqWQ6-Ikxbh49Ld0OHMQUSmdB6vLcd',
@@ -93,7 +93,7 @@ const CST = {
     stage2: {
       name: 'Stage 2',
       map: 'maps/stage2.json',
-      turns: 20,
+      turn: 20,
       next: 'stage3',
       bgm: 'bgm_02',
       video: '1ACKeEMbZBtQi6eqqyRxzJzFVqCHM6QLe',
@@ -108,7 +108,7 @@ const CST = {
     stage3: {
       name: 'Stage 3',
       map: 'maps/stage3.json',
-      turns: 20,
+      turn: 20,
       next: 'stage4',
       bgm: 'bgm_01',
       video: '1A0mIB4oj_kbIPgMZwQ0PipQlTr3xda7y',
@@ -124,7 +124,7 @@ const CST = {
     stage4: {
       name: 'Stage 4',
       map: 'maps/stage4.json',
-      turns: 20,
+      turn: 20,
       next: 'stage5',
       bgm: 'bgm_02',
       video: '1XqhmvNox_isWE2Wzl9BQJ-ofTi-b7qi7',
@@ -142,7 +142,7 @@ const CST = {
     stage5: {
       name: 'Stage 5',
       map: 'maps/stage5.json',
-      turns: 20,
+      turn: 20,
       next: null,
       bgm: 'bgm_01',
       video: '1RcqiZIGqNvvDyQmFckxgE-g1G_-NCXrG',
@@ -161,7 +161,7 @@ const CST = {
     demo: {
       name: 'Demo',
       map: 'maps/demo.json',
-      turns: 5, 
+      turn: 5, 
       next: null,
       bgm: 'bgm_02',
       snippets: [

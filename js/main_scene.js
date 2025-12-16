@@ -14,8 +14,8 @@ class MainScene extends Phaser.Scene {
     this.events.once('shutdown', this.shutdown, this);
     this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
     this.bgm = this.sound.get(this.stageConfig.bgm);
-    this.turnsCount = 1;
-    this.turnsAllowance = this.stageConfig.turns;
+    this.turnCount = 1;
+    this.turnAllowance = this.stageConfig.turn;
     this.rollCount = 0;
     this.rollAllowance = 1;
     this.errorCount = 0;
@@ -231,12 +231,12 @@ class MainScene extends Phaser.Scene {
     //When starting a new turn with a the first player
     if(this.currentPlayer.order === this.players.length - 1) {
       this.currentPlayer = this.players[0];
-      if(this.turnsAllowance) {
-        this.turnsCount += 1;
-        if(this.turnsCount > this.turnsAllowance) {
+      if(this.turnAllowance) {
+        this.turnCount += 1;
+        if(this.turnsCount > this.turnAllowance) {
           this.scene.start('Result');  
         }
-        else if (this.turnsCount === this.turnsAllowance) {
+        else if (this.turnsCount === this.turnAllowance) {
           this.toolbar.updateTurn();
           this.showMessage('Final Turn!');
           this.bgm.pause();
