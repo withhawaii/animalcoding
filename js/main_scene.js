@@ -132,6 +132,7 @@ class MainScene extends Phaser.Scene {
 
   createDice() {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
+    this.dice.setInteractive();
     this.dice.hide();
     this.dice.on('pointerdown', () => {
       this.rollDice();
