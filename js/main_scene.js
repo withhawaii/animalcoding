@@ -119,7 +119,7 @@ class MainScene extends Phaser.Scene {
       let name = players_json[i].name;
       let id = players_json[i].id;
       let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
-      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, i, starting_point.x, starting_point.y, CST.DOWN);
+      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, i, starting_point.x, starting_point.y, player_coordinates[i].properties.find(p => p.name === 'direction').value);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
       if(this.game.config.debug) {
        this.players[i].updateItem(30, 5);
