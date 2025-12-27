@@ -33,14 +33,14 @@ class Dice extends Phaser.GameObjects.Container {
    
   show() {
     this.dice.setVisible(true);
-    this.scene.tweens.add({
-        targets: this.dice,
-        scaleX: { from: 1, to: 1.05 },
-        scaleY: { from: 1.05, to: 1 },
-        duration: 400,
-        yoyo: true,
+    this.scene.add.tween({
+        targets: this.dice.modelRotation,
+        x: { from: -0.1, to: 0.1},
+        y: { from: -0.1, to: 0.1},
+        duration: this.duration,
         repeat: -1,
-        ease: 'Sine.easeInOut'
+        yoyo: true,        
+        ease: 'Sine.easeInOut',
     });
   }
 
@@ -51,14 +51,14 @@ class Dice extends Phaser.GameObjects.Container {
   roll(callback) {
     if (!this.diceIsRolling) {
         this.diceIsRolling = true;
-        this.scene.tweens.killTweensOf(this.dice);        
+        this.scene.tweens.killTweensOf(this.dice.modelRotation);        
         let diceRoll;
         if(this.scene.game.config.debug) {
           diceRoll = 6;
         }
         else {
           diceRoll = Phaser.Math.Between(1, 6);
-        }         
+        }
 
         // Shadow
         this.scene.add.tween({
