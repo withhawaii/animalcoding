@@ -28,6 +28,10 @@ const ui = {
       ui.log('pick_up');
       ui.currentPlayer().pickUp(callback);
     }));
+    interpreter.setProperty(scope, 'eat', interpreter.createAsyncFunction(function(callback) {
+      ui.log('eat');
+      ui.currentPlayer().eat(callback);
+    }));
     interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
       ui.log('steal');
       ui.currentPlayer().steal(callback);

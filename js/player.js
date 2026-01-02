@@ -34,15 +34,15 @@ class Player extends Phaser.GameObjects.Sprite {
 
   updateItem(item_index, value) {
     let player = this;
-    if(item_index === 30) {
+    if(item_index === CST.COIN) {
       player.coin = player.coin + value;
       player.toolbar.coinText.setText(player.coin);
     }
-    else if(item_index === 32) {
+    else if(item_index === CST.RUBY) {
       player.ruby = player.ruby + value;
       player.toolbar.rubyText.setText(player.ruby);
     }
-    else if(item_index === 31) {
+    else if(item_index === CST.CRYSTAL) {
       player.crystal = player.crystal + value;
       player.toolbar.crystalText.setText(player.crystal);
     }
@@ -188,7 +188,7 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    if(trap.index === 18) {
+    if(trap.index === CST.TRAP_OFF) {
       trap.timer.paused = true;
       trap.obj.setFrame(CST.TRAP_OFF);
       player.scene.sound.play('disarm');
@@ -265,7 +265,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     let item = this.scene.items[player.yGrid][player.xGrid];
-    if(item.index != -1) {
+    if([CST.COIN, CST.RUBY, CST.CRYSTAL].includes(item.index)) {
       ui.log('pick_up:', item);
       item.obj.setVisible(false); 
       this.scene.sound.play('pickup');
@@ -280,6 +280,38 @@ class Player extends Phaser.GameObjects.Sprite {
       this.hangUp(callback);      
     }
   }
+
+  eat(callback = (data) => {}) {
+    let player = this;
+
+    if(player.energy <= 0) {
+      this.hangUp(callback);
+      return;
+    }
+
+    let item = this.scene.items[player.yGrid][player.xGrid];
+    if([CST.CUCUMBER, CST.CARROT, CST.TOMATO].includes(item.index)) {
+      ui.log('eat:', item);
+      item.obj.setVisible(false); 
+      this.scene.sound.play('charged');
+      if(item.index === CST.CUCUMBER) {
+        player.updateEnergy(CST.CUCUMBER_POINT - 1);
+      }
+      else if(item.index === CST.CARROT) {
+        player.updateEnergy(CST.CARROT_POINT - 1);
+      }
+      else if(item.index === CST.TOMATO) {
+        player.updateEnergy(CST.TOMATO_POINT - 1);
+      }
+      player.scene.time.delayedCall(1000, () => {
+        ui.log('eat up:', player.xGrid, player.yGrid, player.direction);
+        callback(true);
+      });
+    }
+    else {
+      this.hangUp(callback);      
+    }
+  }  
 
   anotherPlayer() {
     let player = this;

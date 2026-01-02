@@ -19,6 +19,11 @@ const SNIPPETS = {
     value: 'pick_up();\n',
     help: 'Pick up an item \non the ground'
   },
+  eat: {
+    caption: 'eat();',
+    value: 'eat();\n',
+    help: 'Eat a food item \non the ground'
+  },
   steal: {
     caption: 'steal();',
     value: 'steal();\n',
@@ -54,9 +59,18 @@ const CST = {
   FALL: 4,
   TRAP_ON: 17,
   TRAP_OFF: 18,
+  COIN: 30,
+  RUBY: 32,
+  CRYSTAL: 31,
   COIN_POINT: 1,
   RUBY_POINT: 5,
   CRYSTAL_POINT: 10,
+  CUCUMBER: 38,
+  CARROT: 36,
+  TOMATO: 37,
+  CUCUMBER_POINT: 3,
+  CARROT_POINT: 5,
+  TOMATO_POINT: 10,
   TITLE_MESSAGE: "This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!",
 
   AUDIO: {
@@ -90,6 +104,7 @@ const CST = {
         SNIPPETS['turn_left'],
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
+        SNIPPETS['eat'],
       ]
     },  
     stage2: {
@@ -105,7 +120,8 @@ const CST = {
         SNIPPETS['turn_left'],
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
-        SNIPPETS['function'],
+        SNIPPETS['eat'],
+        SNIPPETS['for'],
       ]
     }, 
     stage3: {
@@ -121,8 +137,10 @@ const CST = {
         SNIPPETS['turn_left'],
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
-        SNIPPETS['function'],
+        SNIPPETS['eat'],
         SNIPPETS['for'],
+        SNIPPETS['if_trap_is_on'],
+        SNIPPETS['if_path_ahead'],
       ]
     }, 
     stage4: {
@@ -138,10 +156,11 @@ const CST = {
         SNIPPETS['turn_left'],
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
-        SNIPPETS['function'],
+        SNIPPETS['eat'],
         SNIPPETS['for'],
         SNIPPETS['if_trap_is_on'],
         SNIPPETS['if_path_ahead'],
+        SNIPPETS['function'],
       ]
     }, 
     stage5: {
@@ -157,11 +176,11 @@ const CST = {
         SNIPPETS['turn_left'],
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
-        SNIPPETS['steal'],
-        SNIPPETS['function'],
+        SNIPPETS['eat'],
         SNIPPETS['for'],
         SNIPPETS['if_trap_is_on'],
         SNIPPETS['if_path_ahead'],
+        SNIPPETS['function'],
       ]
     },
     demo: {
@@ -176,6 +195,7 @@ const CST = {
         SNIPPETS['turn_left'],
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
+        SNIPPETS['eat'],
         SNIPPETS['steal'],
         SNIPPETS['function'],
         SNIPPETS['for'],

@@ -91,7 +91,9 @@ class MainScene extends Phaser.Scene {
           this.items[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
           this.items[i][j].obj.setOrigin(0, 0.5);
           this.items[i][j].obj.depth = i;
-          this.items[i][j].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
+          if([CST.COIN, CST.RUBY, CST.CRYSTAL].includes(tileData.index)) {
+            this.items[i][j].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
+          }
         }
       }
     }
