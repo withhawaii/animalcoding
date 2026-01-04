@@ -29,6 +29,11 @@ const SNIPPETS = {
     value: 'steal();\n',
     help: 'Steal an item \nfrom other players'
   },
+  stop_trap: {
+    caption: 'stop_trap();',
+    value: 'stop_trap();\n',
+    help: 'Temporarily stop a trap \nin front of a player'
+  },
   function: {
     caption: 'function() my_command()...',
     value: "function my_command() {\n  \n}\n",
@@ -138,6 +143,7 @@ const CST = {
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
         SNIPPETS['eat'],
+        SNIPPETS['stop_trap'],
         SNIPPETS['for'],
         SNIPPETS['if_trap_is_on'],
         SNIPPETS['if_path_ahead'],
@@ -157,6 +163,7 @@ const CST = {
         SNIPPETS['turn_right'],
         SNIPPETS['pick_up'],
         SNIPPETS['eat'],
+        SNIPPETS['stop_trap'],
         SNIPPETS['for'],
         SNIPPETS['if_trap_is_on'],
         SNIPPETS['if_path_ahead'],
