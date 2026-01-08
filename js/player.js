@@ -73,20 +73,27 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = this.yGrid * 32 + 64;
   }
 
-  gridAhead() {
+  grid(towards = CST.TOWARDS_AHEAD) {
     let player = this;
     let newGrid = {}
-
-    if (player.direction === CST.UP) {
+    let newDirection;
+    if(towards === CST.TOWARDS_AHEAD) {
+      newDirection = player.direction;
+    }
+    else {
+      //Modulo calculation to get a new direction
+      newDirection = ((player.direction + towards) % 4 + 4) % 4;
+    }
+    if (newDirection === CST.UP) {
       newGrid.x = player.xGrid;
       newGrid.y = player.yGrid - 1;
-    } else if (player.direction === CST.RIGHT) {
+    } else if (newDirection === CST.RIGHT) {
       newGrid.x = player.xGrid + 1;
       newGrid.y = player.yGrid;
-    } else if (player.direction === CST.DOWN) {
+    } else if (newDirection === CST.DOWN) {
       newGrid.x = player.xGrid;
       newGrid.y = player.yGrid + 1;
-    } else if (player.direction === CST.LEFT) {
+    } else if (newDirection === CST.LEFT) {
       newGrid.x = player.xGrid - 1;
       newGrid.y = player.yGrid;
     }
@@ -94,9 +101,9 @@ class Player extends Phaser.GameObjects.Sprite {
     return newGrid;
   }
 
-  pathAhead() {
+  path(towards = CST.TOWARDS_AHEAD) {
     let player = this;
-    let newGrid = player.gridAhead();
+    let newGrid = player.grid(towards);
 
     //Move only when a solid ground exists and no obstruct on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
@@ -111,7 +118,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   trapAhead() {
     let player = this;
-    let newGrid = player.gridAhead();
+    let newGrid = player.grid();
     let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
 //    console.log("trap", newGrid, obstacle);
     return (obstacle.index === 18 && obstacle.obj.frame.name === CST.TRAP_ON) 
@@ -119,14 +126,14 @@ class Player extends Phaser.GameObjects.Sprite {
 
   move(callback = (data) => {}) {
     let player = this;
-    let newGrid = player.gridAhead();
+    let newGrid = player.grid();
 
     if(player.energy <= 0) {
       this.hangUp(callback);
       return;
     }
 
-    if(player.pathAhead()) {
+    if(player.path()) {
       this.scene.sound.play('move');
       this.scene.tweens.add({
         targets: player,
@@ -180,7 +187,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   stopTrap(callback = (data) => {}) {
     let player = this;
-    let newGrid = player.gridAhead();
+    let newGrid = player.grid();
     let trap = this.scene.obstacles[newGrid.y][newGrid.x]
 
     if(player.energy <= 0) {
@@ -206,11 +213,11 @@ class Player extends Phaser.GameObjects.Sprite {
     player.updateEnergy(- 1);
   }
 
-  turn(step, callback = (data) => {}) {
+  turn(towards, callback = (data) => {}) {
     let player = this;
     //Modulo calculation to get a new direction
-    let new_direction = ((this.direction + step) % 4 + 4) % 4;
-    ui.log('new_direction:', new_direction);
+    let newDirection = ((this.direction + towards) % 4 + 4) % 4;
+    ui.log('newDirection:', newDirection);
 
     if(player.energy <= 0) {
       this.hangUp(callback);
@@ -226,7 +233,7 @@ class Player extends Phaser.GameObjects.Sprite {
       repeat: 0,
       yoyo: true,
       onComplete: function() {
-        player.direction = new_direction;
+        player.direction = newDirection;
         player.setFrame(player.direction);
         player.updateEnergy(- 1);
         ui.log('turn:', player.x, player.y, player.direction);

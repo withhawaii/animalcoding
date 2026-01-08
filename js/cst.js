@@ -54,6 +54,16 @@ const SNIPPETS = {
     value: "if(path_ahead) {\n  \n} else {\n  \n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \nin front of the character'
   },
+  if_path_to_the_left: {
+    caption: 'if(path_to_the_left)...',
+    value: "if(path_to_the_left) {\n  \n} else {\n  \n}\n",
+    help: 'Run a block of commands \nwhen there is no obstruct \non the left side of the character'
+  },
+  if_path_to_the_right: {
+    caption: 'if(path_to_the_right)...',
+    value: "if(path_to_the_right) {\n  \n} else {\n  \n}\n",
+    help: 'Run a block of commands \nwhen there is no obstruct \non the right side of the character'
+  },
 }
 
 const CST = {
@@ -62,6 +72,9 @@ const CST = {
   DOWN: 2,
   LEFT: 3,
   FALL: 4,
+  TOWARDS_AHEAD: 0,
+  TOWARDS_LEFT: -1,
+  TOWARDS_RIGHT: 1,
   TRAP_ON: 17,
   TRAP_OFF: 18,
   COIN: 30,
@@ -208,6 +221,8 @@ const CST = {
         SNIPPETS['for'],
         SNIPPETS['if_trap_is_on'],
         SNIPPETS['if_path_ahead'],
+        SNIPPETS['if_path_to_the_left'],
+        SNIPPETS['if_path_to_the_right'],
       ]
     },
   },

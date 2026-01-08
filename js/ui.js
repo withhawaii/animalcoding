@@ -18,11 +18,11 @@ const ui = {
     }));
     interpreter.setProperty(scope, 'turn_left', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_left');
-      ui.currentPlayer().turn(-1, callback);
+      ui.currentPlayer().turn(CST.TOWARDS_LEFT, callback);
     }));
     interpreter.setProperty(scope, 'turn_right', interpreter.createAsyncFunction(function(callback) {
       ui.log('turn_right');
-      ui.currentPlayer().turn(1, callback);
+      ui.currentPlayer().turn(CST.TOWARDS_RIGHT, callback);
     }));
     interpreter.setProperty(scope, 'pick_up', interpreter.createAsyncFunction(function(callback) {
       ui.log('pick_up');
@@ -46,7 +46,15 @@ const ui = {
     }));
     interpreter.setProperty(scope, 'path_ahead', interpreter.createAsyncFunction(function(callback) {
       ui.log('path_ahead');
-      callback(ui.currentPlayer().pathAhead());
+      callback(ui.currentPlayer().path(CST.TOWARDS_AHEAD));
+    }));
+    interpreter.setProperty(scope, 'path_to_the_left', interpreter.createAsyncFunction(function(callback) {
+      ui.log('path_to_the_left');
+      callback(ui.currentPlayer().path(CST.TOWARDS_LEFT));
+    }));
+    interpreter.setProperty(scope, 'path_to_the_right', interpreter.createAsyncFunction(function(callback) {
+      ui.log('path_to_the_right');
+      callback(ui.currentPlayer().path(CST.TOWARDS_RIGHT));
     }));
     interpreter.setProperty(scope, 'log', interpreter.createAsyncFunction(function(text, callback) {
       console.log('[Interpreter]', text);
@@ -66,7 +74,7 @@ const ui = {
       ui.currentPlayer().code = functions.join('\n\n');
 
       //Turn conditional variables into functions
-      const vars = ['path_ahead', 'trap_is_on'];
+      const vars = ['path_ahead', 'path_to_the_left', 'path_to_the_right', 'trap_is_on'];
       for (const name of vars) {
         const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
         code = code.replace(regex, `${name}()`);
