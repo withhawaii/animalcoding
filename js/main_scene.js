@@ -88,12 +88,7 @@ class MainScene extends Phaser.Scene {
       for (let j = 0; j < this.items[i].length; j++) {
         let tileData = this.items[i][j];
         if(tileData.index >= 0) {
-          this.items[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid)
-          this.items[i][j].obj.setOrigin(0, 0.5);
-          this.items[i][j].obj.depth = i;
-          if([CST.COIN, CST.RUBY, CST.CRYSTAL].includes(tileData.index)) {
-            this.items[i][j].obj.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
-          }
+          this.items[i][j].obj = new Item(this, tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index, objectsTileset.firstgid, i)
         }
       }
     }
@@ -216,7 +211,7 @@ class MainScene extends Phaser.Scene {
     for (let i = 0; i < this.items.length; i++) {
       for (let j = 0; j < this.items[i].length; j++) {
         let tileData = this.items[i][j];
-        if(this.items[i][j].obj && this.items[i][j].obj.visible) {
+        if(this.items[i][j].obj && this.items[i][j].obj.count > 0) {
           ui.log('Item sill there:', this.items[i][j].obj);
           return(false);
         }

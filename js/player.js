@@ -271,11 +271,12 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    let item = this.scene.items[player.yGrid][player.xGrid];
-    if([CST.COIN, CST.RUBY, CST.CRYSTAL].includes(item.index)) {
+    let item = this.scene.items[player.yGrid][player.xGrid].obj;
+    console.log('item', item);
+    if(item && item.isCollectible() && item.count > 0) {
       ui.log('pick_up:', item);
-      item.obj.setVisible(false); 
       this.scene.sound.play('pickup');
+      item.setCount(item.count - 1);
       player.updateEnergy(- 1);
       player.updateItem(item.index, 1);
       player.scene.time.delayedCall(1000, () => {
@@ -296,11 +297,11 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    let item = this.scene.items[player.yGrid][player.xGrid];
-    if([CST.CUCUMBER, CST.CARROT, CST.TOMATO].includes(item.index)) {
+    let item = this.scene.items[player.yGrid][player.xGrid].obj;
+    if(item && item.isFood() && item.count > 0) {
       ui.log('eat:', item);
-      item.obj.setVisible(false); 
       this.scene.sound.play('charged');
+      item.setCount(item.count - 1);
       if(item.index === CST.CUCUMBER) {
         player.updateEnergy(CST.CUCUMBER_POINT - 1);
       }

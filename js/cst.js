@@ -206,7 +206,7 @@ const CST = {
     demo: {
       name: 'Demo',
       map: 'maps/demo.json',
-      turn: 2,
+      turn: 3,
       double: [2], 
       next: null,
       bgm: 'bgm_02',
