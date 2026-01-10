@@ -158,8 +158,9 @@ const CST = {
         SNIPPETS['eat'],
         SNIPPETS['stop_trap'],
         SNIPPETS['for'],
-        SNIPPETS['if_trap_is_on'],
         SNIPPETS['if_path_ahead'],
+        SNIPPETS['if_path_to_the_left'],
+        SNIPPETS['if_path_to_the_right'],
       ]
     }, 
     stage4: {
