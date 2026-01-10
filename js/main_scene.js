@@ -53,31 +53,7 @@ class MainScene extends Phaser.Scene {
       for (let j = 0; j < this.obstacles[i].length; j++) {
         let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
-          //Create sprites for traps
-          if(tileData.index === 18) {
-            this.obstacles[i][j].obj = this.add.sprite(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
-            this.obstacles[i][j].timer = this.time.addEvent({
-              delay: Phaser.Math.Between(3000, 4000),
-              loop: true, 
-              callback: () => {
-                if(this.obstacles[i][j].obj.frame.name === CST.TRAP_ON) {
-                  this.obstacles[i][j].obj.setFrame(CST.TRAP_OFF);
-                  this.sound.play('trap');
-                }
-                else {
-                  if(!this.anyPlayersOnTrap(this.obstacles[i][j])) {
-                    this.obstacles[i][j].obj.setFrame(CST.TRAP_ON);
-                    this.sound.play('trap');
-                  }
-                }
-              }
-            });
-          }
-          else {
-            this.obstacles[i][j].obj = this.add.image(tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index - objectsTileset.firstgid);
-          }
-          this.obstacles[i][j].obj.setOrigin(0, 0.5);
-          this.obstacles[i][j].obj.depth = i;
+          this.obstacles[i][j].obj = new Obstacle(this, tileData.pixelX, tileData.pixelY + 64, tileData.x, tileData.y, 'objects', tileData.index, objectsTileset.firstgid);
         }
       }
     }
@@ -93,16 +69,7 @@ class MainScene extends Phaser.Scene {
       }
     }
   }
-
-  anyPlayersOnTrap(trap) {
-    for(let i = 0; i < this.players.length ; i++){
-      if(this.players[i].xGrid === trap.x && this.players[i].yGrid === trap.y) {
-        return(true);
-      }
-    }
-    return(false);
-  }
-
+  
   createPlayers() {
     let players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "")
     if(this.game.config.shuffle) {

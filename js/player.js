@@ -107,8 +107,11 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //Move only when a solid ground exists and no obstruct on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
-    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
-    if(ground && ground.properties['move'] && (obstacle.index === -1 || obstacle.index === 18)) {
+    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x].obj
+    if(obstacle && obstacle.isTrap()) {
+      obstacle = null;
+    }
+    if(ground && ground.properties['move'] && !obstacle) {
       return(true);
     }
     else {
@@ -119,9 +122,9 @@ class Player extends Phaser.GameObjects.Sprite {
   trapAhead() {
     let player = this;
     let newGrid = player.grid();
-    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x]
+    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x].obj
 //    console.log("trap", newGrid, obstacle);
-    return (obstacle.index === 18 && obstacle.obj.frame.name === CST.TRAP_ON) 
+    return (obstacle && obstacle.isTrap() && obstacle.isTrapOn()) 
   }
 
   move(callback = (data) => {}) {
@@ -188,23 +191,18 @@ class Player extends Phaser.GameObjects.Sprite {
   stopTrap(callback = (data) => {}) {
     let player = this;
     let newGrid = player.grid();
-    let trap = this.scene.obstacles[newGrid.y][newGrid.x]
+    let trap = this.scene.obstacles[newGrid.y][newGrid.x].obj
 
     if(player.energy <= 0) {
       player.hangUp(callback);
       return;
     }
 
-    if(trap.index === CST.TRAP_OFF) {
-      trap.timer.paused = true;
-      trap.obj.setFrame(CST.TRAP_OFF);
-      player.scene.sound.play('disarm');
+    if(trap && trap.isTrap()) {
+      trap.stopTrap();
       player.scene.time.delayedCall(1000, () => {
         ui.log('trap stopped:', player.xGrid, player.yGrid, player.direction);
         callback(true);
-      });
-      player.scene.time.delayedCall(3000, () => {
-        trap.timer.paused = false;
       });
     }
     else {
