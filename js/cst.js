@@ -217,6 +217,7 @@ const CST = {
         SNIPPETS['pick_up'],
         SNIPPETS['eat'],
         SNIPPETS['steal'],
+        SNIPPETS['stop_trap'],
         SNIPPETS['function'],
         SNIPPETS['for'],
         SNIPPETS['if_trap_is_on'],

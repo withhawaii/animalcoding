@@ -42,7 +42,7 @@ const ui = {
     }));
     interpreter.setProperty(scope, 'trap_is_on', interpreter.createAsyncFunction(function(callback) {
       ui.log('trap_is_on');
-      callback(ui.currentPlayer().trapAhead());
+      callback(ui.currentPlayer().trap(CST.TOWARDS_AHEAD));
     }));
     interpreter.setProperty(scope, 'path_ahead', interpreter.createAsyncFunction(function(callback) {
       ui.log('path_ahead');

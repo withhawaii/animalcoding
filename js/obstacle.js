@@ -1,5 +1,5 @@
 class Obstacle extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, xGrid, yGrid, texture, index, offset, depth) {
+  constructor(scene, x, y, xGrid, yGrid, texture, index, offset) {
     super(scene, x, y);
     this.index = index;
     this.xGrid = xGrid;
@@ -30,7 +30,7 @@ class Obstacle extends Phaser.GameObjects.Container {
 
     this.add(this.image);
     this.scene.add.existing(this);
-    this.setDepth(depth);
+    this.setDepth(yGrid);
   }
 
   isTrap() {
@@ -50,11 +50,11 @@ class Obstacle extends Phaser.GameObjects.Container {
     return(false);
   }
 
-  stopTrap() {
+  stopTrap(duration = 3000) {
     this.image.timer.paused = true;
     this.image.setFrame(CST.TRAP_OFF);
     this.scene.sound.play('disarm');
-    player.scene.time.delayedCall(3000, () => {
+    this.scene.time.delayedCall(3000, () => {
       this.image.timer.paused = false;
     });
   }

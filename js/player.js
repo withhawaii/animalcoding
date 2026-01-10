@@ -19,7 +19,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.bonus = 0;
     this.code = "";
     this.setFrame(this.direction);
-    this.setDepth(this.yGrid + 1);
+    this.setDepth(this.yGrid + 0.5);
     this.scene.add.existing(this);
   }
 
@@ -73,16 +73,16 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = this.yGrid * 32 + 64;
   }
 
-  grid(towards = CST.TOWARDS_AHEAD) {
+  grid(rDirection = CST.TOWARDS_AHEAD) {
     let player = this;
     let newGrid = {}
     let newDirection;
-    if(towards === CST.TOWARDS_AHEAD) {
+    if(rDirection === CST.TOWARDS_AHEAD) {
       newDirection = player.direction;
     }
     else {
       //Modulo calculation to get a new direction
-      newDirection = ((player.direction + towards) % 4 + 4) % 4;
+      newDirection = ((player.direction + rDirection) % 4 + 4) % 4;
     }
     if (newDirection === CST.UP) {
       newGrid.x = player.xGrid;
@@ -101,9 +101,9 @@ class Player extends Phaser.GameObjects.Sprite {
     return newGrid;
   }
 
-  path(towards = CST.TOWARDS_AHEAD) {
+  path(rDirection = CST.TOWARDS_AHEAD) {
     let player = this;
-    let newGrid = player.grid(towards);
+    let newGrid = player.grid(rDirection);
 
     //Move only when a solid ground exists and no obstruct on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
@@ -119,11 +119,10 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
-  trapAhead() {
+  trap(rDirection = CST.TOWARDS_AHEAD) {
     let player = this;
-    let newGrid = player.grid();
+    let newGrid = player.grid(rDirection);
     let obstacle = this.scene.obstacles[newGrid.y][newGrid.x].obj
-//    console.log("trap", newGrid, obstacle);
     return (obstacle && obstacle.isTrap() && obstacle.isTrapOn()) 
   }
 
@@ -137,6 +136,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     if(player.path()) {
+      player.setDepth(newGrid.y + 0.5);
       this.scene.sound.play('move');
       this.scene.tweens.add({
         targets: player,
@@ -147,7 +147,7 @@ class Player extends Phaser.GameObjects.Sprite {
         repeat: 0,
         yoyo: false,
         onComplete: function() {
-          if(player.trapAhead()) {
+          if(player.trap(CST.TOWARDS_AHEAD)) {
             player.setFrame(CST.FALL);        
             player.scene.sound.play('hangup');
             player.updateEnergy(-1 * player.energy);
@@ -161,9 +161,8 @@ class Player extends Phaser.GameObjects.Sprite {
           else {
             player.xGrid = newGrid.x;
             player.yGrid = newGrid.y;
-            player.setDepth(newGrid.y + 1);
             player.updateEnergy(-1);
-            ui.log('moved:', player.xGrid, player.yGrid, player.direction);
+            ui.log('moved:', player.xGrid, player.yGrid, player.direction, player.depth);
             callback(true);
           }  
         }
@@ -211,10 +210,10 @@ class Player extends Phaser.GameObjects.Sprite {
     player.updateEnergy(- 1);
   }
 
-  turn(towards, callback = (data) => {}) {
+  turn(rDirection, callback = (data) => {}) {
     let player = this;
     //Modulo calculation to get a new direction
-    let newDirection = ((this.direction + towards) % 4 + 4) % 4;
+    let newDirection = ((this.direction + rDirection) % 4 + 4) % 4;
     ui.log('newDirection:', newDirection);
 
     if(player.energy <= 0) {

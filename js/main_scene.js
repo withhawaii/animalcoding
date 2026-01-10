@@ -54,6 +54,7 @@ class MainScene extends Phaser.Scene {
         let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
           this.obstacles[i][j].obj = new Obstacle(this, tileData.pixelX, tileData.pixelY + 64, tileData.x, tileData.y, 'objects', tileData.index, objectsTileset.firstgid);
+          console.log(this.obstacles[i][j].obj.depth);
         }
       }
     }
@@ -64,7 +65,7 @@ class MainScene extends Phaser.Scene {
       for (let j = 0; j < this.items[i].length; j++) {
         let tileData = this.items[i][j];
         if(tileData.index >= 0) {
-          this.items[i][j].obj = new Item(this, tileData.pixelX, tileData.pixelY + 64, 'objects', tileData.index, objectsTileset.firstgid, i)
+          this.items[i][j].obj = new Item(this, tileData.pixelX, tileData.pixelY + 64, tileData.x, tileData.y, 'objects', tileData.index, objectsTileset.firstgid)
         }
       }
     }
