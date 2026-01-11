@@ -104,9 +104,9 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     let newGrid = player.grid(rDirection);
 
-    //Move only when a solid ground exists and no obstruct on the way
+    //Move only when a solid ground exists and no obstacle on the way
     let ground = this.scene.ground.getTileAt(newGrid.x, newGrid.y, true);
-    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x].obj
+    let obstacle = this.scene.getObstacle(newGrid.x, newGrid.y);
     if(obstacle && obstacle.isTrap()) {
       obstacle = null;
     }
@@ -121,7 +121,7 @@ class Player extends Phaser.GameObjects.Sprite {
   trap(rDirection = CST.TOWARDS_AHEAD) {
     let player = this;
     let newGrid = player.grid(rDirection);
-    let obstacle = this.scene.obstacles[newGrid.y][newGrid.x].obj
+    let obstacle = this.scene.getObstacle(newGrid.x, newGrid.y);
     return (obstacle && obstacle.isTrap() && obstacle.isTrapOn()) 
   }
 
@@ -189,15 +189,15 @@ class Player extends Phaser.GameObjects.Sprite {
   stopTrap(callback = (data) => {}) {
     let player = this;
     let newGrid = player.grid(CST.TOWARDS_AHEAD);
-    let trap = this.scene.obstacles[newGrid.y][newGrid.x].obj
-
+    let obstacle = this.scene.getObstacle(newGrid.x, newGrid.y);
+    
     if(player.energy <= 0) {
       player.hangUp(callback);
       return;
     }
 
-    if(trap && trap.isTrap()) {
-      trap.stopTrap();
+    if(obstacle && obstacle.isTrap()) {
+      obstacle.stopTrap();
       player.scene.time.delayedCall(1000, () => {
         ui.log('trap stopped:', player.xGrid, player.yGrid, player.direction);
         callback(true);

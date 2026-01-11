@@ -6,9 +6,6 @@ class Item extends Phaser.GameObjects.Container {
     const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
     this.xGrid = grid.x;
     this.yGrid = grid.y;
-
-    console.log(this.xGrid, this.yGrid);
-
     this.count = initialCount;
     this.countText = scene.add.text(48, 12, initialCount, {
         fontFamily: '"Press Start 2P"',

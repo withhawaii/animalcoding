@@ -1,9 +1,10 @@
 class Obstacle extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, xGrid, yGrid, texture, index, offset) {
+  constructor(scene, x, y, texture, index, offset) {
     super(scene, x, y);
     this.index = index;
-    this.xGrid = xGrid;
-    this.yGrid = yGrid;
+    const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
+    this.xGrid = grid.x;
+    this.yGrid = grid.y;
 
     if(this.isTrap()) {
       this.image = scene.add.sprite(0, 0, texture, index - offset).setOrigin(0, 0.5);
@@ -30,7 +31,7 @@ class Obstacle extends Phaser.GameObjects.Container {
 
     this.add(this.image);
     this.scene.add.existing(this);
-    this.setDepth(yGrid);
+    this.setDepth(this.yGrid);
   }
 
   isTrap() {

@@ -47,18 +47,14 @@ class MainScene extends Phaser.Scene {
     this.ground = this.map.createLayer('ground', groundTileset, 0, 64);
 
     const objectsTileset = this.map.getTileset('objects');
-    this.obstacles = this.map.getLayer('obstacles').data;
-    for (let i = 0; i < this.obstacles.length; i++) {
-      for (let j = 0; j < this.obstacles[i].length; j++) {
-        let tileData = this.obstacles[i][j];
-        if(tileData.index >= 0) {
-          this.obstacles[i][j].obj = new Obstacle(this, tileData.pixelX, tileData.pixelY + 64, tileData.x, tileData.y, 'objects', tileData.index, objectsTileset.firstgid);
-        }
-      }
+    this.obstacles = [];
+    const obstacles = this.map.getObjectLayer('obstacles').objects;
+    for (let i = 0; i < obstacles.length; i++) {
+      this.obstacles[i] = new Obstacle(this, obstacles[i].x, obstacles[i].y + 32, 'objects', obstacles[i].gid, objectsTileset.firstgid);
     }
 
-    const items = this.map.getObjectLayer('items').objects;
     this.items = [];
+    const items = this.map.getObjectLayer('items').objects;
     for (let i = 0; i < items.length; i++) {
       this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, this.getCustomProperty(items[i], 'count'))
     }
@@ -106,6 +102,10 @@ class MainScene extends Phaser.Scene {
 
   getItem(xGrid, yGrid) {
     return this.items.find(item => item.xGrid === xGrid && item.yGrid === yGrid);
+  }
+
+  getObstacle(xGrid, yGrid) {
+    return this.obstacles.find(item => item.xGrid === xGrid && item.yGrid === yGrid);
   }
 
   getCustomProperty(object, key) {
