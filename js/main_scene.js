@@ -47,27 +47,20 @@ class MainScene extends Phaser.Scene {
     this.ground = this.map.createLayer('ground', groundTileset, 0, 64);
 
     const objectsTileset = this.map.getTileset('objects');
-    //Manually render obstacles as images
     this.obstacles = this.map.getLayer('obstacles').data;
     for (let i = 0; i < this.obstacles.length; i++) {
       for (let j = 0; j < this.obstacles[i].length; j++) {
         let tileData = this.obstacles[i][j];
         if(tileData.index >= 0) {
           this.obstacles[i][j].obj = new Obstacle(this, tileData.pixelX, tileData.pixelY + 64, tileData.x, tileData.y, 'objects', tileData.index, objectsTileset.firstgid);
-          console.log(this.obstacles[i][j].obj.depth);
         }
       }
     }
 
-    //Manually render items as images
-    this.items = this.map.getLayer('items').data;
-    for (let i = 0; i < this.items.length; i++) {
-      for (let j = 0; j < this.items[i].length; j++) {
-        let tileData = this.items[i][j];
-        if(tileData.index >= 0) {
-          this.items[i][j].obj = new Item(this, tileData.pixelX, tileData.pixelY + 64, tileData.x, tileData.y, 'objects', tileData.index, objectsTileset.firstgid)
-        }
-      }
+    const items = this.map.getObjectLayer('items').objects;
+    this.items = [];
+    for (let i = 0; i < items.length; i++) {
+      this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, this.getCustomProperty(items[i], 'count'))
     }
   }
   
@@ -83,8 +76,7 @@ class MainScene extends Phaser.Scene {
       let sprite = players_json[i].sprite;
       let name = players_json[i].name;
       let id = players_json[i].id;
-      let starting_point = this.ground.getTileAtWorldXY(player_coordinates[i].x, player_coordinates[i].y + 64, true);
-      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, i, starting_point.x, starting_point.y, player_coordinates[i].properties.find(p => p.name === 'direction').value);
+      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, i, this.getCustomProperty(player_coordinates[i], 'direction'));
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
       if(this.game.config.debug) {
        this.players[i].updateItem(30, 5);
@@ -110,6 +102,19 @@ class MainScene extends Phaser.Scene {
       this.sound.add(prop);
     }
     this.sound.volume = this.game.config.master_volume;
+  }
+
+  getItem(xGrid, yGrid) {
+    return this.items.find(item => item.xGrid === xGrid && item.yGrid === yGrid);
+  }
+
+  getCustomProperty(object, key) {
+    if(object.properties && object.properties.find(p => p.name === key)) {
+      return(object.properties.find(p => p.name === key).value);  
+    }
+    else {
+      return(null);
+    }
   }
 
   startStage() {
@@ -177,12 +182,9 @@ class MainScene extends Phaser.Scene {
 
   isAllItemsPicked() {
     for (let i = 0; i < this.items.length; i++) {
-      for (let j = 0; j < this.items[i].length; j++) {
-        let tileData = this.items[i][j];
-        if(this.items[i][j].obj && this.items[i][j].obj.count > 0) {
-          ui.log('Item sill there:', this.items[i][j].obj);
-          return(false);
-        }
+      if(this.items[i] && this.items[i].count > 0) {
+        ui.log('Item sill there:', this.items[i]);
+        return(false);
       }
     }
     return(true);

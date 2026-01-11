@@ -1,16 +1,15 @@
 class Player extends Phaser.GameObjects.Sprite {
 
-  constructor(scene, x, y, texture, id, order, xGrid, yGrid, direction) {
+  constructor(scene, x, y, texture, id, order, direction) {
     super(scene, x, y, texture);
     this.scene = scene;
     this.id = id;
     this.order = order;
     this.x = x;
     this.y = y;
-    this.xGridSpawn = xGrid;
-    this.yGridSpawn = yGrid;
-    this.xGrid = xGrid;
-    this.yGrid = yGrid;
+    const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
+    this.xGrid = grid.x;
+    this.yGrid = grid.y;
     this.direction = direction;  
     this.energy = 0;
     this.coin = 0;
@@ -128,7 +127,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   move(callback = (data) => {}) {
     let player = this;
-    let newGrid = player.grid();
+    let newGrid = player.grid(CST.TOWARDS_AHEAD);
 
     if(player.energy <= 0) {
       this.hangUp(callback);
@@ -189,7 +188,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
   stopTrap(callback = (data) => {}) {
     let player = this;
-    let newGrid = player.grid();
+    let newGrid = player.grid(CST.TOWARDS_AHEAD);
     let trap = this.scene.obstacles[newGrid.y][newGrid.x].obj
 
     if(player.energy <= 0) {
@@ -268,8 +267,7 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    let item = this.scene.items[player.yGrid][player.xGrid].obj;
-    console.log('item', item);
+    let item = this.scene.getItem(player.xGrid, player.yGrid);
     if(item && item.isCollectible() && item.count > 0) {
       ui.log('pick_up:', item);
       this.scene.sound.play('pickup');
@@ -294,7 +292,7 @@ class Player extends Phaser.GameObjects.Sprite {
       return;
     }
 
-    let item = this.scene.items[player.yGrid][player.xGrid].obj;
+    let item = this.scene.getItem(player.xGrid, player.yGrid);
     if(item && item.isFood() && item.count > 0) {
       ui.log('eat:', item);
       this.scene.sound.play('charged');
@@ -354,7 +352,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.scene.sound.play('pickup');
       player.updateEnergy(- 1);
       player.scene.time.delayedCall(1000, () => {
-        ui.log('Took an item:', player.xGrid, player.yGrid, player.direction);
+        ui.log('Stole an item:', player.xGrid, player.yGrid, player.direction);
         callback(true);
       });
     }

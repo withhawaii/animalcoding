@@ -1,10 +1,13 @@
 class Item extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, xGrid, yGrid, texture, index, offset, initialCount = null) {
+  constructor(scene, x, y, texture, index, offset, initialCount = null) {
     super(scene, x, y);
     this.image = scene.add.image(0, 0, texture, index - offset).setOrigin(0, 0.5);
     this.index = index;
-    this.xGrid = xGrid;
-    this.yGrid = yGrid;
+    const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
+    this.xGrid = grid.x;
+    this.yGrid = grid.y;
+
+    console.log(this.xGrid, this.yGrid);
 
     this.count = initialCount;
     this.countText = scene.add.text(48, 12, initialCount, {
@@ -16,7 +19,7 @@ class Item extends Phaser.GameObjects.Container {
     this.add(this.image);
     this.add(this.countText);
     this.scene.add.existing(this);
-    this.setDepth(yGrid);
+    this.setDepth(this.yGrid);
 
     if(this.isCollectible()) {
       this.image.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
@@ -24,9 +27,6 @@ class Item extends Phaser.GameObjects.Container {
 
     if(initialCount) {
       this.setCount(this.count)
-    }
-    else if([CST.CUCUMBER, CST.CARROT].includes(this.index)) {
-      this.setCount(Phaser.Utils.Array.GetRandom([1, 1, 1, 2, 2, 3]));
     }
     else {
       this.setCount(1);
