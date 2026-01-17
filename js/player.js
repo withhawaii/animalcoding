@@ -7,9 +7,11 @@ class Player extends Phaser.GameObjects.Sprite {
     this.order = order;
     this.x = x;
     this.y = y;
-    const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
-    this.xGrid = grid.x;
-    this.yGrid = grid.y;
+    if(this.scene.ground) {
+      const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
+      this.xGrid = grid.x;
+      this.yGrid = grid.y;
+    }
     this.direction = direction;  
     this.energy = 0;
     this.coin = 0;

@@ -56,7 +56,7 @@ class MainScene extends Phaser.Scene {
     this.items = [];
     const items = this.map.getObjectLayer('items').objects;
     for (let i = 0; i < items.length; i++) {
-      this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, this.getCustomProperty(items[i], 'count'))
+      this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, this.getCustomProperty(items[i], 'count'), this.getCustomProperty(items[i], 'player'))
     }
   }
   
@@ -78,6 +78,14 @@ class MainScene extends Phaser.Scene {
        this.players[i].updateItem(30, 5);
        this.players[i].updateItem(31, 5);
        this.players[i].updateItem(32, 5);
+      }
+    }
+
+    //Delete items for non-existing players
+    for(let item of this.items) {
+      console.log(item.owner);
+      if (item.player >= players_json.length) {
+        item.setCount(0);
       }
     }
     this.currentPlayer = this.players[0];

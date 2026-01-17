@@ -6,6 +6,7 @@ class ResultScene extends Phaser.Scene {
   
   create() {
     this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
+    this.fireworks_count = 0;
     this.createBackground();
     this.createFireWorks();
     this.createPlayers();
@@ -140,7 +141,7 @@ class ResultScene extends Phaser.Scene {
     for(let i = 0; i < players_json.length; i++) {
       let id = players_json[i].id;
       let sprite = players_json[i].sprite;
-      this.players[i] = new Player(this, 362 + 100 * i, 155 + 20 * i, sprite, id, i, 0, 0, CST.DOWN);
+      this.players[i] = new Player(this, 362 + 100 * i, 155 + 20 * i, sprite, id, i, CST.DOWN);
       if(i === 0) {
         this.players[i].bounce();
       }
@@ -169,6 +170,10 @@ class ResultScene extends Phaser.Scene {
   updateEmitter(emitter) {
     emitter.setPosition(1024 * Phaser.Math.FloatBetween(0.25, 0.75), 768 * Phaser.Math.FloatBetween(0, 0.5))
     emitter.setParticleTint(Phaser.Utils.Array.GetRandom([0xff4136, 0xff851b, 0xffdc00, 0x01ff70, 0x2ecc40, 0x7fdbff, 0x0074d9, 0xf012be, 0xb10dc9]));
+    if(this.fireworks_count >= 3 && this.fireworks_count < 10) {
+      this.sound.play('firework');
+    }
+    this.fireworks_count += 1;
   }
 
   updateParticleRotation(p) {

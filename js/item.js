@@ -1,5 +1,5 @@
 class Item extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, texture, index, offset, initialCount = null) {
+  constructor(scene, x, y, texture, index, offset, initialCount = null, player = null) {
     super(scene, x, y);
     this.image = scene.add.image(0, 0, texture, index - offset).setOrigin(0, 0.5);
     this.index = index;
@@ -13,6 +13,7 @@ class Item extends Phaser.GameObjects.Container {
         backgroundColor: '#000000aa', // Slight background for readability
         padding: { x: 2, y: 2 }
     }).setOrigin(0, 0);
+    this.player = player;
     this.add(this.image);
     this.add(this.countText);
     this.scene.add.existing(this);
