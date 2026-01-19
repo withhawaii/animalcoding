@@ -133,9 +133,9 @@
                  "y":128
                 }, 
                 {
-                 "gid":24,
+                 "gid":25,
                  "height":64,
-                 "id":52,
+                 "id":54,
                  "name":"",
                  "rotation":0,
                  "type":"",
@@ -143,18 +143,6 @@
                  "width":64,
                  "x":512,
                  "y":416
-                }, 
-                {
-                 "gid":16,
-                 "height":64,
-                 "id":53,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":512,
-                 "y":352
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -172,6 +160,12 @@
                  "height":64,
                  "id":10,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -184,6 +178,12 @@
                  "height":64,
                  "id":11,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -196,6 +196,12 @@
                  "height":64,
                  "id":12,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -208,6 +214,12 @@
                  "height":64,
                  "id":13,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -350,7 +362,7 @@
                         {
                          "name":"count",
                          "type":"int",
-                         "value":0
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"",
@@ -491,6 +503,12 @@
                  "height":64,
                  "id":31,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"count",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -660,7 +678,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":54,
+ "nextobjectid":55,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.11.2",

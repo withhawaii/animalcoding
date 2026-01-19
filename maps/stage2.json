@@ -52,6 +52,12 @@
                  "height":64,
                  "id":10,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -64,6 +70,12 @@
                  "height":64,
                  "id":11,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -76,6 +88,12 @@
                  "height":64,
                  "id":12,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -88,6 +106,12 @@
                  "height":64,
                  "id":13,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -100,6 +124,12 @@
                  "height":64,
                  "id":14,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -112,6 +142,12 @@
                  "height":64,
                  "id":15,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -124,6 +160,12 @@
                  "height":64,
                  "id":16,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -136,6 +178,12 @@
                  "height":64,
                  "id":17,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -148,6 +196,12 @@
                  "height":64,
                  "id":18,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -160,6 +214,12 @@
                  "height":64,
                  "id":19,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -172,6 +232,12 @@
                  "height":64,
                  "id":20,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -184,6 +250,12 @@
                  "height":64,
                  "id":21,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -196,6 +268,12 @@
                  "height":64,
                  "id":22,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -208,6 +286,12 @@
                  "height":64,
                  "id":23,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -220,6 +304,12 @@
                  "height":64,
                  "id":24,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -232,6 +322,12 @@
                  "height":64,
                  "id":25,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -245,6 +341,12 @@
                  "height":64,
                  "id":26,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -257,6 +359,12 @@
                  "height":64,
                  "id":27,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -269,6 +377,12 @@
                  "height":64,
                  "id":28,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -281,6 +395,12 @@
                  "height":64,
                  "id":29,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -293,6 +413,12 @@
                  "height":64,
                  "id":30,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -305,6 +431,12 @@
                  "height":64,
                  "id":31,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -341,6 +473,12 @@
                  "height":64,
                  "id":34,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -353,6 +491,12 @@
                  "height":64,
                  "id":35,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -365,6 +509,12 @@
                  "height":64,
                  "id":36,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -377,6 +527,12 @@
                  "height":64,
                  "id":37,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -389,6 +545,12 @@
                  "height":64,
                  "id":38,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -401,6 +563,12 @@
                  "height":64,
                  "id":39,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

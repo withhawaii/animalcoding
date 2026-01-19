@@ -1260,7 +1260,7 @@
                         {
                          "name":"count",
                          "type":"int",
-                         "value":2
+                         "value":3
                         }, 
                         {
                          "name":"player",
