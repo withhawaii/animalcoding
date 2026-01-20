@@ -226,6 +226,78 @@
                  "width":64,
                  "x":448,
                  "y":320
+                }, 
+                {
+                 "gid":38,
+                 "height":64,
+                 "id":24,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":832,
+                 "y":160
+                }, 
+                {
+                 "gid":38,
+                 "height":64,
+                 "id":25,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":0
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":128,
+                 "y":160
+                }, 
+                {
+                 "gid":38,
+                 "height":64,
+                 "id":26,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":128,
+                 "y":448
+                }, 
+                {
+                 "gid":38,
+                 "height":64,
+                 "id":27,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"player",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":832,
+                 "y":448
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -317,7 +389,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":24,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.11.2",
