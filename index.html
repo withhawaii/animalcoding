@@ -155,11 +155,21 @@
     <dialog class="nes-dialog" id="dialog-help">
       <form method="dialog">
         <h3 class="title">Help</h3>
-        This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!
+        <p>Welcome to Animal Coding! Your mission is to collect as many items as possible by controlling your animals using code. Press Ctrl-space in the editor to view a list of available commands. The stage ends once all items have been taken or every player reaches the maximum turn limit. After the stage concludes, the final scores are compared to determine the winner.</p>
+        <div class="nes-container is-dark with-title">
+        <p class="title">Keyboard Shortcuts</p>
+        <ul>
+           <li>Space: Roll a dice</li>
+           <li>Ctrl-space: Insert code</li>
+           <li>Ctrl-r: Run code</li>
+           <li>Ctrl-s: Skip a turn</li>
+           <li>Escape: Stop commands</li>
+           <li>F1: Show game options</li>
+        </ul>   
+        </div>
         <br/>
-
         <menu class="dialog-menu" style="text-align: right">
-          <button class="nes-btn" id="btn_open_video">Watch the video again</button>
+          <button class="nes-btn" id="btn_open_video">Watch the Video Again</button>
           <button class="nes-btn is-primary" id="btn_resume">Resume</button>
         </menu>
       </form>
