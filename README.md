@@ -43,7 +43,7 @@ Have fun coding your way through the adventure!
 
 ## License
 
-This project is licensed under the terms of the [CC BY-NC-SA (Attribution-NonCommercial-ShareAlike) 4.0 International License](https://creativecommons.org).
+This project is licensed under the terms of the [CC BY-NC-SA (Attribution-NonCommercial-ShareAlike) 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 If you are interested in using this project for commercial purposes, please contact me directly to discuss commercial licensing options.
 
