@@ -149,7 +149,7 @@ class ResultScene extends Phaser.Scene {
         this.players[i].setFrame(CST.FALL);
       }
       let result = players_json[i][this.game.config.stage];
-      this.add.text(362 + 100 * i, 295, players_json[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff'}).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, i % 2 == 0 ? 295 : 320, players_json[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff'}).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 350, result.coin, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 400, result.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 450, result.crystal, defaultFontStyle).setOrigin(0.5, 0.5);
