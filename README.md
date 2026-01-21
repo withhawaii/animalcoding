@@ -2,7 +2,7 @@
 
 This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.
 
-[Play the Game Here]([https://withhawaii.github.io](https://withhawaii.github.io/animalcoding/))
+[Play the Game Here](https://withhawaii.github.io/animalcoding/)
 
 ***
 
