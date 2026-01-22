@@ -83,7 +83,6 @@ class MainScene extends Phaser.Scene {
 
     //Delete items for non-existing players
     for(let item of this.items) {
-      console.log(item.owner);
       if (item.player >= players_json.length) {
         item.setCount(0);
       }

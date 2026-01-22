@@ -41,4 +41,25 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
       }
     });
   }
+
+  setItem(item_index, newCount) {
+    let targetText;
+    if(item_index === CST.COIN) {
+      targetText = this.coinText
+    }
+    else if(item_index === CST.RUBY) {
+      targetText = this.rubyText
+      player.toolbar.rubyText.setText(player.ruby);
+    }
+    else if(item_index === CST.CRYSTAL) {
+      targetText = this.crystalText
+    }
+    targetText.setText(newCount);
+    this.scene.tweens.add({
+      targets: targetText,
+      scale: 1.5,
+      duration: 100,
+      yoyo: true
+    });
+  }
 }

@@ -37,15 +37,15 @@ class Player extends Phaser.GameObjects.Sprite {
     let player = this;
     if(item_index === CST.COIN) {
       player.coin = player.coin + value;
-      player.toolbar.coinText.setText(player.coin);
+      player.toolbar.setItem(item_index, player.coin);
     }
     else if(item_index === CST.RUBY) {
       player.ruby = player.ruby + value;
-      player.toolbar.rubyText.setText(player.ruby);
+      player.toolbar.setItem(item_index, player.ruby);
     }
     else if(item_index === CST.CRYSTAL) {
       player.crystal = player.crystal + value;
-      player.toolbar.crystalText.setText(player.crystal);
+      player.toolbar.setItem(item_index, player.crystal);
     }
   }
 
@@ -254,6 +254,14 @@ class Player extends Phaser.GameObjects.Sprite {
         player.setFrame(CST.FALL);        
         ui.log('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
+          if(player.energy <= 0) {
+            player.scene.tweens.add({
+              targets: player.toolbar.energyText,
+              scale: 1.5,
+              duration: 100,
+              yoyo: true
+            });
+          }
           player.setFrame(player.direction);
           callback(false);
         });
