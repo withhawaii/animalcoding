@@ -113,7 +113,7 @@ const CST = {
     stage1: {
       name: 'Stage 1',
       map: 'maps/stage1.json',
-      turn: 15,
+      turn: 10,
       double: [5, 10], 
       next: 'stage2',
       bgm: 'bgm_01',
@@ -129,7 +129,7 @@ const CST = {
     stage2: {
       name: 'Stage 2',
       map: 'maps/stage2.json',
-      turn: 15,
+      turn: 10,
       double: [5, 10],     
       next: 'stage3',
       bgm: 'bgm_02',
@@ -146,7 +146,7 @@ const CST = {
     stage3: {
       name: 'Stage 3',
       map: 'maps/stage3.json',
-      turn: 15,
+      turn: 10,
       double: [5, 10],      
       next: 'stage4',
       bgm: 'bgm_01',
@@ -166,7 +166,7 @@ const CST = {
     stage4: {
       name: 'Stage 4',
       map: 'maps/stage4.json',
-      turn: 15,
+      turn: 10,
       double: [5, 10],       
       next: 'stage5',
       bgm: 'bgm_02',

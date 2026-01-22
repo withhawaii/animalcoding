@@ -190,7 +190,7 @@ class MainScene extends Phaser.Scene {
 
   isAllItemsPicked() {
     for (let i = 0; i < this.items.length; i++) {
-      if(this.items[i] && this.items[i].count > 0) {
+      if(this.items[i] && this.items[i].isCollectible() && this.items[i].count > 0) {
         ui.log('Item sill there:', this.items[i]);
         return(false);
       }
