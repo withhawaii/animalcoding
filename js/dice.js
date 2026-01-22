@@ -57,7 +57,7 @@ class Dice extends Phaser.GameObjects.Container {
           diceRoll = 6;
         }
         else {
-          diceRoll = Phaser.Math.Between(1, 6);
+          diceRoll = Phaser.Utils.Array.GetRandom([1, 2, 3, 4, 4, 5, 5, 6, 6,]);
         }
 
         // Shadow
