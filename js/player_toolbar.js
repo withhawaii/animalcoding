@@ -49,7 +49,6 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     }
     else if(item_index === CST.RUBY) {
       targetText = this.rubyText
-      player.toolbar.rubyText.setText(player.ruby);
     }
     else if(item_index === CST.CRYSTAL) {
       targetText = this.crystalText

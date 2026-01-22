@@ -9,7 +9,6 @@ class Dice extends Phaser.GameObjects.Container {
     this.diceIsRolling = false;
     this.setDepth(20);
     this.setSize(150, 150);
-    this.setInteractive();
 
     this.dice = this.scene.add.mesh(0, 0, 'dice_albedo');
     this.dice.addVerticesFromObj('dice_obj', 0.25);
@@ -33,6 +32,7 @@ class Dice extends Phaser.GameObjects.Container {
    
   show() {
     this.dice.setVisible(true);
+    this.setInteractive();
     this.scene.add.tween({
         targets: this.dice.modelRotation,
         x: { from: -0.1, to: 0.1},
@@ -46,6 +46,7 @@ class Dice extends Phaser.GameObjects.Container {
 
   hide() {
     this.dice.setVisible(false);
+    this.disableInteractive();
   }
 
   roll(callback) {
