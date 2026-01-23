@@ -61,4 +61,13 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
       yoyo: true
     });
   }
+
+  blinkEnergy() {
+    this.scene.tweens.add({
+      targets: this.energyText,
+      scale: 1.5,
+      duration: 100,
+      yoyo: true
+    });
+  }
 }

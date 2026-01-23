@@ -255,12 +255,7 @@ class Player extends Phaser.GameObjects.Sprite {
         ui.log('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
           if(player.energy <= 0) {
-            player.scene.tweens.add({
-              targets: player.toolbar.energyText,
-              scale: 1.5,
-              duration: 100,
-              yoyo: true
-            });
+            player.toolbar.blinkEnergy();
           }
           player.setFrame(player.direction);
           callback(false);
