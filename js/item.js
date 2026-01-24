@@ -1,5 +1,5 @@
 class Item extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, texture, index, offset, initialCount = null, player = null) {
+  constructor(scene, x, y, texture, index, offset, count = null, player = null) {
     super(scene, x, y);
     this.image = scene.add.image(0, 0, texture, index - offset).setOrigin(0, 0.5);
     this.index = index;
@@ -7,8 +7,8 @@ class Item extends Phaser.GameObjects.Container {
     this.xGrid = grid.x;
     this.yGrid = grid.y;
     this.player = player;
-    this.count = initialCount;
-    this.countText = scene.add.text(48, 12, initialCount, {
+    this.count = count;
+    this.countText = scene.add.text(48, 12, count, {
         fontFamily: '"Press Start 2P"',
         fontSize: '10px',
         backgroundColor: '#000000aa',
@@ -32,16 +32,10 @@ class Item extends Phaser.GameObjects.Container {
     this.add(this.helperText);
     this.scene.add.existing(this);
     this.setDepth(this.yGrid);
+    this.setCount(this.count)
 
     if(this.isCollectible()) {
       this.image.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
-    }
-
-    if(initialCount) {
-      this.setCount(this.count)
-    }
-    else {
-      this.setCount(1);
     }
   }
 

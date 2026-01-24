@@ -5,24 +5,33 @@ class MainScene extends Phaser.Scene {
   }
   
   create() {
-    this.isStarted = false;
-    this.createBackground();
-    this.createMap();
-    this.createPlayers();
-    this.createDice();
-    this.createSounds();
-    this.events.once('shutdown', this.shutdown, this);
+    const config_json = JSON.parse(localStorage.getItem('config')) || {};
+    this.stageSaved = config_json[this.game.config.stage] || {}
     this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
-    this.bgm = this.sound.get(this.stageConfig.bgm);
-    this.turnCount = 1;
+
+    if(this.stageSaved.turnCount) {
+      this.turnCount = this.stageSaved.turnCount;
+    }
+    else {
+      this.turnCount = 1;
+    }
     this.turnAllowance = this.stageConfig.turn;
+    this.isStarted = false;
     this.rollCount = 0;
     this.rollAllowance = 1;
     this.errorCount = 0;
     this.errorAllowance = 1;
     this.flags = {};
 
+    this.createBackground();
+    this.createMap();
+    this.createPlayers();
+    this.createDice();
+    this.createSounds();
+    this.events.once('shutdown', this.shutdown, this);
+    this.bgm = this.sound.get(this.stageConfig.bgm);
     this.toolbar = new StageToolbar(this, 1024/2, 0);
+
     ui.loadSnippets(this.stageConfig.snippets);
     ui.editor.setReadOnly(true);
     ui.enableButton('btn_help');
@@ -57,13 +66,23 @@ class MainScene extends Phaser.Scene {
     this.items = [];
     const items = this.map.getObjectLayer('items').objects;
     for (let i = 0; i < items.length; i++) {
-      this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, this.getCustomProperty(items[i], 'count'), this.getCustomProperty(items[i], 'player'))
+      let item_count;
+      if(this.stageSaved.items) {
+        item_count = this.stageSaved.items[i];
+      }
+      else {
+        item_count = this.getCustomProperty(items[i], 'count') || 1;
+      }
+      this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, item_count, this.getCustomProperty(items[i], 'player'))
     }
   }
   
   createPlayers() {
     let players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "")
-    if(this.game.config.shuffle) {
+    if(players_json[0][this.game.config.stage]) {
+      players_json = players_json.sort((a, b) => a[this.game.config.stage].order - b[this.game.config.stage].order); 
+    }
+    else if(this.game.config.shuffle) {
       players_json = Phaser.Utils.Array.Shuffle(players_json); 
     }
     const player_coordinates = this.map.getObjectLayer('players').objects;
@@ -71,14 +90,38 @@ class MainScene extends Phaser.Scene {
     this.players = [];
     for(let i = 0; i < players_json.length; i++) {
       let sprite = players_json[i].sprite;
-      let name = players_json[i].name;
       let id = players_json[i].id;
-      this.players[i] = new Player(this, player_coordinates[i].x, player_coordinates[i].y + 64 - 16, sprite, id, i, this.getCustomProperty(player_coordinates[i], 'direction'));
-      this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name);
+      let name = players_json[i].name;      
+      let x, y, direction, energy, coin, ruby, crystal, star;
+      if(players_json[i][this.game.config.stage]) {
+        x = players_json[i][this.game.config.stage].x;
+        y = players_json[i][this.game.config.stage].y;
+        direction = players_json[i][this.game.config.stage].direction;    
+        energy = players_json[i][this.game.config.stage].energy;
+        coin = players_json[i][this.game.config.stage].coin;
+        ruby = players_json[i][this.game.config.stage].ruby;
+        crystal = players_json[i][this.game.config.stage].crystal;
+        star = players_json[i][this.game.config.stage].star;
+      }
+      else {
+        x = player_coordinates[i].x;
+        y = player_coordinates[i].y + 64 - 16;
+        direction = this.getCustomProperty(player_coordinates[i], 'direction');  
+        energy = 0;
+        coin = 0;
+        ruby = 0;
+        crystal = 0;
+        star = 0;
+      }
+      this.players[i] = new Player(this, x, y, sprite, id, i, direction, energy, coin, ruby, crystal, star);
+      this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name, this.players[i]);
       if(this.game.config.debug) {
-       this.players[i].updateItem(30, 5);
-       this.players[i].updateItem(31, 5);
-       this.players[i].updateItem(32, 5);
+        if(this.players[i].coin === 0)
+          this.players[i].updateItem(CST.COIN, 5);
+        if(this.players[i].ruby === 0)
+          this.players[i].updateItem(CST.RUBY, 5);
+        if(this.players[i].crystal === 0)
+          this.players[i].updateItem(CST.CRYSTAL, 5);
       }
     }
 
@@ -88,12 +131,17 @@ class MainScene extends Phaser.Scene {
         item.setCount(0);
       }
     }
-    this.currentPlayer = this.players[0];
+
+    if(this.stageSaved.currentOrder) {
+      this.currentPlayer = this.players[this.stageSaved.currentOrder];
+    }
+    else {
+      this.currentPlayer = this.players[0];
+    }
   }
 
   createDice() {
     this.dice = new Dice(this, this.scale.width / 2, this.scale.height / 2, 1000);
-    this.dice.setInteractive();
     this.dice.hide();
     this.dice.on('pointerdown', () => {
       this.rollDice();
@@ -282,11 +330,17 @@ class MainScene extends Phaser.Scene {
     let config_json = JSON.parse(localStorage.getItem('config')) || {};
     config_json.master_volume = this.game.config.master_volume;
     config_json.bgm_volume = this.game.config.bgm_volume;
+    config_json[this.game.config.stage] = {turnCount: this.turnCount, currentOrder: this.currentPlayer.order, items: []};
+    for (let i = 0; i < this.items.length; i++) {
+      config_json[this.game.config.stage].items[i] = this.items[i].count;
+    }
     localStorage.setItem('config', JSON.stringify(config_json));
 
     let players_json = JSON.parse(localStorage.getItem('players'));
     for(let player of this.players) {
-      players_json[player.id][this.game.config.stage] = {score: player.score(), energy: player.energy, star: player.star, coin: player.coin, ruby: player.ruby, crystal: player.crystal};
+      let x = player.xGrid * 64 + 32;
+      let y = player.yGrid * 32 + 64;
+      players_json[player.id][this.game.config.stage] = {x: x, y: y, direction: player.direction, order: player.order, energy: player.energy, star: player.star, coin: player.coin, ruby: player.ruby, crystal: player.crystal, score: player.score()};
       players_json[player.id].total_score = 0;
       for(let stage of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5']) {
         if(players_json[player.id][stage] && players_json[player.id][stage].score) {

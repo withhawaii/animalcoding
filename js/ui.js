@@ -247,11 +247,11 @@ const ui = {
   },
 
   saveConfig() {
-    let players_json = [];
-    players_json[0] = {id: 0, sprite: 'Cat', name: document.getElementById('config_name_1').value.trim()};
-    players_json[1] = {id: 1, sprite: 'Rabbit', name: document.getElementById('config_name_2').value.trim()}
-    players_json[2] = {id: 2, sprite: 'Chick', name: document.getElementById('config_name_3').value.trim()}
-    players_json[3] = {id: 3, sprite: 'Pig', name: document.getElementById('config_name_4').value.trim()}
+    let players_json = JSON.parse(localStorage.getItem('players')) || [];
+    Object.assign(players_json[0], {id: 0, sprite: 'Cat', name: document.getElementById('config_name_1').value.trim()});
+    Object.assign(players_json[1], {id: 1, sprite: 'Rabbit', name: document.getElementById('config_name_2').value.trim()});
+    Object.assign(players_json[2], {id: 2, sprite: 'Chick', name: document.getElementById('config_name_3').value.trim()});
+    Object.assign(players_json[3], {id: 3, sprite: 'Pig', name: document.getElementById('config_name_4').value.trim()});
     localStorage.setItem('players', JSON.stringify(players_json));
 
     let config_json = JSON.parse(localStorage.getItem('config')) || {};
@@ -318,7 +318,7 @@ const ui = {
         ui.mainScene().rollDice();
       }
 
-      if(event.key === 'F1') {
+      if(event.key === 'F1' && ui.mainScene().dice.isReadyToRoll()) {
         event.preventDefault();
         ui.showModal('dialog-config2');
       }

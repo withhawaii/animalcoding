@@ -1,6 +1,6 @@
 class Player extends Phaser.GameObjects.Sprite {
 
-  constructor(scene, x, y, texture, id, order, direction) {
+  constructor(scene, x, y, texture, id, order, direction, energy, coin, ruby, crystal, star) {
     super(scene, x, y, texture);
     this.scene = scene;
     this.id = id;
@@ -13,12 +13,11 @@ class Player extends Phaser.GameObjects.Sprite {
       this.yGrid = grid.y;
     }
     this.direction = direction;  
-    this.energy = 0;
-    this.coin = 0;
-    this.ruby = 0;
-    this.crystal = 0;
-    this.star = 0;
-    this.bonus = 0;
+    this.energy = energy;
+    this.coin = coin;
+    this.ruby = ruby;
+    this.crystal = crystal;
+    this.star = star;
     this.code = "";
     this.setFrame(this.direction);
     this.setDepth(this.yGrid + 0.5);
@@ -51,7 +50,7 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   score() {
-    let score = this.energy + this.bonus + this.coin * CST.COIN_POINT + this.ruby * CST.RUBY_POINT + this.crystal * CST.CRYSTAL_POINT + this.star * CST.STAR_POINT;
+    let score = this.energy + this.coin * CST.COIN_POINT + this.ruby * CST.RUBY_POINT + this.crystal * CST.CRYSTAL_POINT + this.star * CST.STAR_POINT;
     return score;
   }
 
