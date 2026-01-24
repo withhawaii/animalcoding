@@ -17,6 +17,7 @@ class Player extends Phaser.GameObjects.Sprite {
     this.coin = 0;
     this.ruby = 0;
     this.crystal = 0;
+    this.star = 0;
     this.bonus = 0;
     this.code = "";
     this.setFrame(this.direction);
@@ -50,7 +51,7 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   score() {
-    let score = this.energy + this.bonus + this.coin * CST.COIN_POINT + this.ruby * CST.RUBY_POINT + this.crystal * CST.CRYSTAL_POINT;
+    let score = this.energy + this.bonus + this.coin * CST.COIN_POINT + this.ruby * CST.RUBY_POINT + this.crystal * CST.CRYSTAL_POINT + this.star * CST.STAR_POINT;
     return score;
   }
 

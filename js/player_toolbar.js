@@ -7,6 +7,8 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     this.y = y;
     this.background = this.scene.add.image(0, 0, 'textures', 'UI_Toolbar_Plain').setOrigin(0, 0);
     this.avatar = this.scene.add.image(6, 6, 'textures', texture +  '_Avatar_Circle').setScale(0.8).setOrigin(0, 0);
+    this.star = this.scene.add.image(50, 50, 'textures', 'Star').setScale(0.4).setOrigin(0.5, 0.5).setVisible(false);
+    this.star.postFX.addShine(Phaser.Math.FloatBetween(0.1, 0.5));
     this.energyText = this.scene.add.text(82, 33, '0', { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6).setOrigin(0.5, 0.5);
     this.nameText = this.scene.add.text(110, 13, name, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
     this.coin = this.scene.add.image(120, 46, 'textures', 'Coin').setScale(0.7).setOrigin(0.5, 0.5);
@@ -19,6 +21,7 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     this.add(this.avatar);
     this.add(this.energyText);
     this.add(this.nameText);
+    this.add(this.star);
     this.add(this.coin);
     this.add(this.ruby);
     this.add(this.crystal);
@@ -26,6 +29,20 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     this.add(this.rubyText);
     this.add(this.crystalText);
     this.scene.add.existing(this);
+
+    if(!this.scene.emitter) {
+      this.scene.emitter = this.scene.add.particles(0, 0, 'textures', {
+        frame: 'Star',
+        speed: { min: -200, max: 200 },
+        angle: { min: 0, max: 360 },
+        scale: { start: 0.2, end: 0 },
+        lifespan: 1000,
+        gravityY: 200,
+        quantity: 20,
+        emitting: false, 
+      });
+      this.scene.emitter.setDepth(100); 
+    }
   }
 
   setEnergy(newEnergy) {
@@ -68,6 +85,32 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
       scale: 1.5,
       duration: 100,
       yoyo: true
+    });
+  }
+  
+  addStar() {
+    const star = this.star;
+    star.setVisible(true);
+    this.scene.sound.play('star');
+
+    this.scene.tweens.add({
+        targets: star,
+        scale: 1.5,
+        duration: 800,
+        ease: 'Back.easeOut',
+        yoyo: true,
+        onComplete: () => {
+          const bounds = star.getBounds();
+          this.scene.emitter.setPosition(bounds.x, bounds.y);
+          this.scene.emitter.explode(30);
+        }
+    });
+
+    this.scene.tweens.add({
+        targets: star,
+        angle: 360,
+        duration: 1000,
+        repeat: 2 
     });
   }
 }

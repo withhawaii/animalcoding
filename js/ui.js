@@ -146,6 +146,9 @@ const ui = {
   highlightCode() {
     const stack = ui.interpreter.getStateStack();
     const node = stack[stack.length - 1].node;
+    if(['ForStatement', 'IfStatement', 'FunctionDeclaration'].includes(node.type)) {
+      ui.mainScene().flags[node.type] = true;
+    }
     ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
   },
 

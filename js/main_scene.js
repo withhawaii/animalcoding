@@ -20,6 +20,7 @@ class MainScene extends Phaser.Scene {
     this.rollAllowance = 1;
     this.errorCount = 0;
     this.errorAllowance = 1;
+    this.flags = {};
 
     this.toolbar = new StageToolbar(this, 1024/2, 0);
     ui.loadSnippets(this.stageConfig.snippets);
@@ -200,9 +201,14 @@ class MainScene extends Phaser.Scene {
   changePlayer() {
     let delay = 0;
 
+    if(this.currentPlayer.star === 0) {
+      this.checkBonus();
+    }  
+
     if(this.isAllItemsPicked()) {
       this.scene.start('Result');
     }
+    
     //When starting a new turn with the first player
     if(this.currentPlayer.order === this.players.length - 1) {
       this.currentPlayer = this.players[0];
@@ -242,12 +248,34 @@ class MainScene extends Phaser.Scene {
     this.time.delayedCall(delay, () => {
       ui.log('New Player:', this.currentPlayer);
       this.errorCount = 0;
+      this.flags = {};
       this.bgm.resume();
       this.currentPlayer.bounce();
       ui.editor.setReadOnly(true);
       ui.editor.setValue(this.currentPlayer.code, -1);
       this.dice.show();
     }); 
+  }
+
+  checkBonus() {
+    let bonusCondition = false;
+    if(this.game.config.stage === 'stage2' && this.flags['ForStatement']) {
+      bonusCondition = true;
+    }
+    else if(this.game.config.stage === 'stage3' && this.flags['IfStatement']) {
+      bonusCondition = true;        
+    }
+    else if(this.game.config.stage === 'stage4' && this.flags['FunctionDeclaration']) {
+      bonusCondition = true;        
+    }
+    else if(['demo', 'stage5', 'stage6', 'stage7'].includes(this.game.config.stage) && Object.keys(this.flags).length > 0) {
+      bonusCondition = true;        
+    }
+
+    if(bonusCondition) {
+      this.currentPlayer.star = 1;
+      this.currentPlayer.toolbar.addStar();
+    }
   }
 
   saveRecords() {
@@ -258,7 +286,7 @@ class MainScene extends Phaser.Scene {
 
     let players_json = JSON.parse(localStorage.getItem('players'));
     for(let player of this.players) {
-      players_json[player.id][this.game.config.stage] = {score: player.score(), energy: player.energy, bonus: player.bonus, coin: player.coin, ruby: player.ruby, crystal: player.crystal};
+      players_json[player.id][this.game.config.stage] = {score: player.score(), energy: player.energy, star: player.star, coin: player.coin, ruby: player.ruby, crystal: player.crystal};
       players_json[player.id].total_score = 0;
       for(let stage of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5']) {
         if(players_json[player.id][stage] && players_json[player.id][stage].score) {

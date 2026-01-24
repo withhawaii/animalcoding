@@ -4,8 +4,8 @@
 			"image": "textures",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1671,
-				"h": 829
+				"w": 1538,
+				"h": 1040
 			},
 			"scale": 1,
 			"frames": [
@@ -304,90 +304,6 @@
 					}
 				},
 				{
-					"filename": "UI_Toolbar_Icon",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 268,
-						"h": 67
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 268,
-						"h": 67
-					},
-					"frame": {
-						"x": 388,
-						"y": 673,
-						"w": 268,
-						"h": 67
-					}
-				},
-				{
-					"filename": "Crystal",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 3,
-						"w": 22,
-						"h": 45
-					},
-					"frame": {
-						"x": 388,
-						"y": 597,
-						"w": 22,
-						"h": 45
-					}
-				},
-				{
-					"filename": "Ruby",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 12,
-						"y": 19,
-						"w": 40,
-						"h": 30
-					},
-					"frame": {
-						"x": 388,
-						"y": 642,
-						"w": 40,
-						"h": 30
-					}
-				},
-				{
-					"filename": "Cursor_Grab",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 19,
-						"w": 34,
-						"h": 34
-					},
-					"frame": {
-						"x": 410,
-						"y": 597,
-						"w": 34,
-						"h": 34
-					}
-				},
-				{
 					"filename": "Cloud_02",
 					"rotated": false,
 					"trimmed": false,
@@ -402,8 +318,8 @@
 						"h": 151
 					},
 					"frame": {
-						"x": 656,
-						"y": 673,
+						"x": 681,
+						"y": 496,
 						"w": 230,
 						"h": 151
 					}
@@ -423,94 +339,10 @@
 						"h": 143
 					},
 					"frame": {
-						"x": 741,
-						"y": 462,
+						"x": 903,
+						"y": 100,
 						"w": 241,
 						"h": 143
-					}
-				},
-				{
-					"filename": "Cursor_Point",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 67,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 27,
-						"y": 22,
-						"w": 37,
-						"h": 33
-					},
-					"frame": {
-						"x": 681,
-						"y": 496,
-						"w": 37,
-						"h": 33
-					}
-				},
-				{
-					"filename": "Status_Angry",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 681,
-						"y": 529,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Status_Exclamation",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 681,
-						"y": 561,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Status_Happy",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 681,
-						"y": 593,
-						"w": 38,
-						"h": 32
 					}
 				},
 				{
@@ -528,94 +360,10 @@
 						"h": 67
 					},
 					"frame": {
-						"x": 903,
+						"x": 1144,
 						"y": 100,
 						"w": 240,
 						"h": 67
-					}
-				},
-				{
-					"filename": "Cloud_04",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 236,
-						"h": 136
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 236,
-						"h": 136
-					},
-					"frame": {
-						"x": 1143,
-						"y": 100,
-						"w": 236,
-						"h": 136
-					}
-				},
-				{
-					"filename": "Btn_Config",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 224,
-						"h": 104
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 224,
-						"h": 104
-					},
-					"frame": {
-						"x": 895,
-						"y": 223,
-						"w": 224,
-						"h": 104
-					}
-				},
-				{
-					"filename": "Bar",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 187,
-						"h": 45
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 187,
-						"h": 45
-					},
-					"frame": {
-						"x": 898,
-						"y": 167,
-						"w": 187,
-						"h": 45
-					}
-				},
-				{
-					"filename": "Status_Love",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 40,
-						"h": 33
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
-					},
-					"frame": {
-						"x": 1085,
-						"y": 167,
-						"w": 38,
-						"h": 32
 					}
 				},
 				{
@@ -640,6 +388,27 @@
 					}
 				},
 				{
+					"filename": "Bar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 187,
+						"h": 45
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 187,
+						"h": 45
+					},
+					"frame": {
+						"x": 1207,
+						"y": 0,
+						"w": 187,
+						"h": 45
+					}
+				},
+				{
 					"filename": "UI_Toolbar",
 					"rotated": false,
 					"trimmed": false,
@@ -655,9 +424,114 @@
 					},
 					"frame": {
 						"x": 1207,
-						"y": 0,
+						"y": 45,
 						"w": 160,
 						"h": 51
+					}
+				},
+				{
+					"filename": "Ruby",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 19,
+						"w": 40,
+						"h": 30
+					},
+					"frame": {
+						"x": 997,
+						"y": 68,
+						"w": 40,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Status_Angry",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 1037,
+						"y": 68,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Status_Exclamation",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 1075,
+						"y": 68,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Status_Happy",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 1113,
+						"y": 68,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Status_Love",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 1151,
+						"y": 68,
+						"w": 38,
+						"h": 32
 					}
 				},
 				{
@@ -676,7 +550,7 @@
 					},
 					"frame": {
 						"x": 1367,
-						"y": 0,
+						"y": 45,
 						"w": 160,
 						"h": 51
 					}
@@ -696,73 +570,52 @@
 						"h": 34
 					},
 					"frame": {
-						"x": 1207,
-						"y": 51,
+						"x": 1394,
+						"y": 0,
 						"w": 144,
 						"h": 34
 					}
 				},
 				{
-					"filename": "Status_Starving",
+					"filename": "Cloud_04",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 40,
-						"h": 33
+						"w": 236,
+						"h": 136
 					},
 					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
+						"x": 0,
+						"y": 0,
+						"w": 236,
+						"h": 136
 					},
 					"frame": {
-						"x": 997,
-						"y": 68,
-						"w": 38,
-						"h": 32
+						"x": 895,
+						"y": 243,
+						"w": 236,
+						"h": 136
 					}
 				},
 				{
-					"filename": "Status_Thirsty",
+					"filename": "Btn_Config",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 40,
-						"h": 33
+						"w": 224,
+						"h": 104
 					},
 					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
+						"x": 0,
+						"y": 0,
+						"w": 224,
+						"h": 104
 					},
 					"frame": {
-						"x": 1035,
-						"y": 68,
-						"w": 38,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Coin",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 21,
-						"w": 27,
-						"h": 28
-					},
-					"frame": {
-						"x": 1073,
-						"y": 68,
-						"w": 27,
-						"h": 28
+						"x": 895,
+						"y": 379,
+						"w": 224,
+						"h": 104
 					}
 				},
 				{
@@ -780,8 +633,8 @@
 						"h": 34
 					},
 					"frame": {
-						"x": 1351,
-						"y": 51,
+						"x": 741,
+						"y": 462,
 						"w": 144,
 						"h": 34
 					}
@@ -801,73 +654,10 @@
 						"h": 104
 					},
 					"frame": {
-						"x": 894,
-						"y": 327,
+						"x": 681,
+						"y": 647,
 						"w": 224,
 						"h": 104
-					}
-				},
-				{
-					"filename": "UI_Toolbar_Bottom_Corner",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 160,
-						"h": 51
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 160,
-						"h": 51
-					},
-					"frame": {
-						"x": 1118,
-						"y": 327,
-						"w": 160,
-						"h": 51
-					}
-				},
-				{
-					"filename": "UI_Toolbar_Top",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 160,
-						"h": 51
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 160,
-						"h": 51
-					},
-					"frame": {
-						"x": 1278,
-						"y": 327,
-						"w": 160,
-						"h": 51
-					}
-				},
-				{
-					"filename": "UI_Toolbar_Top_Corner",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 160,
-						"h": 51
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 160,
-						"h": 51
-					},
-					"frame": {
-						"x": 1438,
-						"y": 327,
-						"w": 160,
-						"h": 51
 					}
 				},
 				{
@@ -885,8 +675,8 @@
 						"h": 83
 					},
 					"frame": {
-						"x": 1527,
-						"y": 0,
+						"x": 260,
+						"y": 725,
 						"w": 80,
 						"h": 83
 					}
@@ -906,8 +696,8 @@
 						"h": 83
 					},
 					"frame": {
-						"x": 1527,
-						"y": 83,
+						"x": 0,
+						"y": 765,
 						"w": 80,
 						"h": 83
 					}
@@ -927,8 +717,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1379,
-						"y": 85,
+						"x": 80,
+						"y": 765,
 						"w": 64,
 						"h": 64
 					}
@@ -948,10 +738,52 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1379,
-						"y": 149,
+						"x": 144,
+						"y": 765,
 						"w": 64,
 						"h": 64
+					}
+				},
+				{
+					"filename": "Crystal",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 3,
+						"w": 22,
+						"h": 45
+					},
+					"frame": {
+						"x": 208,
+						"y": 765,
+						"w": 22,
+						"h": 45
+					}
+				},
+				{
+					"filename": "Coin",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 21,
+						"w": 27,
+						"h": 28
+					},
+					"frame": {
+						"x": 230,
+						"y": 765,
+						"w": 27,
+						"h": 28
 					}
 				},
 				{
@@ -969,10 +801,73 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1443,
-						"y": 85,
+						"x": 340,
+						"y": 725,
 						"w": 64,
 						"h": 64
+					}
+				},
+				{
+					"filename": "Cursor_Grab",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 19,
+						"w": 34,
+						"h": 34
+					},
+					"frame": {
+						"x": 388,
+						"y": 597,
+						"w": 34,
+						"h": 34
+					}
+				},
+				{
+					"filename": "Cursor_Point",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 67,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 27,
+						"y": 22,
+						"w": 37,
+						"h": 33
+					},
+					"frame": {
+						"x": 388,
+						"y": 631,
+						"w": 37,
+						"h": 33
+					}
+				},
+				{
+					"filename": "Status_Starving",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 388,
+						"y": 664,
+						"w": 38,
+						"h": 32
 					}
 				},
 				{
@@ -990,8 +885,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1443,
-						"y": 149,
+						"x": 404,
+						"y": 696,
 						"w": 64,
 						"h": 64
 					}
@@ -1011,8 +906,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1507,
-						"y": 166,
+						"x": 468,
+						"y": 696,
 						"w": 64,
 						"h": 64
 					}
@@ -1032,8 +927,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1379,
-						"y": 213,
+						"x": 532,
+						"y": 673,
 						"w": 64,
 						"h": 64
 					}
@@ -1053,8 +948,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1443,
-						"y": 213,
+						"x": 532,
+						"y": 737,
 						"w": 64,
 						"h": 64
 					}
@@ -1074,8 +969,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1119,
-						"y": 236,
+						"x": 340,
+						"y": 789,
 						"w": 64,
 						"h": 64
 					}
@@ -1095,8 +990,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1183,
-						"y": 236,
+						"x": 0,
+						"y": 848,
 						"w": 64,
 						"h": 64
 					}
@@ -1116,8 +1011,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1247,
-						"y": 236,
+						"x": 64,
+						"y": 848,
 						"w": 64,
 						"h": 64
 					}
@@ -1137,8 +1032,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1311,
-						"y": 236,
+						"x": 128,
+						"y": 829,
 						"w": 64,
 						"h": 64
 					}
@@ -1158,8 +1053,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1571,
-						"y": 166,
+						"x": 128,
+						"y": 893,
 						"w": 64,
 						"h": 64
 					}
@@ -1179,8 +1074,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1607,
-						"y": 0,
+						"x": 0,
+						"y": 912,
 						"w": 64,
 						"h": 64
 					}
@@ -1200,8 +1095,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1607,
-						"y": 64,
+						"x": 0,
+						"y": 976,
 						"w": 64,
 						"h": 64
 					}
@@ -1221,8 +1116,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1507,
-						"y": 230,
+						"x": 64,
+						"y": 912,
 						"w": 64,
 						"h": 64
 					}
@@ -1242,8 +1137,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 1571,
-						"y": 230,
+						"x": 192,
+						"y": 829,
 						"w": 64,
 						"h": 64
 					}
@@ -1263,8 +1158,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 0,
-						"y": 765,
+						"x": 256,
+						"y": 810,
 						"w": 64,
 						"h": 64
 					}
@@ -1284,10 +1179,115 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 64,
-						"y": 765,
+						"x": 256,
+						"y": 874,
 						"w": 64,
 						"h": 64
+					}
+				},
+				{
+					"filename": "Star",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 192,
+						"y": 893,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Status_Thirsty",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 404,
+						"y": 760,
+						"w": 38,
+						"h": 32
+					}
+				},
+				{
+					"filename": "UI_Toolbar_Bottom_Corner",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 160,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 160,
+						"h": 51
+					},
+					"frame": {
+						"x": 596,
+						"y": 751,
+						"w": 160,
+						"h": 51
+					}
+				},
+				{
+					"filename": "UI_Toolbar_Top",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 160,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 160,
+						"h": 51
+					},
+					"frame": {
+						"x": 404,
+						"y": 801,
+						"w": 160,
+						"h": 51
+					}
+				},
+				{
+					"filename": "UI_Toolbar_Top_Corner",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 160,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 160,
+						"h": 51
+					},
+					"frame": {
+						"x": 756,
+						"y": 751,
+						"w": 160,
+						"h": 51
 					}
 				}
 			]

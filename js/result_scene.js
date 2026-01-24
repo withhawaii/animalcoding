@@ -25,7 +25,7 @@ class ResultScene extends Phaser.Scene {
     });
 
     const result = this.sound.get('result');
-    result.play({volume: this.game.config.bgm_volume})
+    result.play();
     result.once('complete', () => {
       let ranking_text = "Cumulative Ranking\n\n"
       const players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "").sort((a, b) => b.total_score - a.total_score);
@@ -38,38 +38,7 @@ class ResultScene extends Phaser.Scene {
   }
 
   createBackground() {
-    if (this.textures.exists('stars')) {
-      this.textures.remove('stars');
-    }
-    const stars = this.textures.createCanvas('stars', 1024, 768);
-    const ctx = stars.getContext();
-
-    ctx.fillStyle = '#111111';
-    ctx.fillRect(0, 0, 1024, 768);
-    ctx.fillStyle = '#ffffff';
-    let i = 1024;
-    while (i-- > 0) {
-      ctx.globalAlpha = Phaser.Math.FloatBetween(0, 1);
-      ctx.fillRect(Phaser.Math.Between(0, 1023), Phaser.Math.Between(0, 767), 1, 1);
-    }
-
-    stars.refresh();
-
-    if (this.textures.exists('rocket')) {
-      this.textures.remove('rocket');
-    }
-    this.textures.generate('rocket', {
-      data: ['0123...'],
-      palette: {
-        0: '#fff2',
-        1: '#fff4',
-        2: '#fff8',
-        3: '#ffff'
-      },
-      pixelWidth: 4
-    });
-
-    this.add.image(1024/2, 704/2, stars);
+    this.add.image(1024/2, 704/2, 'stars');
   }
 
   createFireWorks() {
@@ -123,9 +92,9 @@ class ResultScene extends Phaser.Scene {
     const defaultFontStyle = {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ffffff'}
     this.add.image(1024/2, 48, 'textures', 'UI_Title');
     this.add.image(1024/2, 230, 'textures', 'Podium');
-    let coin = this.add.image(250, 348, 'textures', 'Coin').setOrigin(0.5, 0.5);
-    let ruby = this.add.image(250, 396, 'textures', 'Ruby').setOrigin(0.5, 0.5);
-    let crystal = this.add.image(250, 454, 'textures', 'Crystal').setOrigin(0.5, 0.5);
+    const coin = this.add.image(250, 348, 'textures', 'Coin').setOrigin(0.5, 0.5);
+    const ruby = this.add.image(250, 396, 'textures', 'Ruby').setOrigin(0.5, 0.5);
+    const crystal = this.add.image(250, 454, 'textures', 'Crystal').setOrigin(0.5, 0.5);
     ruby.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     crystal.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     coin.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
@@ -133,6 +102,8 @@ class ResultScene extends Phaser.Scene {
     this.add.text(1024/2, 48, this.stageConfig.name + ' Ranking', {fontFamily: '"Press Start 2P"', fontSize: '24px', color: '#ff3333', stroke: '#ffffff', strokeThickness: 4}).setOrigin(0.5, 0.5);
     this.add.text(300, 500, 'AP:', defaultFontStyle).setOrigin(1, 0.5);
     this.add.text(300, 550, 'Bonus:', defaultFontStyle).setOrigin(1, 0.5);
+    const star = this.add.image(132, 548, 'textures', 'Star').setOrigin(0.5, 0.5).setScale(0.5);
+    star.postFX.addShine(Phaser.Math.FloatBetween(1, 2));
     this.add.text(300, 600, 'Total:', defaultFontStyle).setOrigin(1, 0.5);
 
     const players_json = JSON.parse(localStorage.getItem('players')).filter(player => player.name.trim() !== "").sort((a, b) => b[this.game.config.stage].score - a[this.game.config.stage].score);
@@ -154,7 +125,7 @@ class ResultScene extends Phaser.Scene {
       this.add.text(362 + 100 * i, 400, result.ruby, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 450, result.crystal, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 500, result.energy, defaultFontStyle).setOrigin(0.5, 0.5);
-      this.add.text(362 + 100 * i, 550, result.bonus, defaultFontStyle).setOrigin(0.5, 0.5);
+      this.add.text(362 + 100 * i, 550, result.star * CST.STAR_POINT, defaultFontStyle).setOrigin(0.5, 0.5);
       this.add.text(362 + 100 * i, 600, result.score, defaultFontStyle).setOrigin(0.5, 0.5);
     }
   }
