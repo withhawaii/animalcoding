@@ -37,20 +37,6 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     else {
       this.star.setVisible(false);
     }
-
-    if(!this.scene.emitter) {
-      this.scene.emitter = this.scene.add.particles(0, 0, 'textures', {
-        frame: 'Star',
-        speed: { min: -200, max: 200 },
-        angle: { min: 0, max: 360 },
-        scale: { start: 0.2, end: 0 },
-        lifespan: 1000,
-        gravityY: 200,
-        quantity: 20,
-        emitting: false, 
-      });
-      this.scene.emitter.setDepth(100); 
-    }
   }
 
   setEnergy(newEnergy) {

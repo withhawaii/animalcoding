@@ -17,6 +17,17 @@ class StageToolbar extends Phaser.GameObjects.Container {
     this.add(this.infText);
     this.scene.add.existing(this);
     this.updateTurn();
+    this.scene.emitter = this.scene.add.particles(0, 0, 'textures', {
+      frame: 'Star',
+      speed: { min: -200, max: 200 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 0.2, end: 0 },
+      lifespan: 1000,
+      gravityY: 200,
+      quantity: 20,
+      emitting: false, 
+    });
+    this.scene.emitter.setDepth(100);     
   }
 
   updateTurn() {

@@ -247,7 +247,7 @@ const ui = {
   },
 
   saveConfig() {
-    let players_json = JSON.parse(localStorage.getItem('players')) || [];
+    let players_json = JSON.parse(localStorage.getItem('players')) || [{}, {}, {}, {}];
     Object.assign(players_json[0], {id: 0, sprite: 'Cat', name: document.getElementById('config_name_1').value.trim()});
     Object.assign(players_json[1], {id: 1, sprite: 'Rabbit', name: document.getElementById('config_name_2').value.trim()});
     Object.assign(players_json[2], {id: 2, sprite: 'Chick', name: document.getElementById('config_name_3').value.trim()});
@@ -263,6 +263,21 @@ const ui = {
     localStorage.setItem('config', JSON.stringify(config_json));
 
     console.log('Data saved:', players_json, config_json);
+  },
+
+  reset() {
+    const message = "Are you sure you want to clear all saved data? This action cannot be undone.";
+    if (window.confirm(message)) {
+      localStorage.clear();
+      const forms = document.getElementsByTagName('form');
+      for (let form of forms) {
+          form.reset();
+      }
+      window.location.reload();
+      return true;
+    } else {
+      return false;
+    }    
   },
 
   changeVolume(event) {
@@ -357,6 +372,7 @@ const ui = {
     document.getElementById('btn_skip').addEventListener('click', ui.skipTurn);
     document.getElementById('btn_help').addEventListener('click', ui.showHelp);
     document.getElementById('btn_config_save').addEventListener('click', ui.saveConfig);
+    document.getElementById('btn_reset').addEventListener('click', ui.reset);
     document.getElementById('config_master_volume').addEventListener('change', ui.changeVolume);
     document.getElementById('config_bgm_volume').addEventListener('change', ui.changeVolume);  
     document.getElementById('btn_back').addEventListener('click', ui.switchScene);

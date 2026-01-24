@@ -330,6 +330,7 @@ class MainScene extends Phaser.Scene {
     let config_json = JSON.parse(localStorage.getItem('config')) || {};
     config_json.master_volume = this.game.config.master_volume;
     config_json.bgm_volume = this.game.config.bgm_volume;
+    config_json.stage = this.game.config.stage;
     config_json[this.game.config.stage] = {turnCount: this.turnCount, currentOrder: this.currentPlayer.order, items: []};
     for (let i = 0; i < this.items.length; i++) {
       config_json[this.game.config.stage].items[i] = this.items[i].count;
