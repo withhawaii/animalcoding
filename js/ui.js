@@ -98,7 +98,7 @@ const ui = {
     }
     else if(ui.interpreter.stopRequested) {
       ui.interpreter.stopRequested = false;
-      ui.handleError('The code was stopped by the moderator.');      
+      ui.handleError('The code was stopped.');      
     }
     else if(ui.interpreter.getStateStack().length > 1000) {
       ui.handleError('The code kept calling the same function over and over!');      
