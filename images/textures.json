@@ -136,27 +136,6 @@
 					}
 				},
 				{
-					"filename": "Pig_Spritesheet",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 320,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 12,
-						"y": 12,
-						"w": 298,
-						"h": 43
-					},
-					"frame": {
-						"x": 597,
-						"y": 223,
-						"w": 298,
-						"h": 43
-					}
-				},
-				{
 					"filename": "Mouse_Spritesheet",
 					"rotated": false,
 					"trimmed": true,
@@ -172,7 +151,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 266,
+						"y": 223,
 						"w": 297,
 						"h": 52
 					}
@@ -193,7 +172,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 318,
+						"y": 275,
 						"w": 297,
 						"h": 44
 					}
@@ -214,7 +193,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 362,
+						"y": 319,
 						"w": 296,
 						"h": 50
 					}
@@ -235,9 +214,30 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 412,
+						"y": 369,
 						"w": 296,
 						"h": 50
+					}
+				},
+				{
+					"filename": "Pig_Spritesheet",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 13,
+						"w": 296,
+						"h": 41
+					},
+					"frame": {
+						"x": 597,
+						"y": 419,
+						"w": 296,
+						"h": 41
 					}
 				},
 				{
@@ -277,7 +277,7 @@
 					},
 					"frame": {
 						"x": 597,
-						"y": 462,
+						"y": 460,
 						"w": 144,
 						"h": 34
 					}
@@ -319,7 +319,7 @@
 					},
 					"frame": {
 						"x": 681,
-						"y": 496,
+						"y": 494,
 						"w": 230,
 						"h": 151
 					}
@@ -591,7 +591,7 @@
 						"h": 136
 					},
 					"frame": {
-						"x": 895,
+						"x": 894,
 						"y": 243,
 						"w": 236,
 						"h": 136
@@ -612,7 +612,7 @@
 						"h": 104
 					},
 					"frame": {
-						"x": 895,
+						"x": 894,
 						"y": 379,
 						"w": 224,
 						"h": 104
@@ -634,7 +634,7 @@
 					},
 					"frame": {
 						"x": 741,
-						"y": 462,
+						"y": 460,
 						"w": 144,
 						"h": 34
 					}
@@ -655,7 +655,7 @@
 					},
 					"frame": {
 						"x": 681,
-						"y": 647,
+						"y": 645,
 						"w": 224,
 						"h": 104
 					}
@@ -871,6 +871,27 @@
 					}
 				},
 				{
+					"filename": "Shadow",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 17,
+						"y": 41,
+						"w": 31,
+						"h": 16
+					},
+					"frame": {
+						"x": 388,
+						"y": 696,
+						"w": 31,
+						"h": 16
+					}
+				},
+				{
 					"filename": "Chick_Avatar",
 					"rotated": false,
 					"trimmed": false,
@@ -886,9 +907,30 @@
 					},
 					"frame": {
 						"x": 404,
-						"y": 696,
+						"y": 712,
 						"w": 64,
 						"h": 64
+					}
+				},
+				{
+					"filename": "Status_Thirsty",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 38,
+						"h": 32
+					},
+					"frame": {
+						"x": 426,
+						"y": 673,
+						"w": 38,
+						"h": 32
 					}
 				},
 				{
@@ -907,7 +949,7 @@
 					},
 					"frame": {
 						"x": 468,
-						"y": 696,
+						"y": 673,
 						"w": 64,
 						"h": 64
 					}
@@ -927,35 +969,14 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 532,
-						"y": 673,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Fox_Avatar",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 532,
+						"x": 468,
 						"y": 737,
 						"w": 64,
 						"h": 64
 					}
 				},
 				{
-					"filename": "Fox_Avatar_Circle",
+					"filename": "Fox_Avatar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -976,7 +997,7 @@
 					}
 				},
 				{
-					"filename": "Fox_Avatar_Rounded",
+					"filename": "Fox_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -991,6 +1012,27 @@
 					},
 					"frame": {
 						"x": 0,
+						"y": 848,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "Fox_Avatar_Rounded",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 64,
 						"y": 848,
 						"w": 64,
 						"h": 64
@@ -1011,8 +1053,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 64,
-						"y": 848,
+						"x": 128,
+						"y": 829,
 						"w": 64,
 						"h": 64
 					}
@@ -1033,7 +1075,7 @@
 					},
 					"frame": {
 						"x": 128,
-						"y": 829,
+						"y": 893,
 						"w": 64,
 						"h": 64
 					}
@@ -1053,8 +1095,8 @@
 						"h": 64
 					},
 					"frame": {
-						"x": 128,
-						"y": 893,
+						"x": 0,
+						"y": 912,
 						"w": 64,
 						"h": 64
 					}
@@ -1075,34 +1117,13 @@
 					},
 					"frame": {
 						"x": 0,
-						"y": 912,
-						"w": 64,
-						"h": 64
-					}
-				},
-				{
-					"filename": "Pig_Avatar_Circle",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 64,
-						"h": 64
-					},
-					"frame": {
-						"x": 0,
 						"y": 976,
 						"w": 64,
 						"h": 64
 					}
 				},
 				{
-					"filename": "Pig_Avatar_Rounded",
+					"filename": "Pig_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1123,7 +1144,7 @@
 					}
 				},
 				{
-					"filename": "Rabbit_Avatar",
+					"filename": "Pig_Avatar_Rounded",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1144,7 +1165,7 @@
 					}
 				},
 				{
-					"filename": "Rabbit_Avatar_Circle",
+					"filename": "Rabbit_Avatar",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1165,7 +1186,7 @@
 					}
 				},
 				{
-					"filename": "Rabbit_Avatar_Rounded",
+					"filename": "Rabbit_Avatar_Circle",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1186,7 +1207,7 @@
 					}
 				},
 				{
-					"filename": "Star",
+					"filename": "Rabbit_Avatar_Rounded",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -1207,24 +1228,24 @@
 					}
 				},
 				{
-					"filename": "Status_Thirsty",
+					"filename": "Star",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 40,
-						"h": 33
+						"w": 64,
+						"h": 64
 					},
 					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 38,
-						"h": 32
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
 					},
 					"frame": {
 						"x": 404,
-						"y": 760,
-						"w": 38,
-						"h": 32
+						"y": 776,
+						"w": 64,
+						"h": 64
 					}
 				},
 				{
@@ -1242,8 +1263,8 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 596,
-						"y": 751,
+						"x": 905,
+						"y": 645,
 						"w": 160,
 						"h": 51
 					}
@@ -1263,8 +1284,8 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 404,
-						"y": 801,
+						"x": 911,
+						"y": 483,
 						"w": 160,
 						"h": 51
 					}
@@ -1284,8 +1305,8 @@
 						"h": 51
 					},
 					"frame": {
-						"x": 756,
-						"y": 751,
+						"x": 911,
+						"y": 534,
 						"w": 160,
 						"h": 51
 					}

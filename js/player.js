@@ -1,12 +1,12 @@
-class Player extends Phaser.GameObjects.Sprite {
+class Player extends Phaser.GameObjects.Container {
 
   constructor(scene, x, y, texture, id, order, direction, energy, coin, ruby, crystal, star) {
-    super(scene, x, y, texture);
+    super(scene, x, y);
     this.scene = scene;
+    this.sprite = scene.add.sprite(0, 0, texture).setOrigin(0.5, 0.5);
+    this.shadow = scene.add.image(0, 0, 'textures', 'Shadow');
     this.id = id;
     this.order = order;
-    this.x = x;
-    this.y = y;
     if(this.scene.ground) {
       const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
       this.xGrid = grid.x;
@@ -19,8 +19,11 @@ class Player extends Phaser.GameObjects.Sprite {
     this.crystal = crystal;
     this.star = star;
     this.code = "";
-    this.setFrame(this.direction);
+    this.sprite.setFrame(this.direction);
     this.setDepth(this.yGrid + 0.5);
+
+    this.add(this.shadow);
+    this.add(this.sprite);
     this.scene.add.existing(this);
   }
 
@@ -57,21 +60,26 @@ class Player extends Phaser.GameObjects.Sprite {
   bounce(height = 10, duration = 350) {
     let player = this;
     this.scene.tweens.add({
-      targets: player,
-      y: player.y - height,
+      targets: player.sprite,
+      y: player.sprite.y - height,
       ease: 'Quad.easeOut',
       duration: duration,
       repeat: -1,
       yoyo: true,
-      onComplete: function() {
+      onUpdate: () => {
+          const ratio = Math.abs(this.sprite.y / 64);
+          this.shadow.setScale(1 - (ratio * 0.8));
+          this.shadow.setAlpha(1 - (ratio * 0.8));
       }
     });
   }
 
   reposition() {
-    this.scene.tweens.killTweensOf(this);
-    this.x = this.xGrid * 64 + 32;
-    this.y = this.yGrid * 32 + 64;
+    this.scene.tweens.killTweensOf(this.sprite);
+    this.shadow.setScale(1);
+    this.shadow.setAlpha(1);
+    this.sprite.x = 0;
+    this.sprite.y = 0;
   }
 
   grid(rDirection = CST.TOWARDS_AHEAD) {
@@ -149,12 +157,12 @@ class Player extends Phaser.GameObjects.Sprite {
         yoyo: false,
         onComplete: function() {
           if(player.trap(CST.TOWARDS_AHEAD)) {
-            player.setFrame(CST.FALL);        
+            player.sprite.setFrame(CST.FALL);        
             player.scene.sound.play('hangup');
             player.updateEnergy(-1 * player.energy);
             player.scene.time.delayedCall(1000, () => {
               player.reposition();
-              player.setFrame(player.direction);
+              player.sprite.setFrame(player.direction);
               ui.log('trapped:', player.xGrid, player.yGrid, player.direction);
               callback(false);
             });
@@ -224,15 +232,22 @@ class Player extends Phaser.GameObjects.Sprite {
 
     this.scene.sound.play('turn');
     this.scene.tweens.add({
-      targets: player,
-      y: player.y - 10,
+      targets: player.sprite,
+      y: player.sprite.y - 10,
       ease: 'Bounce',
       duration: 200,
       repeat: 0,
       yoyo: true,
+      onUpdate: () => {
+          const ratio = Math.abs(this.sprite.y / 64);
+          player.shadow.setScale(1 - (ratio * 0.8));
+          player.shadow.setAlpha(1 - (ratio * 0.8));
+      },
       onComplete: function() {
+        player.shadow.setScale(1);
+        player.shadow.setAlpha(1);
         player.direction = newDirection;
-        player.setFrame(player.direction);
+        player.sprite.setFrame(player.direction);
         player.updateEnergy(- 1);
         ui.log('turn:', player.x, player.y, player.direction);
         callback(true);
@@ -251,13 +266,13 @@ class Player extends Phaser.GameObjects.Sprite {
       repeat: 0,
       yoyo: true,
       onComplete: function() {
-        player.setFrame(CST.FALL);        
+        player.sprite.setFrame(CST.FALL);        
         ui.log('hangup:', player.x, player.y, player.direction);
         player.scene.time.delayedCall(1000, () => {
           if(player.energy <= 0) {
             player.toolbar.blinkEnergy();
           }
-          player.setFrame(player.direction);
+          player.sprite.setFrame(player.direction);
           callback(false);
         });
       }

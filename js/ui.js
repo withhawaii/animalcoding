@@ -270,14 +270,11 @@ const ui = {
     if (window.confirm(message)) {
       localStorage.clear();
       const forms = document.getElementsByTagName('form');
-      for (let form of forms) {
-          form.reset();
+      for(let form of forms) {
+        form.reset();
       }
       window.location.reload();
-      return true;
-    } else {
-      return false;
-    }    
+    }
   },
 
   changeVolume(event) {

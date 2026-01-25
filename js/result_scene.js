@@ -117,7 +117,7 @@ class ResultScene extends Phaser.Scene {
         this.players[i].bounce();
       }
       else if(i === players_json.length - 1) {
-        this.players[i].setFrame(CST.FALL);
+        this.players[i].sprite.setFrame(CST.FALL);
       }
       let result = players_json[i][this.game.config.stage];
       this.add.text(362 + 100 * i, i % 2 == 0 ? 295 : 320, players_json[i].name, {fontFamily: '"Press Start 2P"', fontSize: '14px', color: '#ffffff'}).setOrigin(0.5, 0.5);
