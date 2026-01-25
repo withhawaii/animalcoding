@@ -100,6 +100,7 @@ const CST = {
     hangup: 'audio/freeze.mp3',
     pickup: 'audio/pickup.mp3',
     star: 'audio/star.mp3',
+    cracker: 'audio/cracker.mp3',
     trap: 'audio/trap.mp3',
     disarm: 'audio/disarm.mp3',
     firework: 'audio/firework.mp3',

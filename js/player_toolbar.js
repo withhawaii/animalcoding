@@ -86,7 +86,6 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     const star = this.star;
     star.setVisible(true);
     this.scene.sound.play('star');
-
     this.scene.tweens.add({
         targets: star,
         scale: 1.5,
@@ -97,6 +96,7 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
           const bounds = star.getBounds();
           this.scene.emitter.setPosition(bounds.x, bounds.y);
           this.scene.emitter.explode(30);
+          this.scene.sound.play('cracker');
         }
     });
 
