@@ -47,3 +47,4 @@ This project is licensed under the terms of the [CC BY-NC-SA (Attribution-NonCom
 
 If you are interested in using this project for commercial purposes, please contact me directly to discuss commercial licensing options.
 
+© 2024-26 Thinkology LLC. All rights reserved.

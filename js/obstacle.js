@@ -7,7 +7,7 @@ class Obstacle extends Phaser.GameObjects.Container {
     this.yGrid = grid.y;
 
     if(this.isTrap()) {
-      this.image = scene.add.sprite(0, 0, texture, index - offset).setOrigin(0, 0.5);
+      this.image = scene.add.sprite(0, 0, texture, index - offset);
       this.image.timer = scene.time.addEvent({
         delay: Phaser.Math.Between(3000, 4000),
         loop: true, 
@@ -26,7 +26,7 @@ class Obstacle extends Phaser.GameObjects.Container {
       });
     }
     else {
-      this.image = scene.add.image(0, 0, texture, index - offset).setOrigin(0, 0.5);
+      this.image = scene.add.image(0, 0, texture, index - offset);
     }
 
     this.add(this.image);

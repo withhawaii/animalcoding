@@ -1,19 +1,19 @@
 class Item extends Phaser.GameObjects.Container {
   constructor(scene, x, y, texture, index, offset, count = null, player = null) {
     super(scene, x, y);
-    this.image = scene.add.image(0, 0, texture, index - offset).setOrigin(0, 0.5);
+    this.image = scene.add.image(0, 0, texture, index - offset);
     this.index = index;
     const grid = this.scene.ground.getTileAtWorldXY(x, y, true);
     this.xGrid = grid.x;
     this.yGrid = grid.y;
     this.player = player;
     this.count = count;
-    this.countText = scene.add.text(48, 12, count, {
+    this.countText = scene.add.text(12, 12, count, {
         fontFamily: '"Press Start 2P"',
         fontSize: '10px',
         backgroundColor: '#000000aa',
         padding: { x: 2, y: 2 }
-    }).setOrigin(0, 0);
+    });
     this.helperText = scene.add.text(0, 0, this.getHelperText(index), {
         fontFamily: '"Press Start 2P"',
         fontSize: '12px',

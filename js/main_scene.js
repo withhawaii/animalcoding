@@ -60,7 +60,7 @@ class MainScene extends Phaser.Scene {
     this.obstacles = [];
     const obstacles = this.map.getObjectLayer('obstacles').objects;
     for (let i = 0; i < obstacles.length; i++) {
-      this.obstacles[i] = new Obstacle(this, obstacles[i].x, obstacles[i].y + 32, 'objects', obstacles[i].gid, objectsTileset.firstgid);
+      this.obstacles[i] = new Obstacle(this, obstacles[i].x + 32, obstacles[i].y + 32, 'objects', obstacles[i].gid, objectsTileset.firstgid);
     }
 
     this.items = [];
@@ -73,7 +73,7 @@ class MainScene extends Phaser.Scene {
       else {
         item_count = this.getCustomProperty(items[i], 'count') || 1;
       }
-      this.items[i] = new Item(this, items[i].x, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, item_count, this.getCustomProperty(items[i], 'player'))
+      this.items[i] = new Item(this, items[i].x + 32, items[i].y + 32, 'objects', items[i].gid, objectsTileset.firstgid, item_count, this.getCustomProperty(items[i], 'player'))
     }
   }
   

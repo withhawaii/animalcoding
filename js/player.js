@@ -3,7 +3,7 @@ class Player extends Phaser.GameObjects.Container {
   constructor(scene, x, y, texture, id, order, direction, energy, coin, ruby, crystal, star) {
     super(scene, x, y);
     this.scene = scene;
-    this.sprite = scene.add.sprite(0, 0, texture).setOrigin(0.5, 0.5);
+    this.sprite = scene.add.sprite(0, 0, texture);
     this.shadow = scene.add.image(0, 0, 'textures', 'Shadow');
     this.id = id;
     this.order = order;
