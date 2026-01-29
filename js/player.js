@@ -358,19 +358,19 @@ class Player extends Phaser.GameObjects.Container {
 
     if(Phaser.Utils.Array.GetRandom([true, false, false])) {
       if(anotherPlayer.crystal > 0) {
-        anotherPlayer.updateItem(31, -1);
-        player.updateItem(31, 1);
+        anotherPlayer.updateItem(CST.CRYSTAL, -1);
+        player.updateItem(CST.CRYSTAL, 1);
       }
       else if(anotherPlayer.ruby > 0) {
-        anotherPlayer.updateItem(32, -1);
-        player.updateItem(32, 1);
+        anotherPlayer.updateItem(CST.RUBY, -1);
+        player.updateItem(CST.RUBY, 1);
       }
       else if(anotherPlayer.coin > 0) {
-        anotherPlayer.updateItem(30, -1);
-        player.updateItem(30, 1);
+        anotherPlayer.updateItem(CST.COIN, -1);
+        player.updateItem(CST.COIN, 1);
       }
       this.scene.sound.play('pickup');
-      player.updateEnergy(- 1);
+      player.updateEnergy(-1);
       player.scene.time.delayedCall(1000, () => {
         ui.log('Stole an item:', player.xGrid, player.yGrid, player.direction);
         callback(true);

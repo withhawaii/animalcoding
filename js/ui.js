@@ -121,9 +121,9 @@ const ui = {
       ui.interpreter = null;
     }
     ui.mainScene().errorCount += 1;
-    ui.log('Error:', ui.currentPlayer(), ui.mainScene().errorCount, ui.mainScene().errorAllowance);
+    ui.log('Error:', ui.currentPlayer(), ui.mainScene().errorCount, ui.mainScene().errorLimit);
     ui.currentPlayer().hangUp();
-    if(ui.mainScene().errorCount <= ui.mainScene().errorAllowance && ui.currentPlayer().energy > 0) {
+    if(ui.mainScene().errorCount <= ui.mainScene().errorLimit && ui.currentPlayer().energy > 0) {
       document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
       ui.currentPlayer().bounce();
       ui.enableButton('btn_run_code');
@@ -351,15 +351,21 @@ const ui = {
     const config_json = JSON.parse(localStorage.getItem('config'));
     const players_json = JSON.parse(localStorage.getItem('players'));
     if(config_json) {
-      document.getElementById('config_name_1').value = players_json[0] ? players_json[0].name : "";
-      document.getElementById('config_name_2').value = players_json[1] ? players_json[1].name : ""; 
-      document.getElementById('config_name_3').value = players_json[2] ? players_json[2].name : "";
-      document.getElementById('config_name_4').value = players_json[3] ? players_json[3].name : "";
+      document.getElementById('config_name_1').value = players_json[0].name;
+      document.getElementById('config_name_2').value = players_json[1].name; 
+      document.getElementById('config_name_3').value = players_json[2].name;
+      document.getElementById('config_name_4').value = players_json[3].name;
       document.getElementById('config_stage').value = config_json.stage;
       document.getElementById('config_debug').value = config_json.debug;
       document.getElementById('config_shuffle').value = config_json.shuffle;       
       document.getElementById('config_master_volume').value = config_json.master_volume;
       document.getElementById('config_bgm_volume').value = config_json.bgm_volume;
+      if(config_json.started) {
+        document.getElementById('config_name_1').disabled = true;
+        document.getElementById('config_name_2').disabled = true;
+        document.getElementById('config_name_3').disabled = true;
+        document.getElementById('config_name_4').disabled = true;
+      }
     }
     else {
       ui.saveConfig();

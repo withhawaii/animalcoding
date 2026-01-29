@@ -31,12 +31,12 @@ class StageToolbar extends Phaser.GameObjects.Container {
   }
 
   updateTurn() {
-    if(this.scene.turnAllowance) {
+    if(this.scene.turnLimit) {
       this.scene.tweens.killTweensOf(this.progressBar);        
-      this.turnText.setText(`Turn: ${this.scene.turnCount}/${this.scene.turnAllowance}`);
+      this.turnText.setText(`Turn: ${this.scene.turnCount}/${this.scene.turnLimit}`);
       this.scene.tweens.add({
         targets: this.progressBar,  
-          scaleX: this.scene.turnCount / this.scene.turnAllowance,          
+          scaleX: this.scene.turnCount / this.scene.turnLimit,          
           duration: 500, 
           ease: 'Sine.easeOut',        
         });

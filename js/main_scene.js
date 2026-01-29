@@ -15,12 +15,12 @@ class MainScene extends Phaser.Scene {
     else {
       this.turnCount = 1;
     }
-    this.turnAllowance = this.stageConfig.turn;
+    this.turnLimit = this.stageConfig.turn;
     this.isStarted = false;
     this.rollCount = 0;
-    this.rollAllowance = 1;
+    this.rollLimit = 1;
     this.errorCount = 0;
-    this.errorAllowance = 1;
+    this.errorLimit = 1;
     this.flags = {};
 
     this.createBackground();
@@ -222,9 +222,9 @@ class MainScene extends Phaser.Scene {
         this.currentPlayer.updateEnergy(diceValue);
         this.rollCount += 1;
         ui.log('Dice value:', diceValue, 'New AP:', this.currentPlayer.energy);
-        if(this.rollCount >= this.rollAllowance) {
+        if(this.rollCount >= this.rollLimit) {
           this.dice.hide();
-          this.rollCount = 0;
+//          this.rollCount = 0;
           ui.editor.setReadOnly(false);
           ui.enableButton('btn_run_code');
           ui.enableButton('btn_skip');
@@ -260,14 +260,14 @@ class MainScene extends Phaser.Scene {
     //When starting a new turn with the first player
     if(this.currentPlayer.order === this.players.length - 1) {
       this.currentPlayer = this.players[0];
-      this.rollAllowance = 1;
+      this.rollLimit = 1;
       this.turnCount += 1;
 
-      if(this.turnAllowance) {
-        if(this.turnCount > this.turnAllowance) {
+      if(this.turnLimit) {
+        if(this.turnCount > this.turnLimit) {
           this.scene.start('Result');  
         }
-        else if (this.turnCount === this.turnAllowance) {
+        else if (this.turnCount === this.turnLimit) {
           this.toolbar.updateTurn();
           this.showMessage('Final Turn!');
           this.bgm.pause();
@@ -281,7 +281,7 @@ class MainScene extends Phaser.Scene {
 
       if(this.stageConfig.double.includes(this.turnCount)) {
         this.time.delayedCall(delay, () => {
-          this.rollAllowance = 2;
+          this.rollLimit = 2;
           this.showMessage('Double Roll!');
           this.bgm.pause();
           this.sound.play('double');
@@ -293,10 +293,13 @@ class MainScene extends Phaser.Scene {
       this.currentPlayer = this.players[this.currentPlayer.order + 1];
     }
 
+    //Starting a new turn
+    ui.log('New Player:', this.currentPlayer);
+    this.rollCount = 0;
+    this.errorCount = 0;
+    this.flags = {};
+    this.saveRecords();
     this.time.delayedCall(delay, () => {
-      ui.log('New Player:', this.currentPlayer);
-      this.errorCount = 0;
-      this.flags = {};
       this.bgm.resume();
       this.currentPlayer.bounce();
       ui.editor.setReadOnly(true);
@@ -331,6 +334,7 @@ class MainScene extends Phaser.Scene {
     config_json.master_volume = this.game.config.master_volume;
     config_json.bgm_volume = this.game.config.bgm_volume;
     config_json.stage = this.game.config.stage;
+    config_json.started = true;
     config_json[this.game.config.stage] = {turnCount: this.turnCount, currentOrder: this.currentPlayer.order, items: []};
     for (let i = 0; i < this.items.length; i++) {
       config_json[this.game.config.stage].items[i] = this.items[i].count;
