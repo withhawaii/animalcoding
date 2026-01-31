@@ -92,37 +92,24 @@ class MainScene extends Phaser.Scene {
       let sprite = players_json[i].sprite;
       let id = players_json[i].id;
       let name = players_json[i].name;      
-      let x, y, direction, energy, coin, ruby, crystal, star;
+      let x, y, direction, energy, inventory, count;
       if(players_json[i][this.game.config.stage]) {
         x = players_json[i][this.game.config.stage].x;
         y = players_json[i][this.game.config.stage].y;
         direction = players_json[i][this.game.config.stage].direction;    
         energy = players_json[i][this.game.config.stage].energy;
-        coin = players_json[i][this.game.config.stage].coin;
-        ruby = players_json[i][this.game.config.stage].ruby;
-        crystal = players_json[i][this.game.config.stage].crystal;
-        star = players_json[i][this.game.config.stage].star;
+        inventory = players_json[i][this.game.config.stage].inventory;
       }
       else {
         x = player_coordinates[i].x;
         y = player_coordinates[i].y + 64 - 16;
         direction = this.getCustomProperty(player_coordinates[i], 'direction');  
         energy = 0;
-        coin = 0;
-        ruby = 0;
-        crystal = 0;
-        star = 0;
+        count = this.game.config.debug ? 5 : 0;
+        inventory = {[CST.COIN]: count, [CST.RUBY]: count, [CST.CRYSTAL]: count, [CST.STAR]: 0};
       }
-      this.players[i] = new Player(this, x, y, sprite, id, i, direction, energy, coin, ruby, crystal, star);
+      this.players[i] = new Player(this, x, y, sprite, id, i, direction, energy, inventory);
       this.players[i].toolbar = new PlayerToolbar(this, toolbar_coordinates[i][0], toolbar_coordinates[i][1], sprite, name, this.players[i]);
-      if(this.game.config.debug) {
-        if(this.players[i].coin === 0)
-          this.players[i].updateItem(CST.COIN, 5);
-        if(this.players[i].ruby === 0)
-          this.players[i].updateItem(CST.RUBY, 5);
-        if(this.players[i].crystal === 0)
-          this.players[i].updateItem(CST.CRYSTAL, 5);
-      }
     }
 
     //Delete items for non-existing players
@@ -345,7 +332,7 @@ class MainScene extends Phaser.Scene {
     for(let player of this.players) {
       let x = player.xGrid * 64 + 32;
       let y = player.yGrid * 32 + 64;
-      players_json[player.id][this.game.config.stage] = {x: x, y: y, direction: player.direction, order: player.order, energy: player.energy, star: player.star, coin: player.coin, ruby: player.ruby, crystal: player.crystal, score: player.score()};
+      players_json[player.id][this.game.config.stage] = {x: x, y: y, direction: player.direction, order: player.order, energy: player.energy, inventory: player.inventory, score: player.score()};
       players_json[player.id].total_score = 0;
       for(let stage of ['stage1', 'stage2', 'stage3', 'stage4', 'stage5']) {
         if(players_json[player.id][stage] && players_json[player.id][stage].score) {

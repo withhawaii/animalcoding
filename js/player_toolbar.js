@@ -13,11 +13,11 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     this.energyText = this.scene.add.text(82, 33, player.energy, { fontFamily: 'Arial Black', fontSize: 24, color: '#c51b7d' }).setStroke('#de77ae', 6).setOrigin(0.5, 0.5);
     this.nameText = this.scene.add.text(110, 13, name, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'});
     this.coin = this.scene.add.image(120, 46, 'textures', 'Coin').setScale(0.7).setOrigin(0.5, 0.5);
-    this.coinText = this.scene.add.text(145, 48, player.coin, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
+    this.coinText = this.scene.add.text(145, 48, player.inventory[CST.COIN], {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
     this.ruby = this.scene.add.image(175, 46, 'textures', 'Ruby').setScale(0.7).setOrigin(0.5, 0.5);
-    this.rubyText = this.scene.add.text(205, 48, player.ruby, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
+    this.rubyText = this.scene.add.text(205, 48, player.inventory[CST.RUBY], {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
     this.crystal = this.scene.add.image(230, 48, 'textures', 'Crystal').setScale(0.6).setOrigin(0.5, 0.5);
-    this.crystalText = this.scene.add.text(255, 48, player.crystal, {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
+    this.crystalText = this.scene.add.text(255, 48, player.inventory[CST.CRYSTAL], {fontFamily: '"Press Start 2P"', fontSize: '12px', color: '#ffffff', fill: '#000'}).setOrigin(0.5, 0.5);
     this.add(this.background);
     this.add(this.avatar);
     this.add(this.energyText);
@@ -31,7 +31,7 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     this.add(this.crystalText);
     this.scene.add.existing(this);
 
-    if(this.player.star > 0) {
+    if(this.player.inventory[CST.STAR] > 0) {
       this.star.setVisible(true);
     }
     else {

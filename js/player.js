@@ -1,6 +1,6 @@
 class Player extends Phaser.GameObjects.Container {
 
-  constructor(scene, x, y, texture, id, order, direction, energy, coin, ruby, crystal, star) {
+  constructor(scene, x, y, texture, id, order, direction, energy, inventory) {
     super(scene, x, y);
     this.scene = scene;
     this.sprite = scene.add.sprite(0, 0, texture);
@@ -14,10 +14,7 @@ class Player extends Phaser.GameObjects.Container {
     }
     this.direction = direction;  
     this.energy = energy;
-    this.coin = coin;
-    this.ruby = ruby;
-    this.crystal = crystal;
-    this.star = star;
+    this.inventory = inventory;
     this.code = "";
     this.sprite.setFrame(this.direction);
     this.setDepth(this.yGrid + 0.5);
@@ -38,22 +35,15 @@ class Player extends Phaser.GameObjects.Container {
 
   updateItem(item_index, value) {
     let player = this;
-    if(item_index === CST.COIN) {
-      player.coin = player.coin + value;
-      player.toolbar.setItem(item_index, player.coin);
-    }
-    else if(item_index === CST.RUBY) {
-      player.ruby = player.ruby + value;
-      player.toolbar.setItem(item_index, player.ruby);
-    }
-    else if(item_index === CST.CRYSTAL) {
-      player.crystal = player.crystal + value;
-      player.toolbar.setItem(item_index, player.crystal);
-    }
+    player.inventory[item_index] += value;
+    player.toolbar.setItem(item_index, player.inventory[item_index]);
   }
 
   score() {
-    let score = this.energy + this.coin * CST.COIN_POINT + this.ruby * CST.RUBY_POINT + this.crystal * CST.CRYSTAL_POINT + this.star * CST.STAR_POINT;
+    let score = this.energy + this.inventory[CST.COIN] * CST.COIN_POINT 
+                            + this.inventory[CST.RUBY] * CST.RUBY_POINT 
+                            + this.inventory[CST.CRYSTAL] * CST.CRYSTAL_POINT 
+                            + this.inventory[CST.STAR] * CST.STAR_POINT;
     return score;
   }
 
@@ -357,15 +347,15 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     if(Phaser.Utils.Array.GetRandom([true, false, false])) {
-      if(anotherPlayer.crystal > 0) {
+      if(anotherPlayer.inventory[CST.CRYSTAL] > 0) {
         anotherPlayer.updateItem(CST.CRYSTAL, -1);
         player.updateItem(CST.CRYSTAL, 1);
       }
-      else if(anotherPlayer.ruby > 0) {
+      else if(anotherPlayer.inventory[CST.RUBY] > 0) {
         anotherPlayer.updateItem(CST.RUBY, -1);
         player.updateItem(CST.RUBY, 1);
       }
-      else if(anotherPlayer.coin > 0) {
+      else if(anotherPlayer.inventory[CST.COIN] > 0) {
         anotherPlayer.updateItem(CST.COIN, -1);
         player.updateItem(CST.COIN, 1);
       }
