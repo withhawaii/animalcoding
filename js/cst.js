@@ -36,32 +36,32 @@ const SNIPPETS = {
   },
   function: {
     caption: 'function() my_command()...',
-    value: "function my_command() {\n  \n}\n",
+    value: "function my_command() {\n\t$1\n}\n",
     help: 'Give a name to \na block of commands \nfor later use'
   },
   for: {
     caption: 'for(i = 0; i < 10; i++)...',
-    value: "for(i = 0; i < 10; i++){\n  \n}\n",
+    value: "for(i = 0; i < 10; i++){\n\t$1\n}\n",
     help: 'Repeat a block of commands \nmultiple times'
   },
   if_trap_is_on: {
     caption: 'if(trap_is_on)...',
-    value: "if(trap_is_on) {\n  \n} else {\n  \n}\n",
+    value: "if(trap_is_on) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen the trap in front of \nthe character is on'
   },
   if_path_ahead: {
     caption: 'if(path_ahead)...',
-    value: "if(path_ahead) {\n  \n} else {\n  \n}\n",
+    value: "if(path_ahead) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \nin front of the character'
   },
   if_path_to_the_left: {
     caption: 'if(path_to_the_left)...',
-    value: "if(path_to_the_left) {\n  \n} else {\n  \n}\n",
+    value: "if(path_to_the_left) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \non the left side of the character'
   },
   if_path_to_the_right: {
     caption: 'if(path_to_the_right)...',
-    value: "if(path_to_the_right) {\n  \n} else {\n  \n}\n",
+    value: "if(path_to_the_right) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \non the right side of the character'
   },
 }
@@ -117,8 +117,8 @@ const CST = {
     stage1: {
       name: 'Stage 1',
       map: 'maps/stage1.json',
-      turn: 10,
-      double: [5, 10], 
+      turn: 8,
+      double: [3, 6], 
       next: 'stage2',
       bgm: 'bgm_01',
       video: '1fQvqWQ6-Ikxbh49Ld0OHMQUSmdB6vLcd',
@@ -133,8 +133,8 @@ const CST = {
     stage2: {
       name: 'Stage 2',
       map: 'maps/stage2.json',
-      turn: 10,
-      double: [5, 10],     
+      turn: 8,
+      double: [3, 6], 
       next: 'stage3',
       bgm: 'bgm_02',
       video: '1ACKeEMbZBtQi6eqqyRxzJzFVqCHM6QLe',
@@ -150,8 +150,8 @@ const CST = {
     stage3: {
       name: 'Stage 3',
       map: 'maps/stage3.json',
-      turn: 10,
-      double: [5, 10],      
+      turn: 4,
+      double: [], 
       next: 'stage4',
       bgm: 'bgm_01',
       video: '1A0mIB4oj_kbIPgMZwQ0PipQlTr3xda7y',
@@ -170,8 +170,8 @@ const CST = {
     stage4: {
       name: 'Stage 4',
       map: 'maps/stage4.json',
-      turn: 10,
-      double: [5, 10],       
+      turn: 8,
+      double: [3, 6], 
       next: 'stage5',
       bgm: 'bgm_02',
       video: '1XqhmvNox_isWE2Wzl9BQJ-ofTi-b7qi7',
@@ -191,8 +191,8 @@ const CST = {
     stage5: {
       name: 'Stage 5',
       map: 'maps/stage5.json',
-      turn: 30,
-      double: [5, 10, 15, 20, 25],       
+      turn: 15,
+      double: [3, 6, 9, 12],       
       next: null,
       bgm: 'bgm_01',
       video: '1RcqiZIGqNvvDyQmFckxgE-g1G_-NCXrG',
@@ -236,62 +236,4 @@ const CST = {
       ]
     },
   },
-
-  EDITOR_CONFIG: {
-    selectionStyle: 'line',// 'line'|'text'
-    highlightActiveLine: true, // boolean
-    highlightSelectedWord: true, // boolean
-    readOnly: false, // boolean: true if read only
-    cursorStyle: 'ace', // 'ace'|'slim'|'smooth'|'wide'
-    mergeUndoDeltas: true, // false|true|'always'
-    behavioursEnabled: true, // boolean: true if enable custom behaviours
-    wrapBehavioursEnabled: true, // boolean
-    autoScrollEditorIntoView: undefined, // boolean: this is needed if editor is inside scrollable page
-    keyboardHandler: null, // function: handle custom keyboard events
-    
-    // renderer options
-    animatedScroll: false, // boolean: true if scroll should be animated
-    displayIndentGuides: false, // boolean: true if the indent should be shown. See 'showInvisibles'
-    showInvisibles: true, // boolean -> displayIndentGuides: true if show the invisible tabs/spaces in indents
-    showPrintMargin: true, // boolean: true if show the vertical print margin
-    printMarginColumn: 80, // number: number of columns for vertical print margin
-    printMargin: undefined, // boolean | number: showPrintMargin | printMarginColumn
-    showGutter: true, // boolean: true if show line gutter
-    fadeFoldWidgets: false, // boolean: true if the fold lines should be faded
-    showFoldWidgets: true, // boolean: true if the fold lines should be shown ?
-    showLineNumbers: true,
-    highlightGutterLine: false, // boolean: true if the gutter line should be highlighted
-    hScrollBarAlwaysVisible: false, // boolean: true if the horizontal scroll bar should be shown regardless
-    vScrollBarAlwaysVisible: false, // boolean: true if the vertical scroll bar should be shown regardless
-    fontSize: 14, // number | string: set the font size to this many pixels
-    fontFamily: undefined, // string: set the font-family css value
-    maxLines: undefined, // number: set the maximum lines possible. This will make the editor height changes
-    minLines: undefined, // number: set the minimum lines possible. This will make the editor height changes
-    maxPixelHeight: 0, // number -> maxLines: set the maximum height in pixel, when 'maxLines' is defined. 
-    scrollPastEnd: 0, // number -> !maxLines: if positive, user can scroll pass the last line and go n * editorHeight more distance 
-    fixedWidthGutter: false, // boolean: true if the gutter should be fixed width
-
-    // mouseHandler options
-    scrollSpeed: 2, // number: the scroll speed index
-    dragDelay: 0, // number: the drag delay before drag starts. it's 150ms for mac by default 
-    dragEnabled: true, // boolean: enable dragging
-    tooltipFollowsMouse: true, // boolean: true if the gutter tooltip should follow mouse
-
-    // session options
-    firstLineNumber: 1, // number: the line number in first line
-    overwrite: false, // boolean
-    newLineMode: 'auto', // 'auto' | 'unix' | 'windows'
-    useWorker: true, // boolean: true if use web worker for loading scripts
-    useSoftTabs: true, // boolean: true if we want to use spaces than tabs
-    tabSize: 2, // number
-    wrap: false, // boolean | string | number: true/'free' means wrap instead of horizontal scroll, false/'off' means horizontal scroll instead of wrap, and number means number of column before wrap. -1 means wrap at print margin
-    indentedSoftWrap: false, // boolean
-    foldStyle: 'markbegin', // enum: 'manual'/'markbegin'/'markbeginend'.
-    theme: 'ace/theme/tomorrow_night_blue',
-    mode: 'ace/mode/javascript', // string: path to language mode 
-    enableBasicAutocompletion: true,
-    enableLiveAutocompletion: false,
-    placeholder: '\nTo insert code, press "Control-Space"',
-  },  
 }
-   

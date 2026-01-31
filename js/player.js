@@ -83,16 +83,16 @@ class Player extends Phaser.GameObjects.Container {
       //Modulo calculation to get a new direction
       newDirection = ((player.direction + rDirection) % 4 + 4) % 4;
     }
-    if (newDirection === CST.UP) {
+    if(newDirection === CST.UP) {
       newGrid.x = player.xGrid;
       newGrid.y = player.yGrid - 1;
-    } else if (newDirection === CST.RIGHT) {
+    } else if(newDirection === CST.RIGHT) {
       newGrid.x = player.xGrid + 1;
       newGrid.y = player.yGrid;
-    } else if (newDirection === CST.DOWN) {
+    } else if(newDirection === CST.DOWN) {
       newGrid.x = player.xGrid;
       newGrid.y = player.yGrid + 1;
-    } else if (newDirection === CST.LEFT) {
+    } else if(newDirection === CST.LEFT) {
       newGrid.x = player.xGrid - 1;
       newGrid.y = player.yGrid;
     }

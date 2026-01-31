@@ -92,7 +92,7 @@ const ui = {
   runCode() {
     ui.prepareCode();
         
-    if (ui.interpreter.getStatus() === Interpreter.Status.DONE) {
+    if(ui.interpreter.getStatus() === Interpreter.Status.DONE) {
       ui.interpreter = null;
       ui.mainScene().changePlayer();
     }
@@ -162,7 +162,7 @@ const ui = {
       getCompletions: function(editor, session, pos, prefix, callback) {
           const list = snippets.map((snippet, index) => ({
             caption: snippet.caption,
-            value: snippet.value,
+            snippet: snippet.value,
             docText: snippet.help,
             score: 1000 - index
           }));
@@ -176,17 +176,17 @@ const ui = {
     let index = 0;
     ui.editor.setValue("");
     const session = ui.editor.session;
+    session.setMode("ace/mode/text"); 
     session.setUseWrapMode(true);
-    session.setMode("ace/mode/text");
     if(ui.editor.session.interval) clearInterval(ui.editor.session.interval);
     ui.editor.session.interval = setInterval(() => {
-      if (index < text.length) {
+      if(index < text.length) {
         const ch = text[index];
         session.insert(ui.editor.getCursorPosition(), ch);
         index++;
       } else {
         clearInterval(ui.editor.session.interval);
-        if (callback) callback();
+        if(callback) callback();
       }
     }, speed);
   },
@@ -212,7 +212,7 @@ const ui = {
   isAnyModalActive() {
     const dialogs = document.getElementsByTagName('dialog');
     for (let i = 0; i < dialogs.length; i++) {
-      if (dialogs[i].hasAttribute('open')) {
+      if(dialogs[i].hasAttribute('open')) {
         return true;
       }
     }
@@ -267,7 +267,7 @@ const ui = {
 
   reset() {
     const message = "Are you sure you want to clear all saved data? This action cannot be undone.";
-    if (window.confirm(message)) {
+    if(window.confirm(message)) {
       localStorage.clear();
       const forms = document.getElementsByTagName('form');
       for(let form of forms) {
@@ -308,24 +308,24 @@ const ui = {
     const isCtrlF5 = event.ctrlKey && event.key === "F5";
     const isCmdR = event.metaKey && k === "r";
     const isCmdShiftR = event.metaKey && event.shiftKey && k === "r";
-    if (isF5 || isCtrlR || isCtrlShiftR || isCtrlF5 || isCmdR || isCmdShiftR) {
+    if(isF5 || isCtrlR || isCtrlShiftR || isCtrlF5 || isCmdR || isCmdShiftR) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
 
     //Assign shortcuts for the game controls
     if(ui.game.scene.isActive('Main')) {
-      if (event.ctrlKey && event.key === "r") {
+      if(event.ctrlKey && event.key === "r") {
         event.preventDefault();
         document.getElementById("btn_run_code").click();
       }
 
-      if (event.ctrlKey && event.key === "s") {
+      if(event.ctrlKey && event.key === "s") {
         event.preventDefault();
         document.getElementById("btn_skip").click();
       }
 
-      if (event.code === "Space" && ui.mainScene().dice.isReadyToRoll()) {
+      if(event.code === "Space" && ui.mainScene().dice.isReadyToRoll()) {
         event.preventDefault();
         ui.mainScene().rollDice();
       }
@@ -389,7 +389,18 @@ const ui = {
       e.preventDefault();
     });
 
-    ui.editor = ace.edit('editor', CST.EDITOR_CONFIG);
+    ui.editor = ace.edit('editor', {
+      displayIndentGuides: false,
+      showInvisibles: true,
+      highlightGutterLine: false,
+      fontSize: 14,
+      tabSize: 2,
+      indentedSoftWrap: false,      
+      theme: 'ace/theme/tomorrow_night_blue',
+      mode: 'ace/mode/javascript',
+      enableBasicAutocompletion: true,
+      placeholder: '\nTo insert code, press "Control-Space"',
+    });
     ui.editor.commands.bindKey("F1", null);
     ui.editor.container.addEventListener("contextmenu", function (e) {
         e.preventDefault();

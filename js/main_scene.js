@@ -114,7 +114,7 @@ class MainScene extends Phaser.Scene {
 
     //Delete items for non-existing players
     for(let item of this.items) {
-      if (item.player >= players_json.length) {
+      if(item.player >= players_json.length) {
         item.setCount(0);
       }
     }
@@ -193,7 +193,7 @@ class MainScene extends Phaser.Scene {
             ease: 'Power2',
             onComplete: () => {
               messageText.destroy();
-              if (typeof callback === 'function') {
+              if(typeof callback === 'function') {
                 callback(); 
               }
             }
@@ -252,9 +252,10 @@ class MainScene extends Phaser.Scene {
 
       if(this.turnLimit) {
         if(this.turnCount > this.turnLimit) {
+          this.turnCount = 0;
           this.scene.start('Result');  
         }
-        else if (this.turnCount === this.turnLimit) {
+        else if(this.turnCount === this.turnLimit) {
           this.toolbar.updateTurn();
           this.showMessage('Final Turn!');
           this.bgm.pause();

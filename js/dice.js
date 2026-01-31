@@ -50,7 +50,7 @@ class Dice extends Phaser.GameObjects.Container {
   }
 
   roll(callback) {
-    if (!this.diceIsRolling) {
+    if(!this.diceIsRolling) {
         this.diceIsRolling = true;
         this.scene.tweens.killTweensOf(this.dice.modelRotation);        
         let diceRoll;
@@ -123,7 +123,6 @@ class Dice extends Phaser.GameObjects.Container {
   
                 // Show the dice value
                 this.textDiceValue.text = diceRoll;
-//                this.textDiceValue.setPosition(this.scene.scale.width / 2, this.scene.scale.height / 2);
                 this.scene.add.tween({
                     targets: this.textDiceValue,
                     scale: 1,
