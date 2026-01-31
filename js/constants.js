@@ -28,7 +28,7 @@ const CST = {
 
 const AUDIO = {
   move: 'audio/move.mp3',
-  turn: 'audio/turn.mp3',
+  turnLimit: 'audio/turn.mp3',
   stuck: 'audio/stuck.mp3',
   charged: 'audio/powerup.mp3',
   hangup: 'audio/freeze.mp3',
@@ -118,7 +118,7 @@ const STAGE_CONFIG = {
   stage1: {
     name: 'Stage 1',
     map: 'maps/stage1.json',
-    turn: 8,
+    turnLimit: 8,
     double: [3, 6], 
     next: 'stage2',
     bgm: 'bgm_01',
@@ -134,7 +134,7 @@ const STAGE_CONFIG = {
   stage2: {
     name: 'Stage 2',
     map: 'maps/stage2.json',
-    turn: 8,
+    turnLimit: 8,
     double: [3, 6], 
     next: 'stage3',
     bgm: 'bgm_02',
@@ -151,7 +151,7 @@ const STAGE_CONFIG = {
   stage3: {
     name: 'Stage 3',
     map: 'maps/stage3.json',
-    turn: 4,
+    turnLimit: 4,
     double: [], 
     next: 'stage4',
     bgm: 'bgm_01',
@@ -171,7 +171,7 @@ const STAGE_CONFIG = {
   stage4: {
     name: 'Stage 4',
     map: 'maps/stage4.json',
-    turn: 8,
+    turnLimit: 8,
     double: [3, 6], 
     next: 'stage5',
     bgm: 'bgm_02',
@@ -192,7 +192,7 @@ const STAGE_CONFIG = {
   stage5: {
     name: 'Stage 5',
     map: 'maps/stage5.json',
-    turn: 15,
+    turnLimit: 16,
     double: [3, 6, 9, 12],       
     next: null,
     bgm: 'bgm_01',
@@ -216,7 +216,7 @@ const STAGE_CONFIG = {
   demo: {
     name: 'Demo',
     map: 'maps/demo.json',
-    turn: 5,
+    turnLimit: 4,
     double: [], 
     next: null,
     bgm: 'bgm_02',

@@ -15,13 +15,13 @@ class MainScene extends Phaser.Scene {
     else {
       this.turnCount = 1;
     }
-    this.turnLimit = this.stageConfig.turn;
-    this.isStarted = false;
+    this.turnLimit = this.stageConfig.turnLimit;
     this.rollCount = 0;
     this.rollLimit = 1;
     this.errorCount = 0;
     this.errorLimit = 1;
     this.flags = {};
+    this.isStarted = false;
 
     this.createBackground();
     this.createMap();
@@ -211,7 +211,6 @@ class MainScene extends Phaser.Scene {
         ui.log('Dice value:', diceValue, 'New AP:', this.currentPlayer.energy);
         if(this.rollCount >= this.rollLimit) {
           this.dice.hide();
-//          this.rollCount = 0;
           ui.editor.setReadOnly(false);
           ui.enableButton('btn_run_code');
           ui.enableButton('btn_skip');
