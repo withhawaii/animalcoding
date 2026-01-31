@@ -5,7 +5,7 @@ class ResultScene extends Phaser.Scene {
   }
   
   create() {
-    this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
+    this.stageConfig = STAGE_CONFIG[this.game.config.stage];
     this.fireworks_count = 0;
     this.createBackground();
     this.createFireWorks();
@@ -132,7 +132,7 @@ class ResultScene extends Phaser.Scene {
 
   createSounds() {
     this.sound.pauseOnBlur = false;
-    for (let prop in CST.AUDIO) {
+    for (let prop in AUDIO) {
       this.sound.add(prop);
     }
     this.sound.volume = this.game.config.master_volume;

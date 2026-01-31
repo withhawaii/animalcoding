@@ -5,12 +5,12 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {  
-    for (let prop in CST.AUDIO) {
-      this.load.audio(prop, CST.AUDIO[prop]);
+    for (let prop in AUDIO) {
+      this.load.audio(prop, AUDIO[prop]);
     }
 
-    for (let stage in CST.STAGE_CONFIG) {
-      this.load.tilemapTiledJSON(stage, CST.STAGE_CONFIG[stage].map);
+    for (let stage in STAGE_CONFIG) {
+      this.load.tilemapTiledJSON(stage, STAGE_CONFIG[stage].map);
     }
 
     this.load.atlas('textures', 'images/textures.png', 'images/textures.json')

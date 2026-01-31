@@ -7,7 +7,7 @@ class MainScene extends Phaser.Scene {
   create() {
     const config_json = JSON.parse(localStorage.getItem('config')) || {};
     this.stageSaved = config_json[this.game.config.stage] || {}
-    this.stageConfig = CST.STAGE_CONFIG[this.game.config.stage];
+    this.stageConfig = STAGE_CONFIG[this.game.config.stage];
 
     if(this.stageSaved.turnCount) {
       this.turnCount = this.stageSaved.turnCount;
@@ -137,7 +137,7 @@ class MainScene extends Phaser.Scene {
 
   createSounds() {
     this.sound.pauseOnBlur = false;
-    for (let prop in CST.AUDIO) {
+    for (let prop in AUDIO) {
       this.sound.add(prop);
     }
     this.sound.volume = this.game.config.master_volume;
