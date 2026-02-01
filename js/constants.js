@@ -23,12 +23,11 @@ const CST = {
   CARROT_POINT: 5,
   TOMATO: 37,
   TOMATO_POINT: 10,
-  TITLE_MESSAGE: "This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!",
 }
 
 const AUDIO = {
   move: 'audio/move.mp3',
-  turnLimit: 'audio/turn.mp3',
+  turn: 'audio/turn.mp3',
   stuck: 'audio/stuck.mp3',
   charged: 'audio/powerup.mp3',
   hangup: 'audio/freeze.mp3',
