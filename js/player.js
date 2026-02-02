@@ -252,7 +252,7 @@ class Player extends Phaser.GameObjects.Container {
       targets: player,
       y: player.y - 10,
       ease: 'Bounce',
-      duration: 100,
+      duration: 500,
       repeat: 0,
       yoyo: true,
       onComplete: function() {
@@ -305,7 +305,7 @@ class Player extends Phaser.GameObjects.Container {
     let item = this.scene.getItem(player.xGrid, player.yGrid);
     if(item && item.isFood() && item.count > 0) {
       ui.log('eat:', item);
-      this.scene.sound.play('charged');
+//      this.scene.sound.play('charged');
       item.setCount(item.count - 1);
       if(item.index === CST.CUCUMBER) {
         player.updateEnergy(CST.CUCUMBER_POINT - 1);

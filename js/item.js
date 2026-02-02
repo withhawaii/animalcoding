@@ -23,7 +23,6 @@ class Item extends Phaser.GameObjects.Container {
     });
     this.helperText.setOrigin(0.5);
     this.helperText.setVisible(false);
-//    this.helperText.setDepth(100);
     this.setSize(this.image.width, this.image.height);
     this.image.setInteractive();
     this.bindEvents();
@@ -90,23 +89,14 @@ class Item extends Phaser.GameObjects.Container {
   }
   
   getHelperText(index) {
-    if(index === CST.COIN) {
-      return(`Coin: ${CST.COIN_POINT} pt`);
-    }
-    else if(index === CST.RUBY) {
-      return(`Ruby: ${CST.RUBY_POINT} pts`);
-    }
-    else if(index === CST.CRYSTAL) {
-      return(`Crystal: ${CST.CRYSTAL_POINT} pts`);      
-    }
-    else if(index === CST.CUCUMBER) {
-      return(`Cucumber: ${CST.CUCUMBER_POINT} ap`);      
-    }
-    else if(index === CST.CARROT) {
-      return(`Carrot: ${CST.CARROT_POINT} ap`);            
-    }
-    else if(index === CST.TOMATO) {
-      return(`Tomato: ${CST.TOMATO_POINT} ap`);            
+    switch(index) {
+      case CST.COIN: return(`Coin: ${CST.COIN_POINT} pt`);
+      case CST.RUBY: return(`Ruby: ${CST.RUBY_POINT} pts`);
+      case CST.CRYSTAL: return(`Crystal: ${CST.CRYSTAL_POINT} pts`);
+      case CST.CUCUMBER: return(`Cucumber: ${CST.CUCUMBER_POINT} ap`);
+      case CST.CARROT: return(`Carrot: ${CST.CARROT_POINT} ap`);      
+      case CST.TOMATO: return(`Tomato: ${CST.TOMATO_POINT} ap`);
+      default: return;
     }
   }
 }
