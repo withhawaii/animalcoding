@@ -105,7 +105,7 @@ class MainScene extends Phaser.Scene {
         y = player_coordinates[i].y + 64 - 16;
         direction = this.getCustomProperty(player_coordinates[i], 'direction');  
         energy = 0;
-        count = this.game.config.debug ? 5 : 0;
+        count = this.game.config.debug ? 0 : 0;
         inventory = {[CST.COIN]: count, [CST.RUBY]: count, [CST.CRYSTAL]: count, [CST.STAR]: 0};
       }
       this.players[i] = new Player(this, x, y, sprite, id, i, direction, energy, inventory);
@@ -341,6 +341,7 @@ class MainScene extends Phaser.Scene {
       };
     };
     localStorage.setItem('players', JSON.stringify(players_json));
+    ui.disableNameEdit();
     ui.log('Data saved:', config_json, players_json);
   }
 

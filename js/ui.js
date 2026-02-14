@@ -247,13 +247,6 @@ const ui = {
   },
 
   saveConfig() {
-    let players_json = JSON.parse(localStorage.getItem('players')) || [{}, {}, {}, {}];
-    Object.assign(players_json[0], {id: 0, sprite: 'Cat', name: document.getElementById('config_name_1').value.trim()});
-    Object.assign(players_json[1], {id: 1, sprite: 'Rabbit', name: document.getElementById('config_name_2').value.trim()});
-    Object.assign(players_json[2], {id: 2, sprite: 'Chick', name: document.getElementById('config_name_3').value.trim()});
-    Object.assign(players_json[3], {id: 3, sprite: 'Pig', name: document.getElementById('config_name_4').value.trim()});
-    localStorage.setItem('players', JSON.stringify(players_json));
-
     let config_json = JSON.parse(localStorage.getItem('config')) || {};
     config_json.stage = document.getElementById('config_stage').value;
     config_json.shuffle = document.getElementById('config_shuffle').value;
@@ -262,7 +255,20 @@ const ui = {
     config_json.bgm_volume = document.getElementById('config_bgm_volume').value;
     localStorage.setItem('config', JSON.stringify(config_json));
 
-    console.log('Data saved:', players_json, config_json);
+    let players_json = JSON.parse(localStorage.getItem('players')) || [{}, {}, {}, {}];
+    Object.assign(players_json[0], {id: 0, sprite: 'Cat', name: document.getElementById('config_name_1').value.trim()});
+    Object.assign(players_json[1], {id: 1, sprite: 'Rabbit', name: document.getElementById('config_name_2').value.trim()});
+    Object.assign(players_json[2], {id: 2, sprite: 'Chick', name: document.getElementById('config_name_3').value.trim()});
+    Object.assign(players_json[3], {id: 3, sprite: 'Pig', name: document.getElementById('config_name_4').value.trim()});
+    localStorage.setItem('players', JSON.stringify(players_json));
+  },
+
+  disableNameEdit() {
+    document.getElementById('config_name_1').disabled = true;
+    document.getElementById('config_name_2').disabled = true;
+    document.getElementById('config_name_3').disabled = true;
+    document.getElementById('config_name_4').disabled = true;
+    document.getElementById('name-instruction').innerHTML = "*You've already started a game.<br/>Press 'Reset' to start a new game."
   },
 
   reset() {
@@ -361,10 +367,7 @@ const ui = {
       document.getElementById('config_master_volume').value = config_json.master_volume;
       document.getElementById('config_bgm_volume').value = config_json.bgm_volume;
       if(config_json.started) {
-        document.getElementById('config_name_1').disabled = true;
-        document.getElementById('config_name_2').disabled = true;
-        document.getElementById('config_name_3').disabled = true;
-        document.getElementById('config_name_4').disabled = true;
+        ui.disableNameEdit();
       }
     }
     else {
