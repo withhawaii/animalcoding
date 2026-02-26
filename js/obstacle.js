@@ -51,7 +51,7 @@ class Obstacle extends Phaser.GameObjects.Container {
     return(false);
   }
 
-  stopTrap(duration = 3000) {
+  disarm(duration = 3000) {
     this.image.timer.paused = true;
     this.image.setFrame(CST.TRAP_OFF);
     this.scene.sound.play('disarm');

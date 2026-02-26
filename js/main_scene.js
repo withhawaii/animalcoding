@@ -235,7 +235,7 @@ class MainScene extends Phaser.Scene {
   changePlayer() {
     let delay = 0;
 
-    if(this.currentPlayer.star === 0) {
+    if(this.currentPlayer.inventory[CST.STAR] === 0) {
       this.checkBonus();
     }  
 
@@ -311,7 +311,7 @@ class MainScene extends Phaser.Scene {
     }
 
     if(bonusCondition) {
-      this.currentPlayer.star = 1;
+      this.currentPlayer.inventory[CST.STAR] = 1;
       this.currentPlayer.toolbar.addStar();
     }
   }

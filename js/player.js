@@ -70,6 +70,8 @@ class Player extends Phaser.GameObjects.Container {
     this.shadow.setAlpha(1);
     this.sprite.x = 0;
     this.sprite.y = 0;
+    this.x = this.xGrid * 64 + 32;
+    this.y = this.yGrid * 32 + 64;    
   }
 
   grid(rDirection = CST.TOWARDS_AHEAD) {
@@ -186,7 +188,7 @@ class Player extends Phaser.GameObjects.Container {
     }
   }
 
-  stopTrap(callback = (data) => {}) {
+  disarm(callback = (data) => {}) {
     let player = this;
     let newGrid = player.grid(CST.TOWARDS_AHEAD);
     let obstacle = this.scene.getObstacle(newGrid.x, newGrid.y);
@@ -197,7 +199,7 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     if(obstacle && obstacle.isTrap()) {
-      obstacle.stopTrap();
+      obstacle.disarm();
       player.scene.time.delayedCall(1000, () => {
         ui.log('trap stopped:', player.xGrid, player.yGrid, player.direction);
         callback(true);

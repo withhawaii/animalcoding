@@ -36,9 +36,9 @@ const ui = {
       ui.log('steal');
       ui.currentPlayer().steal(callback);
     }));
-    interpreter.setProperty(scope, 'stop_trap', interpreter.createAsyncFunction(function(callback) {
-      ui.log('stop_trap');
-      ui.currentPlayer().stopTrap(callback);
+    interpreter.setProperty(scope, 'disarm', interpreter.createAsyncFunction(function(callback) {
+      ui.log('disarm');
+      ui.currentPlayer().disarm(callback);
     }));
     interpreter.setProperty(scope, 'trap_is_on', interpreter.createAsyncFunction(function(callback) {
       ui.log('trap_is_on');
