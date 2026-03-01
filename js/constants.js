@@ -121,7 +121,7 @@ const STAGE_CONFIG = {
     double: [3, 6], 
     next: 'stage2',
     bgm: 'bgm_01',
-    video: '1fQvqWQ6-Ikxbh49Ld0OHMQUSmdB6vLcd',
+    video: '1PXXSTdOKGsRJPlnv7MYxRgiAWBt2NDek',
     snippets: [
       SNIPPETS['move_forward'],
       SNIPPETS['turn_left'],
@@ -136,7 +136,7 @@ const STAGE_CONFIG = {
     double: [3, 6], 
     next: 'stage3',
     bgm: 'bgm_02',
-    video: '1ACKeEMbZBtQi6eqqyRxzJzFVqCHM6QLe',
+    video: '1sKwwMYPxGi60d0AYgUJnVdTa6h6uVFRz',
     snippets: [
       SNIPPETS['move_forward'],
       SNIPPETS['turn_left'],
@@ -145,7 +145,7 @@ const STAGE_CONFIG = {
       SNIPPETS['eat'],
       SNIPPETS['for'],
     ]
-  }, 
+  },
   stage3: {
     name: 'Stage 3',
     map: 'maps/stage3.json',
@@ -153,7 +153,7 @@ const STAGE_CONFIG = {
     double: [], 
     next: 'stage4',
     bgm: 'bgm_01',
-    video: '1A0mIB4oj_kbIPgMZwQ0PipQlTr3xda7y',
+    video: '1J6BuhHVGMA24EOxCdoJevHGz_MHOhLNO',
     snippets: [
       SNIPPETS['move_forward'],
       SNIPPETS['turn_left'],
@@ -165,7 +165,7 @@ const STAGE_CONFIG = {
       SNIPPETS['if_path_to_the_left'],
       SNIPPETS['if_path_to_the_right'],
     ]
-  }, 
+  },
   stage4: {
     name: 'Stage 4',
     map: 'maps/stage4.json',
@@ -173,7 +173,7 @@ const STAGE_CONFIG = {
     double: [3, 6], 
     next: 'stage5',
     bgm: 'bgm_02',
-    video: '1XqhmvNox_isWE2Wzl9BQJ-ofTi-b7qi7',
+    video: '1CXnN8WikzzGopbcrdGJaSuHxOOEkszJ8',
     snippets: [
       SNIPPETS['move_forward'],
       SNIPPETS['turn_left'],
@@ -186,7 +186,7 @@ const STAGE_CONFIG = {
       SNIPPETS['if_path_to_the_right'],
       SNIPPETS['function'],
     ]
-  }, 
+  },
   stage5: {
     name: 'Stage 5',
     map: 'maps/stage5.json',
@@ -194,7 +194,7 @@ const STAGE_CONFIG = {
     double: [3, 6, 9, 12],       
     next: null,
     bgm: 'bgm_01',
-    video: '1RcqiZIGqNvvDyQmFckxgE-g1G_-NCXrG',
+    video: '1DjFtXvO9MNWQGhpxWWDihfxRKIGgzKLw',
     snippets: [
       SNIPPETS['move_forward'],
       SNIPPETS['turn_left'],
