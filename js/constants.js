@@ -10,7 +10,7 @@ const CST = {
   TRAP_ON: 17,
   TRAP_OFF: 18,
   COIN: 30,
-  COIN_POINT: 1,
+  COIN_POINT: 3,
   RUBY: 32,
   RUBY_POINT: 5,
   CRYSTAL: 31,

@@ -90,7 +90,7 @@ class Item extends Phaser.GameObjects.Container {
   
   getHelperText(index) {
     switch(index) {
-      case CST.COIN: return(`Coin: ${CST.COIN_POINT} pt`);
+      case CST.COIN: return(`Coin: ${CST.COIN_POINT} pts`);
       case CST.RUBY: return(`Ruby: ${CST.RUBY_POINT} pts`);
       case CST.CRYSTAL: return(`Crystal: ${CST.CRYSTAL_POINT} pts`);
       case CST.CUCUMBER: return(`Cucumber: ${CST.CUCUMBER_POINT} ap`);
