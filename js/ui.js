@@ -64,6 +64,26 @@ const ui = {
     }));
   },
 
+  extractFunctions(code) {
+    const regex = /function\s+\w+\s*\([^)]*\)\s*\{/g;
+    let match;
+    const results = [];
+
+    while ((match = regex.exec(code)) !== null) {
+        let start = match.index;
+        let pos = start + match[0].length;
+        let count = 1;
+
+        while (count > 0 && pos < code.length) {
+            if (code[pos] === '{') count++;
+            if (code[pos] === '}') count--;
+            pos++;
+        }
+        results.push(code.slice(start, pos));
+    }
+    return results;
+  },
+
   prepareCode() {
     if(!ui.interpreter) {
       ui.disableButton('btn_run_code');
@@ -72,8 +92,7 @@ const ui = {
       let code = ui.editor.getValue();
 
       //Preserve functions for the next turn
-      const functions = code.match(/function\s+\w+\s*\([^)]*\)\s*\{[^}]*\}/gs) || [];
-      ui.currentPlayer().code = functions.join('\n\n');
+      ui.currentPlayer().code = ui.extractFunctions(code).join('\n\n');
 
       //Turn conditional variables into functions
       const vars = ['path_ahead', 'path_to_the_left', 'path_to_the_right', 'trap_is_on'];
