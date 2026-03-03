@@ -32,10 +32,12 @@ const ui = {
       ui.log('eat');
       ui.currentPlayer().eat(callback);
     }));
-    interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
-      ui.log('steal');
-      ui.currentPlayer().steal(callback);
-    }));
+    if(!['stage1', 'stage2', 'stage3', 'stage4'].includes(ui.game.config.stage)) {
+      interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
+        ui.log('steal');
+        ui.currentPlayer().steal(callback);
+      }));
+    }
     interpreter.setProperty(scope, 'disarm', interpreter.createAsyncFunction(function(callback) {
       ui.log('disarm');
       ui.currentPlayer().disarm(callback);
