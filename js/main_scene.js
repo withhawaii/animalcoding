@@ -212,6 +212,8 @@ class MainScene extends Phaser.Scene {
         if(this.rollCount >= this.rollLimit) {
           this.dice.hide();
           ui.editor.setReadOnly(false);
+          ui.editor.setValue(this.currentPlayer.code, -1);
+          ui.editor.focus();
           ui.enableButton('btn_run_code');
           ui.enableButton('btn_skip');
         }
@@ -290,7 +292,9 @@ class MainScene extends Phaser.Scene {
       this.bgm.resume();
       this.currentPlayer.bounce();
       ui.editor.setReadOnly(true);
-      ui.editor.setValue(this.currentPlayer.code, -1);
+      this.time.delayedCall(3000, () => {
+        ui.editor.setValue("", -1);
+      }); 
       this.dice.show();
     }); 
   }
