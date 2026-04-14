@@ -344,7 +344,7 @@ class Player extends Phaser.GameObjects.Container {
     let anotherPlayer = player.anotherPlayer();
 
     if(player.energy <= 0 || !anotherPlayer) {
-      this.hangUp(callback);
+      player.hangUp(callback);
       return;
     }
 
@@ -369,7 +369,8 @@ class Player extends Phaser.GameObjects.Container {
       });
     }
     else {
-      this.hangUp(callback);
+      player.updateEnergy(-1);      
+      player.hangUp(callback);
     }
   }
 }

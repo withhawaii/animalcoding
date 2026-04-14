@@ -32,7 +32,7 @@ const ui = {
       ui.log('eat');
       ui.currentPlayer().eat(callback);
     }));
-    if(!['stage1', 'stage2', 'stage3', 'stage4'].includes(ui.game.config.stage)) {
+    if(!['stage1', 'stage2', 'stage3'].includes(ui.game.config.stage)) {
       interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
         ui.log('steal');
         ui.currentPlayer().steal(callback);
