@@ -82,6 +82,13 @@ class PlayerToolbar extends Phaser.GameObjects.Container {
     });
   }
   
+  setActive(isActive) {
+    this.avatar.postFX.clear();
+    if (isActive) {
+      this.avatar.postFX.addGlow(0xffff00, 6);
+    }
+  }
+
   addStar() {
     const star = this.star;
     star.setVisible(true);

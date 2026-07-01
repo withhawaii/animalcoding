@@ -166,6 +166,7 @@ class MainScene extends Phaser.Scene {
     this.showMessage(this.stageConfig.name, () => {
       this.bgm.play({loop: true, volume: this.game.config.bgm_volume});
       this.currentPlayer.bounce();
+      this.currentPlayer.toolbar.setActive(true);
       this.dice.show();
     });
   }
@@ -291,7 +292,9 @@ class MainScene extends Phaser.Scene {
     this.saveRecords();
     this.time.delayedCall(delay, () => {
       this.bgm.resume();
+      this.players.forEach(p => p.toolbar.setActive(false));
       this.currentPlayer.bounce();
+      this.currentPlayer.toolbar.setActive(true);
       ui.editor.setReadOnly(true);
       this.dice.show();
     }); 
