@@ -6,6 +6,8 @@ This is a turn-based multiplayer game designed to introduce basic text-based pro
 
 [Play the Game Here](https://withhawaii.github.io/animalcoding/)
 
+> **Note:** Best played on a laptop or desktop computer with a keyboard. The game is not designed for phones or tablets.
+
 ***
 
 ## About The Project
