@@ -73,6 +73,7 @@ This project is built with the following open-source libraries and third-party a
 | :--- | :--- | :--- | :--- |
 | [Phaser](https://phaser.io) | Phaser Studio Inc. | Library (game engine) | MIT |
 | [Ace](https://ace.c9.io) | Ajax.org B.V. | Library (code editor) | BSD-3-Clause |
+| [Blockly](https://developers.google.com/blockly) | Google / Raspberry Pi Foundation | Library (block editor) | Apache-2.0 |
 | [JS-Interpreter](https://github.com/NeilFraser/JS-Interpreter) | Neil Fraser | Library (runs player code) | Apache-2.0 |
 | [Acorn](https://github.com/acornjs/acorn) | Marijn Haverbeke | Library (JavaScript parser, bundled with JS-Interpreter) | MIT |
 | [NES.css](https://nostalgic-css.github.io/NES.css/) | B.C.Rikko | Library (UI components) | MIT |

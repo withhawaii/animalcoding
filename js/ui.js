@@ -1,6 +1,7 @@
 const ui = {
   game: null,
   editor: null,
+  codeEditor: null,
   interpreter: null,
 
   mainScene() {
@@ -62,6 +63,9 @@ const ui = {
       console.log('[Interpreter]', text);
       callback(true);
     }));
+    interpreter.setProperty(scope, 'highlight_block', interpreter.createNativeFunction(function(id) {
+      blockEditor.highlightBlock(id);
+    }));
   },
 
   extractFunctions(code) {
@@ -89,11 +93,10 @@ const ui = {
       ui.disableButton('btn_run_code');
       ui.disableButton('btn_skip');
       ui.currentPlayer().reposition();
-      let code = ui.editor.getValue();
+      let code = ui.codeEditor.getCode();
+      ui.codeEditor.save(ui.currentPlayer(), code);
 
-      //Preserve functions for the next turn
-      ui.currentPlayer().code = ui.extractFunctions(code).join('\n\n');
-
+      console.log(code);
       //Turn conditional variables into functions
       const vars = ['path_ahead', 'path_to_the_left', 'path_to_the_right', 'trap_is_on'];
       for (const name of vars) {
@@ -170,31 +173,12 @@ const ui = {
     if(['ForStatement', 'IfStatement', 'FunctionDeclaration'].includes(node.type)) {
       ui.mainScene().flags[node.type] = true;
     }
-    ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
-  },
-
-  loadSnippets(snippets) {
-    if(ui.editor.session.interval) clearInterval(ui.editor.session.interval);
-    const session = ui.editor.session;
-    session.setUseWrapMode(false);
-    session.setMode("ace/mode/javascript");
-    ui.editor.setValue("");
-    const snippetCompleter = {
-      getCompletions: function(editor, session, pos, prefix, callback) {
-          const list = snippets.map((snippet, index) => ({
-            caption: snippet.caption,
-            snippet: snippet.value,
-            docText: snippet.help,
-            score: 1000 - index
-          }));
-          callback(null, list);
-      }
-    }
-    ui.editor.completers = [snippetCompleter];
+    ui.codeEditor.highlight(node);
   },
 
   insertText(text, speed = 50, callback) {
     let index = 0;
+    textEditor.show();
     ui.editor.setValue("");
     const session = ui.editor.session;
     session.setMode("ace/mode/text"); 
@@ -240,6 +224,16 @@ const ui = {
     return false;
   },
 
+  //Show the help text for the current editor mode
+  showModeHelp(mode) {
+    for(const el of document.querySelectorAll('.text-only')) {
+      el.style.display = mode === 'text' ? '' : 'none';
+    }
+    for(const el of document.querySelectorAll('.block-only')) {
+      el.style.display = mode === 'block' ? '' : 'none';
+    }
+  },
+
   showHelp() {
     ui.showModal('dialog-help');
   },
@@ -272,6 +266,7 @@ const ui = {
     config_json.stage = document.getElementById('config_stage').value;
     config_json.shuffle = document.getElementById('config_shuffle').value;
     config_json.debug = document.getElementById('config_debug').value;
+    config_json.editor = document.getElementById('config_editor').value;
     config_json.master_volume = document.getElementById('config_master_volume').value;
     config_json.bgm_volume = document.getElementById('config_bgm_volume').value;
     localStorage.setItem('config', JSON.stringify(config_json));
@@ -384,6 +379,7 @@ const ui = {
       document.getElementById('config_name_4').value = players_json[3].name;
       document.getElementById('config_stage').value = config_json.stage;
       document.getElementById('config_debug').value = config_json.debug;
+      document.getElementById('config_editor').value = config_json.editor || 'text';
       document.getElementById('config_shuffle').value = config_json.shuffle;       
       document.getElementById('config_master_volume').value = config_json.master_volume;
       document.getElementById('config_bgm_volume').value = config_json.bgm_volume;

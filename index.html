@@ -13,6 +13,10 @@
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.24.1/src-min-noconflict/ace.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.24.1/src-min-noconflict/ext-language_tools.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/blockly@13.4.0/blockly_compressed.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/blockly@13.4.0/blocks_compressed.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/blockly@13.4.0/javascript_compressed.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/blockly@13.4.0/msg/en.js"></script>
   <script src="lib/acorn_interpreter.js"></script>
   <script src="js/constants.js"></script>
   <script src="js/obstacle.js"></script>
@@ -25,6 +29,8 @@
   <script src="js/title_scene.js"></script>
   <script src="js/main_scene.js"></script>
   <script src="js/result_scene.js"></script>
+  <script src="js/blocks.js"></script>
+  <script src="js/editors.js"></script>
   <script src="js/ui.js"></script>
 </head>
 
@@ -36,6 +42,7 @@
     </div> 
     <div class="column">
       <div id="editor"></div>
+      <div id="blockly" style="display: none"></div>
       <div id="control">
         <button id="btn_help" class="nes-btn">?</button>
         <button id="btn_skip" class="nes-btn">Skip</button>
@@ -98,6 +105,15 @@
         </div>
         <br/>
 
+        <label for="config_editor">Code Editor</label>
+        <div class="nes-select">
+          <select required id="config_editor">
+            <option value="text">Text</option>
+            <option value="block">Blocks</option>
+          </select>
+        </div>
+        <br/>
+
         <label for="config_debug">Debug Mode</label>
         <div class="nes-select">
           <select required id="config_debug">
@@ -155,12 +171,12 @@
     <dialog class="nes-dialog" id="dialog-help">
       <form method="dialog">
         <h3 class="title">Welcome to Animal Coding!</h3>
-        <p>Your mission is to collect as many items as possible by controlling your animals with code. Press Ctrl-Space in the editor to see available code options. The stage ends when all coins and gems are collected or the turn limit is reached. Once the stage concludes, the player with the highest final score wins.</p>
+        <p>Your mission is to collect as many items as possible by controlling your animals with code. <span class="text-only">Press Ctrl-Space in the editor to see available code options.</span><span class="block-only">Drag blocks from the left side of the editor and attach them under "When run code" to build your code.</span> The stage ends when all coins and gems are collected or the turn limit is reached. Once the stage concludes, the player with the highest final score wins.</p>
         <div class="nes-container is-dark with-title">
         <p class="title">Keyboard Shortcuts</p>
         <ul>
            <li>Space: Roll a dice</li>
-           <li>Ctrl-Space: Insert code</li>
+           <li class="text-only">Ctrl-Space: Insert code</li>
            <li>Ctrl-R: Run code</li>
            <li>Ctrl-S: Skip a turn</li>
            <li>Escape: Stop running code</li>

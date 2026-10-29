@@ -16,6 +16,7 @@ class Player extends Phaser.GameObjects.Container {
     this.energy = energy;
     this.inventory = inventory;
     this.code = "";
+    this.blocks = [];
     this.sprite.setFrame(this.direction);
     this.setDepth(this.yGrid + 0.5);
 

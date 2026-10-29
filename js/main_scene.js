@@ -32,8 +32,10 @@ class MainScene extends Phaser.Scene {
     this.bgm = this.sound.get(this.stageConfig.bgm);
     this.toolbar = new StageToolbar(this, 1024/2, 0);
 
-    ui.loadSnippets(this.stageConfig.snippets);
-    ui.editor.setReadOnly(true);
+    ui.codeEditor = this.game.config.editor === 'block' ? blockEditor : textEditor;
+    ui.codeEditor.show();
+    ui.codeEditor.loadStage(this.stageConfig.snippets);
+    ui.codeEditor.setReadOnly(true);
     ui.enableButton('btn_help');
     if(this.stageConfig.video) {
       ui.enableButton('btn_open_video').click();
@@ -213,9 +215,8 @@ class MainScene extends Phaser.Scene {
         if(this.rollCount >= this.rollLimit) {
           this.dice.hide();
           navigator.clipboard.writeText('');
-          ui.editor.setReadOnly(false);
-          ui.editor.setValue(this.currentPlayer.code, -1);
-          ui.editor.focus();
+          ui.codeEditor.setReadOnly(false);
+          ui.codeEditor.restore(this.currentPlayer);
           ui.enableButton('btn_run_code');
           ui.enableButton('btn_skip');
         }
@@ -294,7 +295,7 @@ class MainScene extends Phaser.Scene {
       this.bgm.resume();
       this.currentPlayer.bounce();
       this.currentPlayer.toolbar.setActive();
-      ui.editor.setReadOnly(true);
+      ui.codeEditor.setReadOnly(true);
       this.dice.show();
     }); 
   }

@@ -47,66 +47,79 @@ const AUDIO = {
 
 const SNIPPETS = {
   move_forward: {
+    block: 'move_forward',
     caption: 'move_forward();',
     value: 'move_forward();\n',
     help: 'Move a character \none step forward'
   },
   turn_left: {
+    block: 'turn_left',
     caption: 'turn_left();',
     value: 'turn_left();\n',
     help: 'Rotate a character \ntowards left 90 degree'
   },
   turn_right: {
+    block: 'turn_right',
     caption: 'turn_right();',
     value: 'turn_right();\n',
     help: 'Rotate a character \ntowards right 90 degree'
   },  
   pick_up: {
+    block: 'pick_up',
     caption: 'pick_up();',
     value: 'pick_up();\n',
     help: 'Pick up an item \non the ground'
   },
   eat: {
+    block: 'eat',
     caption: 'eat();',
     value: 'eat();\n',
     help: 'Eat a food item \non the ground'
   },
   steal: {
+    block: 'steal',
     caption: 'steal();',
     value: 'steal();\n',
     help: 'Steal an item \nfrom other players'
   },
   disarm: {
+    block: 'disarm',
     caption: 'disarm();',
     value: 'disarm();\n',
     help: 'Temporarily disarm a trap \nin front of a player'
   },
   function: {
+    block: 'function',
     caption: 'function() my_command()...',
     value: "function my_command() {\n\t$1\n}\n",
     help: 'Give a name to \na block of commands \nfor later use'
   },
   for: {
+    block: 'for',
     caption: 'for(i = 0; i < 10; i++)...',
     value: "for(i = 0; i < 10; i++){\n\t$1\n}\n",
     help: 'Repeat a block of commands \nmultiple times'
   },
   if_trap_is_on: {
+    block: 'if_trap_is_on',
     caption: 'if(trap_is_on)...',
     value: "if(trap_is_on) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen the trap in front of \nthe character is on'
   },
   if_path_ahead: {
+    block: 'if_path_ahead',
     caption: 'if(path_ahead)...',
     value: "if(path_ahead) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \nin front of the character'
   },
   if_path_to_the_left: {
+    block: 'if_path_to_the_left',
     caption: 'if(path_to_the_left)...',
     value: "if(path_to_the_left) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \non the left side of the character'
   },
   if_path_to_the_right: {
+    block: 'if_path_to_the_right',
     caption: 'if(path_to_the_right)...',
     value: "if(path_to_the_right) {\n\t$1\n} else {\n\t$2\n}\n",
     help: 'Run a block of commands \nwhen there is no obstruct \non the right side of the character'

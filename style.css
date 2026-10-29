@@ -19,7 +19,7 @@ body,
 .column {
 }
 
-#editor {
+#editor, #blockly {
   height: 647px; 
   width: 350px;
 }
