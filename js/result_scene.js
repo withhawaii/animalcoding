@@ -5,6 +5,8 @@ class ResultScene extends Phaser.Scene {
   }
   
   create() {
+    textEditor.show();
+    textEditor.editor.setValue("");
     this.stageConfig = STAGE_CONFIG[this.game.config.stage];
     this.fireworks_count = 0;
     this.createBackground();

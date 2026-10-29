@@ -19,13 +19,20 @@ body,
 .column {
 }
 
+/* The editor column fills the rest of the browser width */
+.editor-column {
+  flex: 1;
+  min-width: 350px;
+}
+
 #editor, #blockly {
   height: 647px; 
-  width: 350px;
+  width: 100%;
 }
 
 #control {
-  width: 350px;
+  box-sizing: border-box;
+  width: 100%;
   padding: 5px;
   text-align: center;
 }

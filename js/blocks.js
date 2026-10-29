@@ -6,29 +6,22 @@ const BLOCK_COLORS = {
   function: 290,
 }
 
-const COMMAND_BLOCKS = {
-  move_forward: 'move forward',
-  turn_left: 'turn left',
-  turn_right: 'turn right',
-  pick_up: 'pick up',
-  eat: 'eat',
-  steal: 'steal',
-  disarm: 'disarm',
-}
+//Block labels follow the text-mode code so students can move between the two modes
+const COMMAND_BLOCKS = ['move_forward', 'turn_left', 'turn_right', 'pick_up', 'eat', 'steal', 'disarm'];
 
 //Conditions for the "if" block dropdown, keyed by snippet name
 const CONDITION_BLOCKS = {
-  if_path_ahead: {condition: 'path_ahead', label: 'path ahead'},
-  if_path_to_the_left: {condition: 'path_to_the_left', label: 'path to the left'},
-  if_path_to_the_right: {condition: 'path_to_the_right', label: 'path to the right'},
-  if_trap_is_on: {condition: 'trap_is_on', label: 'trap is on'},
+  if_path_ahead: 'path_ahead',
+  if_path_to_the_left: 'path_to_the_left',
+  if_path_to_the_right: 'path_to_the_right',
+  if_trap_is_on: 'trap_is_on',
 }
 
 //Dropdown options limited to the conditions the current stage allows
 function conditionOptions() {
   let names = blockEditor.snippets.map(snippet => snippet.block).filter(name => name in CONDITION_BLOCKS);
   if(names.length === 0) names = Object.keys(CONDITION_BLOCKS);
-  return names.map(name => [CONDITION_BLOCKS[name].label, CONDITION_BLOCKS[name].condition]);
+  return names.map(name => [CONDITION_BLOCKS[name], CONDITION_BLOCKS[name]]);
 }
 
 function defineBlocks() {
@@ -36,7 +29,7 @@ function defineBlocks() {
 
   //Highlight each statement while the code runs
   generator.STATEMENT_PREFIX = 'highlight_block(%1);\n';
-  generator.addReservedWords('highlight_block,log,' + Object.keys(COMMAND_BLOCKS).join(',') + ',' + Object.values(CONDITION_BLOCKS).map(c => c.condition).join(','));
+  generator.addReservedWords('highlight_block,log,' + COMMAND_BLOCKS.join(',') + ',' + Object.values(CONDITION_BLOCKS).join(','));
 
   //Starting block: only blocks attached below it run, like Scratch's green flag
   Blockly.Blocks['when_run_code'] = {
@@ -51,10 +44,10 @@ function defineBlocks() {
   };
   generator.forBlock['when_run_code'] = () => '';
 
-  for(const name in COMMAND_BLOCKS) {
+  for(const name of COMMAND_BLOCKS) {
     Blockly.Blocks[name] = {
       init() {
-        this.appendDummyInput().appendField(COMMAND_BLOCKS[name]);
+        this.appendDummyInput().appendField(`${name}();`);
         this.setPreviousStatement(true);
         this.setNextStatement(true);
         this.setColour(BLOCK_COLORS.command);
@@ -67,10 +60,11 @@ function defineBlocks() {
   Blockly.Blocks['for'] = {
     init() {
       this.appendDummyInput()
-        .appendField('repeat')
+        .appendField('for(i=0; i<')
         .appendField(new Blockly.FieldNumber(10, 1, 100, 1), 'TIMES')
-        .appendField('times');
+        .appendField('; i++) {');
       this.appendStatementInput('DO');
+      this.appendDummyInput().appendField('}');
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setColour(BLOCK_COLORS.loop);
@@ -89,13 +83,15 @@ function defineBlocks() {
     Blockly.Blocks[name] = {
       init() {
         this.appendDummyInput()
-          .appendField('if')
-          .appendField(new Blockly.FieldDropdown(conditionOptions), 'CONDITION');
+          .appendField('if(')
+          .appendField(new Blockly.FieldDropdown(conditionOptions), 'CONDITION')
+          .appendField(') {');
         this.appendStatementInput('DO');
         if(name === 'if_else') {
-          this.appendDummyInput().appendField('else');
+          this.appendDummyInput().appendField('} else {');
           this.appendStatementInput('ELSE');
         }
+        this.appendDummyInput().appendField('}');
         this.setPreviousStatement(true);
         this.setNextStatement(true);
         this.setColour(BLOCK_COLORS.condition);
@@ -121,11 +117,14 @@ function defineBlocks() {
   Blockly.Blocks['procedures_defnoreturn'].init = function() {
     procedureInit.call(this);
     this.setMutator(null);
+    this.inputList[0].appendField('() {');
+    this.appendDummyInput().appendField('}');
     this.setColour(BLOCK_COLORS.function);
   };
   const callInit = Blockly.Blocks['procedures_callnoreturn'].init;
   Blockly.Blocks['procedures_callnoreturn'].init = function() {
     callInit.call(this);
+    this.getInput('TOPROW').appendField('();');
     this.setColour(BLOCK_COLORS.function);
   };
 }

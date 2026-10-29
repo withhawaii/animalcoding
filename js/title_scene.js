@@ -5,6 +5,7 @@ class TitleScene extends Phaser.Scene {
   }
   
   create() {
+    textEditor.show();
     this.createBackground();
     this.add.image(1024/2, 255, 'textures', 'Title_Logo');
     let btn_config = this.add.image(1024/4, 600, 'textures', 'Btn_Config');

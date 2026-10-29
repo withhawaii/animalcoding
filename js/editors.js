@@ -33,6 +33,10 @@ const textEditor = {
     ui.showModeHelp('text');
   },
 
+  resize() {
+    textEditor.editor.resize();
+  },
+
   loadStage(snippets) {
     if(textEditor.editor.session.interval) clearInterval(textEditor.editor.session.interval);
     const session = textEditor.editor.session;
@@ -101,6 +105,12 @@ const blockEditor = {
   snippets: [],
   procedures: '',
 
+  resize() {
+    if(blockEditor.workspace) {
+      Blockly.svgResize(blockEditor.workspace);
+    }
+  },
+
   show() {
     document.getElementById('editor').style.display = 'none';
     document.getElementById('blockly').style.display = '';
@@ -121,6 +131,7 @@ const blockEditor = {
 //        scrollbarColour: '#7285b7',
 //        insertionMarkerColour: '#ffffff',
       },
+      fontStyle: {family: 'Monaco, Menlo, Consolas, monospace'},
     });
     blockEditor.workspace = Blockly.inject('blockly', {
       toolbox: blockEditor.toolbox(),

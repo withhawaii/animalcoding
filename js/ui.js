@@ -343,6 +343,12 @@ const ui = {
     }
   },
 
+  //Fit the editors to the column when the browser window is resized
+  resizeEditors() {
+    textEditor.resize();
+    blockEditor.resize();
+  },
+
   log(...args) {
     ui.game.config.debug && console.log(...args);
   },
@@ -382,6 +388,7 @@ const ui = {
     document.getElementById('btn_open_video').addEventListener('click', ui.openVideo);
     document.getElementById('btn_close_video').addEventListener('click', ui.closeVideo);
     window.addEventListener("keydown", ui.assignShortcuts, true);
+    window.addEventListener("resize", ui.resizeEditors);
 
     //Prevent browser context menu
     document.addEventListener("contextmenu", function (e) {
