@@ -1,6 +1,5 @@
 const ui = {
   game: null,
-  editor: null,
   codeEditor: null,
   interpreter: null,
 
@@ -174,26 +173,6 @@ const ui = {
       ui.mainScene().flags[node.type] = true;
     }
     ui.codeEditor.highlight(node);
-  },
-
-  insertText(text, speed = 50, callback) {
-    let index = 0;
-    textEditor.show();
-    ui.editor.setValue("");
-    const session = ui.editor.session;
-    session.setMode("ace/mode/text"); 
-    session.setUseWrapMode(true);
-    if(ui.editor.session.interval) clearInterval(ui.editor.session.interval);
-    ui.editor.session.interval = setInterval(() => {
-      if(index < text.length) {
-        const ch = text[index];
-        session.insert(ui.editor.getCursorPosition(), ch);
-        index++;
-      } else {
-        clearInterval(ui.editor.session.interval);
-        if(callback) callback();
-      }
-    }, speed);
   },
 
   enableButton(id) {
@@ -409,29 +388,7 @@ const ui = {
       e.preventDefault();
     });
 
-    ui.editor = ace.edit('editor', {
-      displayIndentGuides: false,
-      showInvisibles: true,
-      highlightGutterLine: false,
-      fontSize: 14,
-      tabSize: 2,
-      indentedSoftWrap: false,      
-      theme: 'ace/theme/tomorrow_night_blue',
-      mode: 'ace/mode/javascript',
-      enableBasicAutocompletion: true,
-      placeholder: '\nTo insert code, press "Control-Space"',
-    });
-    ui.editor.commands.bindKey("F1", null);
-    ui.editor.container.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-        const renderer = ui.editor.renderer;
-        const canvasPos = renderer.scroller.getBoundingClientRect();
-        const x = e.clientX - canvasPos.left;
-        const y = e.clientY - canvasPos.top;
-        const rowCol = renderer.screenToTextCoordinates(x, y);
-        ui.editor.moveCursorToPosition(rowCol);
-        ui.editor.execCommand("startAutocomplete");
-    });
+    textEditor.init();
 
     ui.game = new Phaser.Game({
       type: Phaser.AUTO,

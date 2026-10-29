@@ -1,4 +1,31 @@
 const textEditor = {
+  editor: null,
+
+  init() {
+    textEditor.editor = ace.edit('editor', {
+      displayIndentGuides: false,
+      showInvisibles: true,
+      highlightGutterLine: false,
+      fontSize: 14,
+      tabSize: 2,
+      indentedSoftWrap: false,      
+      theme: 'ace/theme/tomorrow_night_blue',
+      mode: 'ace/mode/javascript',
+      enableBasicAutocompletion: true,
+      placeholder: '\nTo insert code, press "Control-Space"',
+    });
+    textEditor.editor.commands.bindKey("F1", null);
+    textEditor.editor.container.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        const renderer = textEditor.editor.renderer;
+        const canvasPos = renderer.scroller.getBoundingClientRect();
+        const x = e.clientX - canvasPos.left;
+        const y = e.clientY - canvasPos.top;
+        const rowCol = renderer.screenToTextCoordinates(x, y);
+        textEditor.editor.moveCursorToPosition(rowCol);
+        textEditor.editor.execCommand("startAutocomplete");
+    });
+  },
 
   show() {
     document.getElementById('blockly').style.display = 'none';
@@ -7,11 +34,11 @@ const textEditor = {
   },
 
   loadStage(snippets) {
-    if(ui.editor.session.interval) clearInterval(ui.editor.session.interval);
-    const session = ui.editor.session;
+    if(textEditor.editor.session.interval) clearInterval(textEditor.editor.session.interval);
+    const session = textEditor.editor.session;
     session.setUseWrapMode(false);
     session.setMode("ace/mode/javascript");
-    ui.editor.setValue("");
+    textEditor.editor.setValue("");
     const snippetCompleter = {
       getCompletions: function(editor, session, pos, prefix, callback) {
           const list = snippets.map((snippet, index) => ({
@@ -23,20 +50,20 @@ const textEditor = {
           callback(null, list);
       }
     }
-    ui.editor.completers = [snippetCompleter];
+    textEditor.editor.completers = [snippetCompleter];
   },
 
   setReadOnly(readOnly) {
-    ui.editor.setReadOnly(readOnly);
+    textEditor.editor.setReadOnly(readOnly);
   },
 
   restore(player) {
-    ui.editor.setValue(player.code, -1);
-    ui.editor.focus();
+    textEditor.editor.setValue(player.code, -1);
+    textEditor.editor.focus();
   },
 
   getCode() {
-    return ui.editor.getValue();
+    return textEditor.editor.getValue();
   },
 
   //Preserve functions for the next turn
@@ -45,7 +72,27 @@ const textEditor = {
   },
 
   highlight(node) {
-    ui.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
+    textEditor.editor.selection.setRange(new ace.Range(node.O.start.line - 1, node.O.start.eb, node.O.end.line - 1, node.O.end.eb));
+  },
+
+  insertText(text, speed = 50, callback) {
+    let index = 0;
+    textEditor.show();
+    textEditor.editor.setValue("");
+    const session = textEditor.editor.session;
+    session.setMode("ace/mode/text"); 
+    session.setUseWrapMode(true);
+    if(textEditor.editor.session.interval) clearInterval(textEditor.editor.session.interval);
+    textEditor.editor.session.interval = setInterval(() => {
+      if(index < text.length) {
+        const ch = text[index];
+        session.insert(textEditor.editor.getCursorPosition(), ch);
+        index++;
+      } else {
+        clearInterval(textEditor.editor.session.interval);
+        if(callback) callback();
+      }
+    }, speed);
   },
 }
 
@@ -63,7 +110,7 @@ const blockEditor = {
     }
   },
 
-  inject() {
+  init() {
     defineBlocks();
     const theme = Blockly.Theme.defineTheme('animalcoding', {
       base: Blockly.Themes.Classic,
@@ -134,7 +181,7 @@ const blockEditor = {
     blockEditor.snippets = snippets;
     blockEditor.procedures = '';
     if(!blockEditor.workspace) {
-      blockEditor.inject();
+      blockEditor.init();
     }
     else {
       blockEditor.workspace.clear();

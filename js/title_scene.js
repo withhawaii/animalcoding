@@ -30,7 +30,7 @@ class TitleScene extends Phaser.Scene {
         this.scene.start('Main');
       }
     });
-    ui.insertText("This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!");
+    textEditor.insertText("This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.\n\nYou can play with up to 4 players. Click 'Config' and enter the player names. Leave any name blank if you want to play with fewer than 4 players.\n\nWhen you’re ready, press 'Start' to begin the game. \n\nHave fun coding your way through the adventure!");
     ui.disableButton('btn_run_code');
     ui.disableButton('btn_skip');
     ui.disableButton('btn_help');

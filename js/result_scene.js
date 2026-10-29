@@ -33,7 +33,7 @@ class ResultScene extends Phaser.Scene {
         ranking_text += `${i + 1}...${players_json[i].name} (${players_json[i].total_score} pts)\n` 
       }
       ranking_text += "\nGreat job! Everyone!!"
-      ui.insertText(ranking_text);
+      textEditor.insertText(ranking_text);
     });
   }
 
