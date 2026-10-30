@@ -78,7 +78,7 @@ const runner = {
         runner.interpreter = new Interpreter(code, runner.api);
       }
       catch(e) {
-        runner.handleError(e.message);
+        ui.handleError('Syntax Error!', e.message);
       }
     }
   },
@@ -93,10 +93,10 @@ const runner = {
     }
     else if(runner.interpreter.stopRequested) {
       runner.interpreter.stopRequested = false;
-      runner.handleError('The code was stopped.');      
+      ui.handleError('Code Stopped!', 'The code was stopped.');      
     }
     else if(runner.interpreter.getStateStack().length > 1000) {
-      runner.handleError('The code kept calling the same function over and over!');      
+      ui.handleError('Infinite Loop!', 'The code kept calling the same function over and over!');      
     }
     else {
       try {
@@ -105,30 +105,16 @@ const runner = {
         setTimeout(runner.run, 0);
       }
       catch(e) {
-        runner.handleError(e.message);
+        ui.handleError('Something is wrong!', e.message);
       }
     }
   },
 
-  handleError(message) {
+  stop() {
     if(runner.interpreter) {
       runner.interpreter.paused = true;
       runner.interpreter = null;
     }
-    ui.mainScene().errorCount += 1;
-    ui.log('Error:', ui.currentPlayer(), ui.mainScene().errorCount, ui.mainScene().errorLimit);
-    ui.currentPlayer().hangUp();
-    if(ui.mainScene().errorCount <= ui.mainScene().errorLimit && ui.currentPlayer().energy > 0) {
-      document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
-      ui.currentPlayer().bounce();
-      ui.enableButton('btn_run_code');
-      ui.enableButton('btn_skip');
-    }
-    else {
-      document.getElementById('error-message').innerHTML = `${message}<br/>Moving onto the next player!`;
-      ui.mainScene().changePlayer();  
-    }
-    ui.showModal('dialog-default');
   },
 
   highlightCode() {

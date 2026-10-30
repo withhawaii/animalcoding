@@ -10,6 +10,25 @@ const ui = {
     return(ui.mainScene().currentPlayer);
   },
 
+  handleError(title, message) {
+    runner.stop();
+    ui.mainScene().errorCount += 1;
+    ui.log('Error:', ui.currentPlayer(), ui.mainScene().errorCount, ui.mainScene().errorLimit);
+    ui.currentPlayer().hangUp();
+    document.getElementById('error-title').innerHTML = title;
+    if(ui.mainScene().errorCount <= ui.mainScene().errorLimit && ui.currentPlayer().energy > 0) {
+      document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
+      ui.currentPlayer().bounce();
+      ui.enableButton('btn_run_code');
+      ui.enableButton('btn_skip');
+    }
+    else {
+      document.getElementById('error-message').innerHTML = `${message}<br/>Moving onto the next player!`;
+      ui.mainScene().changePlayer();  
+    }
+    ui.showModal('dialog-default');
+  },
+
   skipTurn() {
     ui.disableButton('btn_run_code');
     ui.disableButton('btn_skip');
