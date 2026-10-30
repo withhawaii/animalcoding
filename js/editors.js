@@ -72,7 +72,27 @@ const textEditor = {
 
   //Preserve functions for the next turn
   save(player, code) {
-    player.code = ui.extractFunctions(code).join('\n\n');
+    player.code = textEditor.extractFunctions(code).join('\n\n');
+  },
+
+  extractFunctions(code) {
+    const regex = /function\s+\w+\s*\([^)]*\)\s*\{/g;
+    let match;
+    const results = [];
+
+    while ((match = regex.exec(code)) !== null) {
+        let start = match.index;
+        let pos = start + match[0].length;
+        let count = 1;
+
+        while (count > 0 && pos < code.length) {
+            if (code[pos] === '{') count++;
+            if (code[pos] === '}') count--;
+            pos++;
+        }
+        results.push(code.slice(start, pos));
+    }
+    return results;
   },
 
   highlight(node) {

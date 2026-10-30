@@ -37,6 +37,10 @@ body,
   text-align: center;
 }
 
+#btn_skip, #btn_run_code {
+  width: 7em;
+}
+
 #dialog-video {
     width: 90vw;
     max-width: 1000px;

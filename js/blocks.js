@@ -34,7 +34,7 @@ function defineBlocks() {
   //Starting block: only blocks attached below it run, like Scratch's green flag
   Blockly.Blocks['when_run_code'] = {
     init() {
-      this.appendDummyInput().appendField('When run code');
+      this.appendDummyInput().appendField('When Run');
       this.setNextStatement(true);
       this.setColour(BLOCK_COLORS.start);
       this.setTooltip('Blocks attached below \nrun when you click Run Code');

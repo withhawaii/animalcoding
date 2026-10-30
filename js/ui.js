@@ -67,27 +67,7 @@ const ui = {
     }));
   },
 
-  extractFunctions(code) {
-    const regex = /function\s+\w+\s*\([^)]*\)\s*\{/g;
-    let match;
-    const results = [];
-
-    while ((match = regex.exec(code)) !== null) {
-        let start = match.index;
-        let pos = start + match[0].length;
-        let count = 1;
-
-        while (count > 0 && pos < code.length) {
-            if (code[pos] === '{') count++;
-            if (code[pos] === '}') count--;
-            pos++;
-        }
-        results.push(code.slice(start, pos));
-    }
-    return results;
-  },
-
-  prepareCode() {
+  initInterpreter() {
     if(!ui.interpreter) {
       ui.disableButton('btn_run_code');
       ui.disableButton('btn_skip');
@@ -113,7 +93,7 @@ const ui = {
   },
 
   runCode() {
-    ui.prepareCode();
+    ui.initInterpreter();
         
     if(ui.interpreter.getStatus() === Interpreter.Status.DONE) {
       ui.interpreter = null;
