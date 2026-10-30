@@ -10,6 +10,14 @@ const ui = {
     return(ui.mainScene().currentPlayer);
   },
 
+  run() {
+    ui.disableButton('btn_run_code');
+    ui.disableButton('btn_skip');
+    ui.currentPlayer().reposition();
+    runner.init();
+    runner.run();
+  },
+
   handleError(title, message) {
     runner.stop();
     ui.mainScene().errorCount += 1;
@@ -237,7 +245,7 @@ const ui = {
       ui.saveConfig();
     }
 
-    document.getElementById('btn_run_code').addEventListener('click', runner.run);
+    document.getElementById('btn_run_code').addEventListener('click', ui.run);
     document.getElementById('btn_skip').addEventListener('click', ui.skipTurn);
     document.getElementById('btn_help').addEventListener('click', ui.showHelp);
     document.getElementById('btn_config_save').addEventListener('click', ui.saveConfig);

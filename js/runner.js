@@ -59,32 +59,26 @@ const runner = {
   },
 
   init() {
-    if(!runner.interpreter) {
-      ui.disableButton('btn_run_code');
-      ui.disableButton('btn_skip');
-      ui.currentPlayer().reposition();
-      let code = ui.codeEditor.getCode();
-      ui.codeEditor.save(ui.currentPlayer(), code);
+    let code = ui.codeEditor.getCode();
+    ui.codeEditor.save(ui.currentPlayer(), code);
 
-      ui.log(code);
-      //Turn conditional variables into functions
-      const vars = ['path_ahead', 'path_to_the_left', 'path_to_the_right', 'trap_is_on'];
-      for (const name of vars) {
-        const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
-        code = code.replace(regex, `${name}()`);
-      }
+    ui.log(code);
+    //Turn conditional variables into functions
+    const vars = ['path_ahead', 'path_to_the_left', 'path_to_the_right', 'trap_is_on'];
+    for (const name of vars) {
+      const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
+      code = code.replace(regex, `${name}()`);
+    }
 
-      try {
-        runner.interpreter = new Interpreter(code, runner.api);
-      }
-      catch(e) {
-        ui.handleError('Syntax Error!', e.message);
-      }
+    try {
+      runner.interpreter = new Interpreter(code, runner.api);
+    }
+    catch(e) {
+      ui.handleError('Syntax Error!', e.message);
     }
   },
 
   run() {
-    runner.init();
     if(!runner.interpreter) return;
 
     if(runner.interpreter.getStatus() === Interpreter.Status.DONE) {
