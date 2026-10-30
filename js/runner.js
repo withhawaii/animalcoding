@@ -33,25 +33,25 @@ const runner = {
       ui.log('disarm');
       ui.currentPlayer().disarm(callback);
     }));
-    interpreter.setProperty(scope, 'trap_is_on', interpreter.createAsyncFunction(function(callback) {
+    interpreter.setProperty(scope, 'trap_is_on', interpreter.createNativeFunction(function() {
       ui.log('trap_is_on');
-      callback(ui.currentPlayer().trap(CST.TOWARDS_AHEAD));
+      return ui.currentPlayer().trap(CST.TOWARDS_AHEAD);
     }));
-    interpreter.setProperty(scope, 'path_ahead', interpreter.createAsyncFunction(function(callback) {
+    interpreter.setProperty(scope, 'path_ahead', interpreter.createNativeFunction(function() {
       ui.log('path_ahead');
-      callback(ui.currentPlayer().path(CST.TOWARDS_AHEAD));
+      return ui.currentPlayer().path(CST.TOWARDS_AHEAD);
     }));
-    interpreter.setProperty(scope, 'path_to_the_left', interpreter.createAsyncFunction(function(callback) {
+    interpreter.setProperty(scope, 'path_to_the_left', interpreter.createNativeFunction(function() {
       ui.log('path_to_the_left');
-      callback(ui.currentPlayer().path(CST.TOWARDS_LEFT));
+      return ui.currentPlayer().path(CST.TOWARDS_LEFT);
     }));
-    interpreter.setProperty(scope, 'path_to_the_right', interpreter.createAsyncFunction(function(callback) {
+    interpreter.setProperty(scope, 'path_to_the_right', interpreter.createNativeFunction(function() {
       ui.log('path_to_the_right');
-      callback(ui.currentPlayer().path(CST.TOWARDS_RIGHT));
+      return ui.currentPlayer().path(CST.TOWARDS_RIGHT);
     }));
-    interpreter.setProperty(scope, 'log', interpreter.createAsyncFunction(function(text, callback) {
+    interpreter.setProperty(scope, 'log', interpreter.createNativeFunction(function(text) {
       console.log('[Interpreter]', text);
-      callback(true);
+      return true;
     }));
     interpreter.setProperty(scope, 'highlight_block', interpreter.createNativeFunction(function(id) {
       blockEditor.highlightBlock(id);
