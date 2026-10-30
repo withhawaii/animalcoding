@@ -1,7 +1,6 @@
 const ui = {
   game: null,
   codeEditor: null,
-  interpreter: null,
 
   mainScene() {
     return(ui.game.scene.getScene('Main'));
@@ -11,148 +10,11 @@ const ui = {
     return(ui.mainScene().currentPlayer);
   },
 
-  gameApi(interpreter, scope) {
-    interpreter.setProperty(scope, 'move_forward', interpreter.createAsyncFunction(function(callback) {
-      ui.log('move_forward');
-      ui.currentPlayer().move(callback);
-    }));
-    interpreter.setProperty(scope, 'turn_left', interpreter.createAsyncFunction(function(callback) {
-      ui.log('turn_left');
-      ui.currentPlayer().turn(CST.TOWARDS_LEFT, callback);
-    }));
-    interpreter.setProperty(scope, 'turn_right', interpreter.createAsyncFunction(function(callback) {
-      ui.log('turn_right');
-      ui.currentPlayer().turn(CST.TOWARDS_RIGHT, callback);
-    }));
-    interpreter.setProperty(scope, 'pick_up', interpreter.createAsyncFunction(function(callback) {
-      ui.log('pick_up');
-      ui.currentPlayer().pickUp(callback);
-    }));
-    interpreter.setProperty(scope, 'eat', interpreter.createAsyncFunction(function(callback) {
-      ui.log('eat');
-      ui.currentPlayer().eat(callback);
-    }));
-    if(!['stage1', 'stage2', 'stage3'].includes(ui.game.config.stage)) {
-      interpreter.setProperty(scope, 'steal', interpreter.createAsyncFunction(function(callback) {
-        ui.log('steal');
-        ui.currentPlayer().steal(callback);
-      }));
-    }
-    interpreter.setProperty(scope, 'disarm', interpreter.createAsyncFunction(function(callback) {
-      ui.log('disarm');
-      ui.currentPlayer().disarm(callback);
-    }));
-    interpreter.setProperty(scope, 'trap_is_on', interpreter.createAsyncFunction(function(callback) {
-      ui.log('trap_is_on');
-      callback(ui.currentPlayer().trap(CST.TOWARDS_AHEAD));
-    }));
-    interpreter.setProperty(scope, 'path_ahead', interpreter.createAsyncFunction(function(callback) {
-      ui.log('path_ahead');
-      callback(ui.currentPlayer().path(CST.TOWARDS_AHEAD));
-    }));
-    interpreter.setProperty(scope, 'path_to_the_left', interpreter.createAsyncFunction(function(callback) {
-      ui.log('path_to_the_left');
-      callback(ui.currentPlayer().path(CST.TOWARDS_LEFT));
-    }));
-    interpreter.setProperty(scope, 'path_to_the_right', interpreter.createAsyncFunction(function(callback) {
-      ui.log('path_to_the_right');
-      callback(ui.currentPlayer().path(CST.TOWARDS_RIGHT));
-    }));
-    interpreter.setProperty(scope, 'log', interpreter.createAsyncFunction(function(text, callback) {
-      console.log('[Interpreter]', text);
-      callback(true);
-    }));
-    interpreter.setProperty(scope, 'highlight_block', interpreter.createNativeFunction(function(id) {
-      blockEditor.highlightBlock(id);
-    }));
-  },
-
-  initInterpreter() {
-    if(!ui.interpreter) {
-      ui.disableButton('btn_run_code');
-      ui.disableButton('btn_skip');
-      ui.currentPlayer().reposition();
-      let code = ui.codeEditor.getCode();
-      ui.codeEditor.save(ui.currentPlayer(), code);
-
-      console.log(code);
-      //Turn conditional variables into functions
-      const vars = ['path_ahead', 'path_to_the_left', 'path_to_the_right', 'trap_is_on'];
-      for (const name of vars) {
-        const regex = new RegExp(`\\b${name}\\b(?!\\s*\\()`, 'g');
-        code = code.replace(regex, `${name}()`);
-      }
-
-      try {
-        ui.interpreter = new Interpreter(code, ui.gameApi);
-      }
-      catch(e) {
-        ui.handleError(e.message);
-      }
-    }
-  },
-
-  runCode() {
-    ui.initInterpreter();
-        
-    if(ui.interpreter.getStatus() === Interpreter.Status.DONE) {
-      ui.interpreter = null;
-      ui.mainScene().changePlayer();
-    }
-    else if(ui.interpreter.stopRequested) {
-      ui.interpreter.stopRequested = false;
-      ui.handleError('The code was stopped.');      
-    }
-    else if(ui.interpreter.getStateStack().length > 1000) {
-      ui.handleError('The code kept calling the same function over and over!');      
-    }
-    else {
-      try {
-        ui.interpreter.step();
-        ui.highlightCode();
-        setTimeout(ui.runCode, 0);
-      }
-      catch(e) {
-        ui.handleError(e.message);
-      }
-    }
-  },
-
-  handleError(message) {
-    if(ui.interpreter) {
-      ui.interpreter.paused = true;
-      ui.interpreter = null;
-    }
-    ui.mainScene().errorCount += 1;
-    ui.log('Error:', ui.currentPlayer(), ui.mainScene().errorCount, ui.mainScene().errorLimit);
-    ui.currentPlayer().hangUp();
-    if(ui.mainScene().errorCount <= ui.mainScene().errorLimit && ui.currentPlayer().energy > 0) {
-      document.getElementById('error-message').innerHTML = `${message}<br/>Debug your code and run it again!`;
-      ui.currentPlayer().bounce();
-      ui.enableButton('btn_run_code');
-      ui.enableButton('btn_skip');
-    }
-    else {
-      document.getElementById('error-message').innerHTML = `${message}<br/>Moving onto the next player!`;
-      ui.mainScene().changePlayer();  
-    }
-    ui.showModal('dialog-default');
-  },
-
   skipTurn() {
     ui.disableButton('btn_run_code');
     ui.disableButton('btn_skip');
     ui.currentPlayer().reposition();
     ui.mainScene().changePlayer();
-  },
-
-  highlightCode() {
-    const stack = ui.interpreter.getStateStack();
-    const node = stack[stack.length - 1].node;
-    if(['ForStatement', 'IfStatement', 'FunctionDeclaration'].includes(node.type)) {
-      ui.mainScene().flags[node.type] = true;
-    }
-    ui.codeEditor.highlight(node);
   },
 
   enableButton(id) {
@@ -316,9 +178,9 @@ const ui = {
         ui.showModal('dialog-config2');
       }
 
-      if(event.key === 'Escape' && ui.interpreter) {
+      if(event.key === 'Escape' && runner.interpreter) {
         event.preventDefault();
-        ui.interpreter.stopRequested = true;
+        runner.interpreter.stopRequested = true;
       }
     }
   },
@@ -356,7 +218,7 @@ const ui = {
       ui.saveConfig();
     }
 
-    document.getElementById('btn_run_code').addEventListener('click', ui.runCode);
+    document.getElementById('btn_run_code').addEventListener('click', runner.run);
     document.getElementById('btn_skip').addEventListener('click', ui.skipTurn);
     document.getElementById('btn_help').addEventListener('click', ui.showHelp);
     document.getElementById('btn_config_save').addEventListener('click', ui.saveConfig);
