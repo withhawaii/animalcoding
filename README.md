@@ -1,67 +1,71 @@
 # Animal Coding
 
-This is a turn-based multiplayer game designed to introduce basic text-based programming concepts.
+A turn-based multiplayer game that introduces basic programming concepts. Players control their animals with code, typed as JavaScript or built with blocks, to collect coins and gems.
+
+**Players and educators:** visit the [Animal Coding website](https://withhawaii.github.io/animalcoding/) for how to play, classroom guidance, and a link to the game.
 
 ![Animal Coding gameplay: four animals on a farm stage with the code editor on the right](images/screenshot.png)
 
-[Play the Game Here](https://withhawaii.github.io/animalcoding/)
-
-> **Note:** Best played on a laptop or desktop computer with a keyboard. The game is not designed for phones or tablets.
+This README is for developers.
 
 ***
 
-## About The Project
+## Pages
 
-Up to four players take turns controlling their animals with code. Your mission is to collect as many coins and gems as possible. 
-The stage ends once all coins and gems have been collected or every player reaches the turn limit. 
-After the stage concludes, the final scores are compared to determine the winner.
+The site is published with GitHub Pages from this repository.
 
-This game was developed as part of my dissertation research. A link to the associated academic publication will be provided once it is available.
-
-### Getting Started
-
-On the title screen, click **Config**, enter the player names, and click **OK**. If you have fewer than four players, leave the remaining name fields blank.
-
-When you’re ready, click **Start** to begin the game.
-
-### Stages and Play Time
-
-Each stage begins with a short introduction video. Plan for **60-70 minutes** to play through all four stages.
-
-| Stage | Topic | Commands Introduced | Play Time |
-| :--- | :--- | :--- | :--- |
-| 1 | Commands (*sequence*) | `move_forward()`, `turn_left()`, `turn_right()`, `pick_up()` | 10-15 minutes |
-| 2 | Loops (*iteration*) | `eat()`, `for` loops | 10-15 minutes |
-| 3 | Conditional Statements (*selection*) | `if (path_ahead)`, `if (path_to_the_left)`, `if (path_to_the_right)` | 10-15 minutes |
-| 4 | Functions | `steal()`, `function` | 30+ minutes |
-
-### Technical Recommendations
-
-| Feature | Status / Recommendation |
+| File | Purpose |
 | :--- | :--- |
-| **Device Compatibility** | Currently does not function optimally on iPads. |
-| **Browser** | Tested with Mozilla Firefox, Google Chrome, and Safari. |
+| `index.html` | Information for players and educators, with a link to the game |
+| `game.html` | The game itself |
+| `README.md` | Developer information, credits, and license |
 
-Have fun coding your way through the adventure!
+## Running Locally
 
-***
+The game is plain HTML and JavaScript with no build step. Serve the folder with any static web server, for example:
 
-## Notes for Educators
+```bash
+python3 -m http.server 8000
+```
 
-To use this project in your classroom, you need to form a group of 2-4 students. Each group should share a PC or a laptop to play a game together.
-Each student controls one of the animals with code.
+Then open http://localhost:8000. Opening the HTML files directly from disk does not work because the game loads its maps and assets over HTTP.
 
-### Who Is This For?
+## Tech Stack
 
-The current version of the game is designed to introduce **text-based programming** to **secondary and higher education students**. Animal Coding works well:
+- **[Phaser 3](https://phaser.io)** runs the game scenes, map, and animations.
+- **[Ace](https://ace.c9.io)** is the text code editor.
+- **[Blockly](https://developers.google.com/blockly)** is the block code editor. Block labels match the text-mode code.
+- **[JS-Interpreter](https://github.com/NeilFraser/JS-Interpreter)** runs the player's code step by step in a sandbox, so each command can wait for its animation.
 
-- For fun events such as [Computer Science Education Week](https://www.csedweek.org).
-- As a first experience with text-based programming for students who have already used block-based programming.
-- To reinforce what students have learned in a block-based programming environment.
+Libraries are loaded from CDNs, except JS-Interpreter, which is bundled in `lib/`.
 
-For younger students, the [Computer Science Teachers Association (CSTA) Standards](https://csteachers.org/k12standards/) recommend block-based programming (e.g., [Code.org](https://code.org) or [Scratch](https://scratch.mit.edu)) to introduce basic programming concepts first.
+## Project Structure
 
-A block-based version of the game is planned for the future.
+| Path | Contents |
+| :--- | :--- |
+| `js/constants.js` | Game constants, code snippets, and stage settings (`STAGE_CONFIG`) |
+| `js/*_scene.js` | Phaser scenes: boot, title, main game, and results |
+| `js/player.js`, `js/item.js`, `js/obstacle.js`, `js/dice.js` | Game objects |
+| `js/editors.js` | `textEditor` (Ace) and `blockEditor` (Blockly), which share the same interface |
+| `js/blocks.js` | Custom Blockly blocks and their JavaScript generators |
+| `js/runner.js` | Runs the player's code and defines the game commands available to it |
+| `js/ui.js` | Page UI: dialogs, configuration, buttons, and keyboard shortcuts |
+| `lib/acorn_interpreter.js` | JS-Interpreter |
+| `maps/` | Stage maps made with [Tiled](https://www.mapeditor.org) |
+| `audio/`, `images/` | Sounds, sprites, and textures |
+
+## How Player Code Runs
+
+1. The selected editor returns the player's code as JavaScript (`ui.codeEditor.getCode()`). In Blocks mode, Blockly generates the code, adding a `highlight_block()` call before each block.
+2. `runner.init()` creates a JS-Interpreter with the game commands from `runner.api()`. Movement commands are async functions that resume the code when their animation finishes. Condition checks such as `path_ahead` are native functions that return immediately.
+3. `runner.run()` steps through the code, highlights the running line or block, and records loops, conditionals, and functions for the stage bonuses.
+
+## Adding a Stage
+
+1. Create a map in Tiled and save it as `maps/<stage>.json`.
+2. Add an entry to `STAGE_CONFIG` in `js/constants.js` with the map, turn limit, music, intro video, and the snippets (commands) allowed in that stage. The Blocks editor builds its toolbox from the same snippet list.
+3. Add the stage to the **Stage** menu in the Config dialog in `game.html`.
+4. If the stage has a coding bonus, add its condition to `checkBonus()` in `js/main_scene.js`. Commands limited to certain stages (such as `steal()`) are also checked in `runner.api()` in `js/runner.js`.
 
 ***
 

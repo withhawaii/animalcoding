@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animal Coding</title>
+  <meta name="description" content="A turn-based multiplayer game that introduces basic programming concepts.">
+  <link rel="icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --sky: #7DB8EF;
+      --ink: #212529;
+      --muted: #555;
+      --paper: #ffffff;
+      --accent: #209cee;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--sky);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, .nes-btn {
+      font-family: "Press Start 2P", monospace;
+    }
+
+    h1 {
+      font-size: 28px;
+      line-height: 1.4;
+      margin: 0 0 16px;
+    }
+
+    h2 {
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 0 0 16px;
+    }
+
+    h3 {
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 28px 0 12px;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.9em;
+      background: #f1f3f5;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 48px;
+    }
+
+    .section {
+      background: var(--paper);
+      margin-bottom: 28px;
+      padding: 24px;
+    }
+
+    .hero {
+      text-align: center;
+    }
+
+    .hero p {
+      font-size: 19px;
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+
+    .site-logo {
+      margin: 0 0 24px;
+    }
+
+    .site-logo img {
+      display: block;
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .hero img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .play {
+      font-size: 16px;
+      padding: 10px 28px;
+    }
+
+    .hero .note {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 16px auto 0;
+    }
+
+    .video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      background: #000;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 8px 10px;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+      background: #f1f3f5;
+    }
+
+    ol, ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    footer p {
+      margin: 6px 0;
+    }
+
+    /* Fix the strange borders on NES CSS components */
+    .nes-btn, .nes-input, .nes-select select, .nes-textarea, .nes-container {
+      border-image-repeat: stretch !important;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      .site-logo img {
+        max-width: 320px;
+      }
+
+      h2 {
+        font-size: 15px;
+      }
+
+      .section {
+        padding: 16px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <h1 class="site-logo"><img src="images/title_logo.png" alt="Animal Coding" width="597" height="500"></h1>
+
+    <section class="section nes-container hero">
+      <img src="images/screenshot.png" alt="Animal Coding gameplay: four animals on a farm stage with the code editor on the right">
+      <p>A turn-based multiplayer game where up to four players control their animals with code to collect coins and gems.</p>
+      <a class="nes-btn is-primary play" href="game.html">Play the Game</a>
+      <p class="note">Best played on a laptop or desktop computer with a keyboard. <br/>The game is not designed for phones or tablets.</p>
+    </section>
+
+    <section class="section nes-container">
+      <h2>Watch the Introduction</h2>
+      <iframe class="video" src="https://drive.google.com/file/d/1PXXSTdOKGsRJPlnv7MYxRgiAWBt2NDek/preview" title="Animal Coding introduction video" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </section>
+
+    <section class="section nes-container">
+      <h2>How to Play</h2>
+      <p>Players take turns. On your turn, roll the dice to get action points, then write code to move your animal and pick up items. Collect as many coins and gems as you can. The stage ends when all coins and gems are collected or every player reaches the turn limit, and the player with the highest score wins.</p>
+
+      <h3>Getting Started</h3>
+      <ol>
+        <li>On the title screen, click <strong>Config</strong>.</li>
+        <li>Enter the player names. For fewer than four players, leave the extra name fields blank.</li>
+        <li>Choose a <strong>Code Editor</strong>: <strong>Text</strong> to type code, or <strong>Blocks</strong> (beta) to drag and drop blocks.</li>
+        <li>Click <strong>OK</strong>, then click <strong>Start</strong>.</li>
+      </ol>
+
+      <h3>Keyboard Shortcuts</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Key</th><th>Action</th></tr>
+          <tr><td>Space</td><td>Roll the dice</td></tr>
+          <tr><td>Ctrl-Space</td><td>Insert code (Text editor)</td></tr>
+          <tr><td>Ctrl-R</td><td>Run code</td></tr>
+          <tr><td>Ctrl-S</td><td>Skip a turn</td></tr>
+          <tr><td>Escape</td><td>Stop running code</td></tr>
+          <tr><td>F1</td><td>Show game options</td></tr>
+        </table>
+      </div>
+
+      <h3>Stages and Play Time</h3>
+      <p>Each stage begins with a short introduction video. Plan for <strong>60-70 minutes</strong> to play all four stages.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Stage</th><th>Topic</th><th>Commands Introduced</th><th>Play Time</th></tr>
+          <tr><td>1</td><td>Commands (<em>sequence</em>)</td><td><code>move_forward()</code>, <code>turn_left()</code>, <code>turn_right()</code>, <code>pick_up()</code></td><td>10-15 minutes</td></tr>
+          <tr><td>2</td><td>Loops (<em>iteration</em>)</td><td><code>eat()</code>, <code>for</code> loops</td><td>10-15 minutes</td></tr>
+          <tr><td>3</td><td>Conditional Statements (<em>selection</em>)</td><td><code>if (path_ahead)</code>, <code>if (path_to_the_left)</code>, <code>if (path_to_the_right)</code></td><td>10-15 minutes</td></tr>
+          <tr><td>4</td><td>Functions</td><td><code>steal()</code>, <code>function</code></td><td>30+ minutes</td></tr>
+        </table>
+      </div>
+
+      <h3>Technical Requirements</h3>
+      <ul>
+        <li><strong>Browser:</strong> tested with Mozilla Firefox, Google Chrome, and Safari.</li>
+        <li><strong>Device:</strong> a laptop or desktop computer with a keyboard. The game does not work well on iPads.</li>
+      </ul>
+    </section>
+
+    <section class="section nes-container">
+      <h2>For Educators</h2>
+
+      <h3>Classroom Setup</h3>
+      <p>Form groups of 2-4 students. Each group shares one PC or laptop and plays together, with each student controlling one of the animals with code.</p>
+
+      <h3>Who Is This For?</h3>
+      <p>The game introduces <strong>text-based programming</strong> to <strong>secondary and higher education students</strong>. It works well:</p>
+      <ul>
+        <li>For fun events such as <a href="https://www.csedweek.org">Computer Science Education Week</a>.</li>
+        <li>As a first experience with text-based programming for students who have already used block-based programming.</li>
+        <li>To reinforce what students have learned in a block-based programming environment.</li>
+      </ul>
+      <p>For younger students, the <a href="https://csteachers.org/k12standards/">Computer Science Teachers Association (CSTA) Standards</a> recommend block-based programming (e.g., <a href="https://code.org">Code.org</a> or <a href="https://scratch.mit.edu">Scratch</a>) to introduce basic programming concepts first. The game's <strong>Blocks</strong> editor shows the same code as drag-and-drop blocks, which can help students move from blocks to text.</p>
+      <p><strong>Note:</strong> The Blocks editor is still in <strong>beta</strong>. The stage introduction videos currently teach text-based programming, so students using Blocks may need extra guidance from the teacher.</p>
+
+      <h3>Research</h3>
+      <p>This game was developed as part of dissertation research. A link to the associated academic publication will be provided once it is available.</p>
+    </section>
+
+    <footer>
+      <p><a class="nes-btn is-primary" href="game.html">Play the Game</a></p>
+      <p>Developer information, credits, and license: <a href="https://github.com/withhawaii/animalcoding">GitHub repository</a></p>
+      <p>&copy; 2024-26 Thinkology LLC.</p>
+    </footer>
+
+  </main>
+</body>
+
+</html>
