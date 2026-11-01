@@ -214,7 +214,7 @@ class MainScene extends Phaser.Scene {
         ui.log('Dice value:', diceValue, 'New AP:', this.currentPlayer.energy);
         if(this.rollCount >= this.rollLimit) {
           this.dice.hide();
-          navigator.clipboard.writeText('');
+          navigator.clipboard.writeText('').catch(() => {});
           ui.codeEditor.setReadOnly(false);
           ui.codeEditor.restore(this.currentPlayer);
           ui.enableButton('btn_run_code');
@@ -222,7 +222,7 @@ class MainScene extends Phaser.Scene {
         }
         else {
           this.dice.show();
-        }  
+        }
       });
     }
   }
